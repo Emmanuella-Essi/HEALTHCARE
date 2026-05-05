@@ -1,0 +1,134 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* ===== COULEURS ===== */
+:root {
+  --dark: #1f1f1f;
+  --text: #222;
+  --gray: #ccc;
+}
+
+/* ===== PAGE ===== */
+body {
+  background: linear-gradient(135deg, #0a1628 0%, #1a3a5c 50%, #0d2a4a 100%);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== BOX LOGIN ===== */
+.login-box {
+  background: #ffffff;
+  width: 380px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* ===== LOGO ===== */
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+  color: var(--dark);
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* ===== TABS ===== */
+.login-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--gray);
+}
+
+.login-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  background: #f1f1f1;
+  font-size: 0.9rem;
+  color: #333;
+  transition: 0.3s;
+}
+
+/* Effet au survol seulement */
+.login-tab:hover {
+  background: #e0e0e0;
+}
+
+/* ❌ on supprime complètement le style active */
+.login-tab.active {
+  background: #f1f1f1;
+  color: #333;
+}
+
+/* ===== FORM ===== */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--gray);
+  border-radius: 6px;
+  outline: none;
+  font-size: 0.95rem;
+  color: #000;
+}
+
+.form-input:focus {
+  border-color: #888;
+}
+
+/* ===== BOUTON ===== */
+.btn-submit {
+  width: 100%;
+  padding: 10px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  background: #111;
+}
+
+/* ===== TEXTE ===== */
+span {
+  cursor: pointer;
+  color: #333;
+}
+
+span:hover {
+  text-decoration: underline;
+}
