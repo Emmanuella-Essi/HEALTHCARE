@@ -328,16 +328,6 @@ body {
 }
 .about-img-top:hover img { transform: scale(1.04); }
 
-/* Bandeau de texte superposé sur l'image */
-.about-img-label {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-  color: var(--color-white);
-  font-size: .78rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  padding: 10px 18px;
-}
 
 /* Image secondaire superposée */
 .about-img-bottom {

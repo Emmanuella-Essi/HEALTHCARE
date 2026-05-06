@@ -9,7 +9,6 @@
 </head>
 <body>
 
-<<<<<<< HEAD
 <!-- section home -->
     
 <div class="big page" id="home">
@@ -18,21 +17,6 @@
     <div class="land-nav-links">
       <a href="inscription.php" class="btn btn-ghost">Connexion</a>
       <a href="inscription.php" class="btn btn-primary">Inscription</a>
-=======
-<div class="big-page" id="home">
-
-  
-  <div class="nav-bar">
-    <div class="logo">Health<span>Care</span></div>
-    <div class="land-nav-links">
-
-    
-      <a href="index.php" class="btn btn-ghost">Connexion</a>
-
-    
-      <a href="index.php" class="btn btn-primary">Inscription</a>
-
->>>>>>> 3259b7f37af73e32328f0d9c1ca467c57b1d3406
     </div>
   </div>
 
@@ -48,7 +32,6 @@
 
 </div>
 
-<<<<<<< HEAD
 <!-- section about -->
 
 
@@ -62,7 +45,7 @@
     <div class="about-images">
       <div class="about-img-top">
         <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=560&q=80" alt="Médecin avec patient">
-        <div class="about-img-label">Best Health Partners</div>
+        
       </div>
       <div class="about-img-bottom">
         <img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=560&q=80" alt="Soins médicaux">
@@ -83,7 +66,5 @@
   </div>
 </section>
 
-=======
->>>>>>> 3259b7f37af73e32328f0d9c1ca467c57b1d3406
 </body>
 </html>
