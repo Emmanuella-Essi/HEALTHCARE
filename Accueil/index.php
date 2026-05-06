@@ -1,126 +1,124 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedConnect</title>
-
-<!-- ✅ CSS bien placé -->
-<link rel="stylesheet" href="../css/index.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare - Connexion</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .tab-form {
+            display: none;
+        }
+        .tab-form.active {
+            display: block;
+        }
+        .login-tab.active {
+            background-color: #1a3a5c;
+            color: white;
+            border-radius: 6px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="page" id="login-page">
-  <div class="login-page">
-    <div class="login-box">
 
-      <!-- LOGO -->
-      <div class="logo">Med<span>Connect</span></div>
-      <p class="login-subtitle">Votre plateforme de santé numérique</p>
+    <a href="home.php" class="btn-retour">&#8592; Retour</a>
 
-      <!-- TABS (sans JS cassé) -->
-      <div class="login-tabs">
-        <div class="login-tab">Patient</div>
-        <div class="login-tab">Médecin</div>
-        <div class="login-tab">Admin</div>
-      </div>
+    <div class="login-page">
+        <div class="login-box">
 
-      <!-- ================= LOGIN ================= -->
-      <div id="login-form">
+            <!-- TITRE -->
+            <div class="logo">Healthcare</div>
+            <p class="login-subtitle">Votre plateforme de santé numérique</p>
 
-        <div class="form-group">
-          <label class="form-label">Adresse e-mail</label>
-          <input class="form-input" type="email" placeholder="exemple@email.com">
+            <!-- ONGLETS -->
+            <div class="login-tabs">
+                <div class="login-tab active" onclick="switchTab('patient', this)">Patient</div>
+                <div class="login-tab" onclick="switchTab('medecin', this)">Médecin</div>
+                <div class="login-tab" onclick="switchTab('admin', this)">Admin</div>
+            </div>
+
+            <!-- ============ FORMULAIRE PATIENT ============ -->
+            <div id="form-patient" class="tab-form active">
+                <div class="form-group">
+                    <label class="form-label">Adresse e-mail</label>
+                    <input class="form-input" type="email" placeholder="nom&prenom@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <input class="form-input" type="password" placeholder="••••••••">
+                </div>
+                <button class="btn-submit">Se connecter</button>
+                <p style="text-align:center; margin-top:16px; font-size:0.85rem;">
+                    <span class="lien-compte"
+                          onclick="window.location.href='inscription.php?role=patient'">
+                        Créer un compte
+                    </span>
+                </p>
+            </div>
+
+            <!-- ============ FORMULAIRE MÉDECIN ============ -->
+            <div id="form-medecin" class="tab-form">
+                <div class="form-group">
+                    <label class="form-label">Adresse e-mail</label>
+                    <input class="form-input" type="email" placeholder="nom&prenom@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Numéro d'ordre médical</label>
+                    <input class="form-input" type="text" placeholder="Ex: CM-12345">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mot de passe</label>
+                    <input class="form-input" type="password" placeholder="••••••••">
+                </div>
+                <button class="btn-submit">Se connecter</button>
+                <p style="text-align:center; margin-top:16px; font-size:0.85rem;">
+                    <span class="lien-compte"
+                          onclick="window.location.href='inscription.php?role=medecin'">
+                        Créer un compte
+                    </span>
+                </p>
+            </div>
+
+            <!-- ============ FORMULAIRE ADMIN ============ -->
+            <div id="form-admin" class="tab-form">
+                <div class="form-group">
+                    <label class="form-label">Identifiant admin</label>
+                    <input class="form-input" type="text" placeholder="admin@healthcare.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Clé secrète</label>
+                    <input class="form-input" type="password" placeholder="••••••••">
+                </div>
+                <button class="btn-submit">Se connecter</button>
+            </div>
+
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Mot de passe</label>
-          <input class="form-input" type="password">
-        </div>
-
-      
-        <button class="btn-submit">
-          Se connecter
-        </button>
-
-        <p style="text-align:center;margin-top:16px;font-size:0.8rem;">
-          <span onclick="toggleForm()">
-            Créer un compte
-          </span>
-        </p>
-
-      </div>
-
-      <!-- ================= REGISTER ================= -->
-      <div id="register-form" style="display:none;">
-
-        <div class="form-group">
-          <label class="form-label">Nom</label>
-          <input class="form-input" type="text" id="reg-nom">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input class="form-input" type="email" id="reg-email">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Mot de passe</label>
-          <input class="form-input" type="password" id="reg-password">
-        </div>
-
-        <button class="btn-submit" onclick="register()">
-          S'inscrire
-        </button>
-
-        <p style="text-align:center;margin-top:16px;font-size:0.8rem;">
-          <span onclick="toggleForm()">
-            Déjà un compte ? Se connecter
-          </span>
-        </p>
-
-      </div>
-
     </div>
-  </div>
-</div>
 
-<!-- ✅ JS propre -->
-<script>
+    <!-- ============ JAVASCRIPT ============ -->
+    <script>
+        function switchTab(role, el) {
 
-let isLogin = true;
+            // 1. Cacher TOUS les formulaires
+            var forms = document.querySelectorAll('.tab-form');
+            for (var i = 0; i < forms.length; i++) {
+                forms[i].classList.remove('active');
+            }
 
-function toggleForm() {
-  const loginForm = document.getElementById("login-form");
-  const registerForm = document.getElementById("register-form");
+            // 2. Désactiver TOUS les onglets
+            var tabs = document.querySelectorAll('.login-tab');
+            for (var j = 0; j < tabs.length; j++) {
+                tabs[j].classList.remove('active');
+            }
 
-  if (isLogin) {
-    loginForm.style.display = "none";
-    registerForm.style.display = "block";
-  } else {
-    loginForm.style.display = "block";
-    registerForm.style.display = "none";
-  }
+            // 3. Afficher le bon formulaire
+            document.getElementById('form-' + role).classList.add('active');
 
-  isLogin = !isLogin;
-}
-
-function register() {
-  const nom = document.getElementById("reg-nom").value;
-  const email = document.getElementById("reg-email").value;
-  const password = document.getElementById("reg-password").value;
-
-  if (!nom || !email || !password) {
-    alert("Remplis tous les champs !");
-    return;
-  }
-
-  alert("Compte créé pour " + nom);
-}
-
-</script>
+            // 4. Activer le bon onglet
+            el.classList.add('active');
+        }
+    </script>
 
 </body>
 </html>

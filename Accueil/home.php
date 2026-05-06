@@ -6,6 +6,7 @@
     <title>HealthCare - Plateforme de santé numérique</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../css/home.css">
+    
 </head>
 <body>
     
