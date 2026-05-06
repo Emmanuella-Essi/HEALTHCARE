@@ -15,7 +15,7 @@
   <div class="nav-bar">
     <div class="logo">Health<span>Care</span></div>
     <div class="land-nav-links">
-      <a href="inscription.php" class="btn btn-ghost">Connexion</a>
+      <a href="index.php" class="btn btn-ghost">Connexion</a>
       <a href="inscription.php" class="btn btn-primary">Inscription</a>
     </div>
   </div>
