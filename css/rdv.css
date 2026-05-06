@@ -1,0 +1,718 @@
+/* ===== CSS VARIABLES ===== */
+:root {
+  --color-primary-dark: #0A1931;
+  --color-secondary-light: #B3CFE5;
+  --color-accent: #4A7FA7;
+  --color-primary: #1A3D63;
+  --color-teal-light: #0A8C74;
+  --color-teal: #047857;
+  --color-bg: #F6FAFD;
+  --color-white: #FFFFFF;
+  --color-text-dark: #1F2937;
+  --color-text-muted: #6B7280;
+  --color-border: #E2EBF4;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.05);
+  --sidebar-width: 250px;
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+/* ===== RESET UNIVERSEL ===== */
+/* Applique le box-sizing border-box à tous les éléments pour une meilleure gestion des dimensions */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ===== BODY ===== */
+/* Style principal : couleur de fond, typographie, et disposition flex avec sidebar */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text-dark);
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ===== CONTENU PRINCIPAL ===== */
+/* Zone principale avec marge de la sidebar et padding pour le contenu */
+.main {
+  margin-left: var(--sidebar-width); /* Marge pour la sidebar fixe (250px) */
+  flex: 1; /* Prend tout l'espace horizontal disponible */
+  padding: 0 28px 40px; /* Espacement: haut/bas 0, gauche/droite 28px, bas 40px */
+  min-height: 100vh; /* Hauteur minimale: 100% de la viewport */
+}
+
+/* ===== BARRE SUPERIEURE ===== */
+/* En-tête avec titre, notifications et profil utilisateur */
+.topbar {
+  display: flex; /* Arrange les éléments horizontalement */
+  align-items: center; /* Centre verticalement */
+  justify-content: space-between; /* Écarte la gauche et droite au maximum */
+  padding: 24px 0 20px; /* Espacement interne */
+  border-bottom: 1px solid var(--color-border); /* Ligne de séparation */
+  margin-bottom: 28px; /* Espacement en bas */
+}
+
+/* ===== COTE GAUCHE TOPBAR ===== */
+/* Contient le bouton menu et titre de la page */
+.topbar-left { 
+  display: flex; /* Arrange horizontalement */
+  align-items: center; /* Centre verticalement */
+  gap: 16px; /* Espacement entre les éléments */
+}
+
+/* ===== BOUTON MENU RESPONSIVE ===== */
+/* Bouton pour afficher/masquer la sidebar sur mobile */
+.menu-toggle {
+  display: none; /* Caché par défaut (visible en responsive) */
+  background: none; /* Pas de fond */
+  border: none; /* Pas de bordure */
+  font-size: 1.4rem; /* Taille grande pour l'icône */
+  cursor: pointer; /* Curseur pointeur */
+  color: var(--color-primary); /* Couleur bleu primaire */
+}
+
+/* ===== TITRE PAGE ===== */
+/* Titre principal de la page avec style distinctif */
+.page-title h1 {
+  font-family: 'Playfair Display', serif; /* Police élégante */
+  font-size: 1.6rem; /* Taille grande */
+  color: var(--color-primary-dark); /* Couleur bleu foncé */
+  line-height: 1.2; /* Hauteur de ligne */
+}
+
+/* ===== SOUS-TITRE PAGE ===== */
+/* Sous-titre ou description de la page */
+.page-title p {
+  font-size: 0.82rem; /* Petite taille */
+  color: var(--color-text-muted); /* Couleur grise */
+  margin-top: 2px; /* Petit espacement du titre */
+}
+
+/* ===== COTE DROIT TOPBAR ===== */
+/* Contient les notifications et profil utilisateur */
+.topbar-right { 
+  display: flex; /* Arrange horizontalement */
+  align-items: center; /* Centre verticalement */
+  gap: 14px; /* Espacement entre les éléments */
+}
+
+/* ===== BOUTON NOTIFICATIONS ===== */
+/* Icône cliquable pour les notifications avec badge */
+.notif-btn {
+  position: relative; /* Position relative pour le badge absolu */
+  font-size: 1.3rem; /* Taille de l'icône */
+  cursor: pointer; /* Curseur pointeur */
+  padding: 6px; /* Espacement interne autour de l'icône */
+}
+
+/* ===== BADGE NOTIFICATION ===== */
+/* Petit cercle rouge affichant le nombre de notifications */
+.notif-badge {
+  position: absolute; /* Position absolue par rapport au bouton */
+  top: 0; right: 0; /* Coin supérieur droit */
+  background: #EF4444; /* Fond rouge */
+  color: white; /* Texte blanc */
+  font-size: 0.6rem; /* Petite taille */
+  font-weight: 700; /* Gras */
+  width: 16px; height: 16px; /* Dimension carrée: 16x16px */
+  border-radius: 50%; /* Cercle parfait */
+  display: grid; place-items: center; /* Centre le texte */
+}
+
+/* ===== AVATAR UTILISATEUR ===== */
+/* Avatar circulaire avec initiales de l'utilisateur */
+.user-avatar {
+  width: 38px; height: 38px; /* Dimension carrée: 38x38px */
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); /* Gradient bleu */
+  color: white; /* Texte blanc */
+  border-radius: 50%; /* Cercle parfait */
+  display: grid; place-items: center; /* Centre les initiales */
+  font-weight: 600; /* Semi-gras */
+  font-size: 0.85rem; /* Petite taille */
+}
+
+/* ===== ANIMATION ENTREE ===== */
+/* Animation de glissement vers le haut lors du chargement des éléments */
+.animate-in {
+  opacity: 0; /* Invisible au départ */
+  transform: translateY(18px); /* Décalé de 18px vers le bas */
+  animation: slideUp 0.45s ease forwards; /* Animation de 0.45s */
+  animation-delay: var(--delay, 0s); /* Délai configurable */
+}
+
+/* ===== KEYFRAMES GLISSEMENT ===== */
+/* Définit l'animation de glissement vers le haut */
+@keyframes slideUp {
+  to { 
+    opacity: 1; /* Passe de transparent à opaque */
+    transform: translateY(0); /* Remonte jusqu'à la position finale */
+  }
+}
+
+/* ===== RANGEE STATISTIQUES ===== */
+/* Grille de 4 cartes de statistiques affichant des métriques clés */
+.stats-row {
+  display: grid; /* Grille CSS */
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
+  gap: 16px; /* Espacement entre les cartes */
+  margin-bottom: 24px; /* Espacement en bas */
+}
+
+/* ===== CARTE STATISTIQUE ===== */
+/* Carte affichant une métrique avec icône et valeur */
+.stat-card {
+  background: var(--color-white); /* Fond blanc */
+  border-radius: var(--radius); /* Coins arrondis: 14px */
+  padding: 18px 20px; /* Espacement interne */
+  display: flex; /* Arrange horizontalement */
+  align-items: center; /* Centre verticalement */
+  gap: 14px; /* Espacement entre icône et texte */
+  box-shadow: var(--shadow-sm); /* Ombre légère */
+  border: 1px solid var(--color-border); /* Bordure grise */
+  transition: box-shadow 0.2s, transform 0.2s; /* Animation au survol */
+}
+
+/* ===== EFFET SURVOL STATISTIQUE ===== */
+/* Élève la carte au survol pour un effet interactif */
+.stat-card:hover {
+  box-shadow: var(--shadow-md); /* Ombre plus forte */
+  transform: translateY(-2px); /* Soulève de 2px vers le haut */
+}
+
+/* ===== ICONE STATISTIQUE ===== */
+/* Petite icône colorée représentant la métrique */
+.stat-icon {
+  width: 44px; height: 44px; /* Dimension carrée: 44x44px */
+  border-radius: 12px; /* Coins légèrement arrondis */
+  display: grid; place-items: center; /* Centre l'icône */
+  font-size: 1.2rem; /* Taille de l'icône */
+  flex-shrink: 0; /* Ne rétrécit pas */
+}
+
+/* ===== NOMBRE STATISTIQUE ===== */
+/* Grand nombre représentant la valeur de la métrique */
+.stat-number {
+  display: block; /* Bloc pour occuper toute la largeur */
+  font-family: 'Playfair Display', serif; /* Police élégante */
+  font-size: 1.6rem; /* Taille grande */
+  font-weight: 700; /* Gras */
+  color: var(--color-primary-dark); /* Couleur bleu foncé */
+  line-height: 1; /* Pas d'espacement vertical */
+}
+
+/* ===== LIBELLE STATISTIQUE ===== */
+/* Texte descriptif sous le nombre (ex: "Patients actifs") */
+.stat-label {
+  font-size: 0.78rem; /* Petite taille */
+  color: var(--color-text-muted); /* Couleur grise */
+  margin-top: 3px; /* Espacement du nombre */
+  display: block; /* Bloc pour nouvelle ligne */
+}
+
+/* ===== PROCHAIN RENDEZ-VOUS ===== */
+/* Carte mise en évidence affichant le prochain rendez-vous avec gradient */
+.next-rdv {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%); /* Gradient bleu diagonal */
+  border-radius: var(--radius); /* Coins arrondis: 14px */
+  padding: 20px 24px; /* Espacement interne */
+  color: white; /* Texte blanc */
+  margin-bottom: 24px; /* Espacement en bas */
+  position: relative; /* Position relative pour les décors */
+  overflow: hidden; /* Cache les éléments qui débordent */
+}
+
+/* ===== DECORATION FOND PROCHAIN RDV ===== */
+/* Cercle décoratif en arrière-plan du prochain rendez-vous */
+.next-rdv::before {
+  content: ''; /* Pseudo-élément vide */
+  position: absolute; /* Position absolue par rapport au conteneur */
+  top: -30px; right: -30px; /* Positionné en haut-droite (partiellement invisible) */
+  width: 130px; height: 130px; /* Dimension carrée: 130x130px */
+  background: rgba(255,255,255,0.06); /* Blanc très transparent */
+  border-radius: 50%; /* Cercle parfait */
+}
+
+/* ===== LIBELLE PROCHAIN RDV ===== */
+/* Petit texte "PROCHAIN RENDEZ-VOUS" en haut de la carte */
+.next-rdv-label {
+  font-size: 0.78rem; /* Petite taille */
+  font-weight: 600; /* Semi-gras */
+  opacity: 0.8; /* Légèrement transparent (80% opacité) */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.08em; /* Espacement entre les lettres */
+  margin-bottom: 10px; /* Espacement en bas */
+}
+
+/* ===== INFO PROCHAIN RDV ===== */
+/* Conteneur pour les informations du rendez-vous (médecin, date, heure) */
+.next-rdv-info {
+  display: flex; /* Arrange les éléments horizontalement */
+  align-items: center; /* Centre verticalement */
+  gap: 24px; /* Grand espacement entre les sections */
+  flex-wrap: wrap; /* Passe à la ligne sur petit écran */
+}
+
+/* ===== NOM DOCTEUR RDV ===== */
+/* Nom du médecin ou du docteur en gros caractères */
+.next-rdv-info .rdv-doc {
+  font-family: 'Playfair Display', serif; /* Police élégante */
+  font-size: 1.25rem; /* Taille grande */
+  font-weight: 700; /* Gras */
+}
+
+/* ===== METADATA PROCHAIN RDV ===== */
+/* Groupe de détails (date, heure, lieu) du rendez-vous */
+.next-rdv-info .rdv-meta {
+  display: flex; /* Arrange les détails horizontalement */
+  gap: 16px; /* Espacement entre les détails */
+  flex-wrap: wrap; /* Passe à la ligne si nécessaire */
+}
+
+/* ===== ITEM METADATA ===== */
+/* Détail individuel du rendez-vous (date, heure, etc.) */
+.next-rdv-info .meta-item {
+  font-size: 0.85rem; /* Petite taille */
+  opacity: 0.9; /* Légèrement transparent (90% opacité) */
+  display: flex; /* Arrange l'icône et le texte */
+  align-items: center; /* Centre verticalement */
+  gap: 5px; /* Petit espacement entre l'icône et le texte */
+}
+
+/* ===== SANS PROCHAIN RDV ===== */
+/* Message affiché si aucun rendez-vous n'est prévu */
+.no-next {
+  font-size: 0.9rem; /* Petite taille */
+  opacity: 0.7; /* Transparent (70% opacité) */
+  font-style: italic; /* Texte italique */
+}
+
+/* ===== BARRE D'OUTILS ===== */
+/* Barre contenant les filtres, recherche et boutons d'action */
+.toolbar {
+  display: flex; /* Arrange les éléments horizontalement */
+  align-items: center; /* Centre verticalement */
+  gap: 12px; /* Espacement entre les éléments */
+  margin-bottom: 20px; /* Espacement en bas */
+  flex-wrap: wrap; /* Passe à la ligne sur petit écran */
+}
+
+/* ===== BOITE RECHERCHE ===== */
+/* Champ de recherche pour filtrer les rendez-vous */
+.search-box {
+  display: flex; /* Arrange l'icône et l'input */
+  align-items: center; /* Centre verticalement */
+  gap: 8px; /* Espacement entre l'icône et le texte */
+  background: var(--color-white); /* Fond blanc */
+  border: 1.5px solid var(--color-border); /* Bordure grise */
+  border-radius: var(--radius-sm); /* Coins arrondis: 8px */
+  padding: 9px 14px; /* Espacement interne */
+  flex: 1; /* Prend tout l'espace disponible */
+  min-width: 220px; /* Largeur minimale */
+  box-shadow: var(--shadow-sm); /* Ombre légère */
+}
+
+/* ===== CHAMP SAISIE RECHERCHE ===== */
+/* Input texte pour la recherche sans bordure */
+.search-box input {
+  border: none; /* Pas de bordure */
+  outline: none; /* Pas de contour au focus */
+  font-size: 0.88rem; /* Taille du texte */
+  background: transparent; /* Transparent (voir le fond blanc du conteneur) */
+  color: var(--color-text-dark); /* Couleur du texte */
+  font-family: 'DM Sans', sans-serif; /* Police */
+  width: 100%; /* Largeur complète */
+}
+
+/* ===== FILTRES ===== */
+/* Groupe de sélecteurs pour filtrer par statut, spécialité, etc. */
+.filters {
+  display: flex; /* Arrange les filtres horizontalement */
+  gap: 10px; /* Espacement entre les filtres */
+}
+
+/* ===== SELECTEUR FILTRE ===== */
+/* Dropdown pour chaque filtre disponible */
+.filters select {
+  border: 1.5px solid var(--color-border); /* Bordure grise */
+  border-radius: var(--radius-sm); /* Coins arrondis: 8px */
+  padding: 9px 12px; /* Espacement interne */
+  font-size: 0.85rem; /* Taille du texte */
+  font-family: 'DM Sans', sans-serif; /* Police */
+  background: var(--color-white); /* Fond blanc */
+  color: var(--color-text-dark); /* Couleur du texte */
+  outline: none; /* Pas de contour au focus */
+  cursor: pointer; /* Curseur pointeur */
+}
+
+/* ===== BOUTON PRIMAIRE ===== */
+/* Bouton principal pour les actions importantes (ex: Ajouter RDV) */
+.btn-primary {
+  background: var(--color-primary); /* Fond bleu primaire */
+  color: white; /* Texte blanc */
+  border: none; /* Pas de bordure */
+  border-radius: var(--radius-sm); /* Coins arrondis: 8px */
+  padding: 10px 20px; /* Espacement interne */
+  font-size: 0.88rem; /* Taille du texte */
+  font-weight: 600; /* Semi-gras */
+  font-family: 'DM Sans', sans-serif; /* Police */
+  cursor: pointer; /* Curseur pointeur */
+  transition: background 0.2s, transform 0.15s; /* Animation au survol */
+  white-space: nowrap; /* Texte sur une seule ligne */
+}
+
+/* ===== EFFET SURVOL BOUTON PRIMAIRE ===== */
+/* Change la couleur et élève le bouton au survol */
+.btn-primary:hover {
+  background: var(--color-accent); /* Fond bleu accent plus clair */
+  transform: translateY(-1px); /* Soulève de 1px */
+}
+
+/* ===== LISTE RENDEZ-VOUS ===== */
+/* Conteneur pour la liste des cartes de rendez-vous */
+.rdv-list {
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Aligne verticalement */
+  gap: 14px; /* Espacement entre les cartes */
+}
+
+/* ===== CARTE RENDEZ-VOUS ===== */
+/* Carte affichant un rendez-vous avec date, médecin, heure et statut */
+.rdv-card {
+  background: var(--color-white); /* Fond blanc */
+  border-radius: var(--radius); /* Coins arrondis: 14px */
+  padding: 18px 22px; /* Espacement interne */
+  display: flex; /* Arrange les éléments horizontalement */
+  align-items: center; /* Centre verticalement */
+  gap: 18px; /* Espacement entre les sections */
+  box-shadow: var(--shadow-sm); /* Ombre légère */
+  border: 1px solid var(--color-border); /* Bordure grise */
+  transition: box-shadow 0.2s, transform 0.2s; /* Animation au survol */
+  animation: slideUp 0.35s ease both; /* Animation d'entrée */
+}
+
+/* ===== EFFET SURVOL CARTE RDV ===== */
+/* Augmente l'ombre et décale légèrement au survol */
+.rdv-card:hover {
+  box-shadow: var(--shadow-md); /* Ombre plus forte */
+  transform: translateX(3px); /* Décale de 3px vers la droite */
+}
+
+/* ===== BLOC DATE RDV ===== */
+/* Petit bloc affichant le jour et mois du rendez-vous */
+.rdv-date-block {
+  display: flex; /* Flexbox */
+  flex-direction: column; /* Aligne verticalement */
+  align-items: center; /* Centre horizontalement */
+  justify-content: center; /* Centre verticalement */
+  min-width: 54px; /* Largeur minimale */
+  background: var(--color-bg); /* Fond gris clair */
+  border-radius: 10px; /* Coins arrondis */
+  padding: 8px 6px; /* Espacement interne */
+  border: 1px solid var(--color-border); /* Bordure grise */
+}
+
+/* ===== JOUR DU RDV ===== */
+/* Grand nombre du jour du rendez-vous */
+.rdv-date-day {
+  font-family: 'Playfair Display', serif; /* Police élégante */
+  font-size: 1.5rem; /* Taille grande */
+  font-weight: 700; /* Gras */
+  color: var(--color-primary-dark); /* Couleur bleu foncé */
+  line-height: 1; /* Pas d'espacement vertical */
+}
+
+/* ===== MOIS DU RDV ===== */
+/* Texte abrégé du mois (ex: JAN, FEV) */
+.rdv-date-month {
+  font-size: 0.7rem; /* Petite taille */
+  font-weight: 600; /* Semi-gras */
+  color: var(--color-accent); /* Couleur bleu accent */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.05em; /* Espacement entre les lettres */
+}
+
+/* ===== INFO RENDEZ-VOUS ===== */
+/* Zone principale contenant le nom du médecin, spécialité et détails */
+.rdv-info { 
+  flex: 1; /* Prend tout l'espace disponible */
+}
+
+/* ===== NOM DOCTEUR RDV ===== */
+/* Nom du médecin en gras */
+.rdv-doc-name {
+  font-weight: 600; /* Semi-gras */
+  font-size: 0.98rem; /* Taille légèrement plus grande */
+  color: var(--color-primary-dark); /* Couleur bleu foncé */
+  margin-bottom: 4px; /* Espacement en bas */
+}
+
+/* ===== SPECIALITE RDV ===== */
+/* Type de spécialité du médecin (ex: Cardiologue, Dentiste) */
+.rdv-specialite {
+  font-size: 0.8rem; /* Petite taille */
+  color: var(--color-accent); /* Couleur bleu accent */
+  font-weight: 500; /* Demi-gras */
+  margin-bottom: 6px; /* Espacement en bas */
+}
+
+/* ===== DETAILS RDV ===== */
+/* Groupe contenant l'heure, lieu et autres détails du rendez-vous */
+.rdv-details {
+  display: flex; /* Arrange les détails horizontalement */
+  gap: 14px; /* Espacement entre les détails */
+  flex-wrap: wrap; /* Passe à la ligne si nécessaire */
+}
+
+/* ===== ELEMENT DETAIL RDV ===== */
+/* Détail individuel (heure, lieu, etc.) avec icône optionnelle */
+.rdv-details span {
+  font-size: 0.78rem; /* Petite taille */
+  color: var(--color-text-muted); /* Couleur grise */
+  display: flex; /* Arrange l'icône et le texte */
+  align-items: center; /* Centre verticalement */
+  gap: 4px; /* Petit espacement */
+}
+
+/* ===== NOTES RDV ===== */
+/* Notes ou annotations supplémentaires sur le rendez-vous */
+.rdv-notes {
+  font-size: 0.78rem; /* Petite taille */
+  color: var(--color-text-muted); /* Couleur grise */
+  font-style: italic; /* Texte italique */
+  margin-top: 5px; /* Espacement en haut */
+  padding-top: 5px; /* Espacement interne en haut */
+  border-top: 1px solid var(--color-border); /* Ligne de séparation */
+}
+
+/* ===== BADGE STATUT ===== */
+/* Petite étiquette colorée affichant le statut du rendez-vous */
+.badge {
+  display: inline-flex; /* Arrange l'icône et le texte */
+  align-items: center; /* Centre verticalement */
+  gap: 4px; /* Petit espacement */
+  padding: 4px 12px; /* Espacement interne */
+  border-radius: 999px; /* Très arrondis (pilule) */
+  font-size: 0.72rem; /* Très petite taille */
+  font-weight: 600; /* Semi-gras */
+  text-transform: uppercase; /* Majuscules */
+  letter-spacing: 0.04em; /* Espacement entre les lettres */
+  white-space: nowrap; /* Texte sur une seule ligne */
+}
+
+/* ===== BADGES STATUTS SPECIFIQUES ===== */
+/* Différentes couleurs selon le statut du rendez-vous */
+.badge-confirme   { 
+  background: #D1FAE5; /* Fond vert clair */
+  color: #065F46; /* Texte vert foncé */
+} 
+.badge-en_attente { 
+  background: #FEF3C7; /* Fond jaune clair */
+  color: #92400E; /* Texte jaune/marron foncé */
+}
+.badge-annule     { 
+  background: #FEE2E2; /* Fond rouge clair */
+  color: #991B1B; /* Texte rouge foncé */
+}
+.badge-termine    { 
+  background: #EDE9FE; /* Fond violet clair */
+  color: #4C1D95; /* Texte violet foncé */
+}
+
+/* ===== ACTIONS RENDEZ-VOUS ===== */
+/* Groupe de boutons d'action pour modifier/supprimer le rendez-vous */
+.rdv-actions {
+  display: flex; /* Arrange les boutons horizontalement */
+  gap: 8px; /* Espacement entre les boutons */
+}
+
+/* ===== BOUTON ICONE ===== */
+/* Petits boutons carrés avec icônes pour éditer/supprimer */
+.btn-icon {
+  width: 34px; height: 34px; /* Dimension carrée: 34x34px */
+  border-radius: 8px; /* Coins légèrement arrondis */
+  border: 1.5px solid var(--color-border); /* Bordure grise */
+  background: var(--color-white); /* Fond blanc */
+  cursor: pointer; /* Curseur pointeur */
+  display: grid; place-items: center; /* Centre l'icône */
+  font-size: 0.9rem; /* Taille de l'icône */
+  transition: all 0.15s; /* Animation smooth de toutes les propriétés */
+}
+
+/* ===== EFFET SURVOL BOUTON ICONE ===== */
+/* Change l'apparence au survol pour indiquer l'interactivité */
+.btn-icon:hover { 
+  background: var(--color-bg); /* Fond gris clair */
+  border-color: var(--color-accent); /* Bordure bleu accent */
+}
+/* ===== BOUTON DELETE SURVOL ===== */
+/* Fond rouge spécifique pour le bouton de suppression */
+.btn-icon.delete:hover { 
+  background: #FEE2E2; /* Fond rouge clair */
+  border-color: #EF4444; /* Bordure rouge */
+}
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-text-muted);
+}
+
+.empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+.empty-state p { font-size: 0.9rem; margin-bottom: 16px; }
+
+/* ===== MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,25,49,0.45);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: none;
+  place-items: center;
+  padding: 20px;
+}
+
+.modal-overlay.open { display: grid; }
+
+.modal {
+  background: var(--color-white);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.3s cubic-bezier(.34,1.56,.64,1) both;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--color-primary-dark);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  width: 30px; height: 30px;
+  border-radius: 6px;
+  display: grid; place-items: center;
+  transition: background 0.15s;
+}
+
+.modal-close:hover { background: var(--color-bg); }
+
+.modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 14px; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+.form-group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.88rem;
+  color: var(--color-text-dark);
+  outline: none;
+  transition: border-color 0.15s;
+  background: var(--color-bg);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--color-accent);
+  background: white;
+}
+
+.form-group textarea { resize: vertical; min-height: 70px; }
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 22px;
+  border-top: 1px solid var(--color-border);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-size: 0.88rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-secondary:hover { background: var(--color-bg); color: var(--color-text-dark); }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--color-primary-dark);
+  color: white;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.toast.show { opacity: 1; transform: translateY(0); } /* pour  */
+.toast.success { background: var(--color-teal); }
+.toast.error   { background: #EF4444; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; padding: 0 16px 40px; }
+  .menu-toggle { display: block; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .toolbar { flex-direction: column; }
+  .search-box, .filters { width: 100%; }
+  .filters { flex-direction: column; }
+  .rdv-card { flex-wrap: wrap; }
+  .form-row { grid-template-columns: 1fr; }
+}

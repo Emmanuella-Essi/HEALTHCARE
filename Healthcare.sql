@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 CREATE DATABASE IF NOT EXISTS healthcare CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE healthcare;
  
@@ -99,3 +100,6 @@ INSERT INTO medecins (user_id, specialite, numero_ordre) VALUES
  
 INSERT INTO carnets_sante (patient_id, antecedents, allergies) VALUES
 (1, 'Aucun antécédent connu', 'Pénicilline');
+=======
+
+>>>>>>> 6f958a3cea5d26430fc196a6eab507dfb9259af7

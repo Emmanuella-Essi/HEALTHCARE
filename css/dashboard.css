@@ -1,0 +1,371 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap');
+
+/* ============================================================
+   RESET UNIVERSEL
+   Supprime les marges/paddings par défaut de tous les éléments
+   et force le box-model à inclure border+padding dans la taille
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   VARIABLES GLOBALES (ROOT)
+   Palette adaptée à votre charte graphique bleue marine/acier
+   ============================================================ */
+:root {
+  /* --- Palette de base (votre charte) ---------------------- */
+  --color-primary-dark: #0A1931;      /* Bleu marine très foncé — fond sidebar */
+  --color-secondary-light: #B3CFE5;   /* Bleu ciel clair — textes secondaires, muted */
+  --color-accent: #4A7FA7;            /* Bleu acier — couleur d'accentuation active */
+  --color-primary: #1A3D63;           /* Bleu marine moyen — fond hover, éléments secondaires */
+  --color-background-light: #F6FAFD;  /* Blanc bleuté — fond du contenu principal */
+
+  /* --- Dimensions de la sidebar ---------------------------- */
+  --sb-w-collapsed: 60px;   /* Largeur réduite : affiche uniquement les icônes */
+  --sb-w-expanded: 220px;   /* Largeur déployée : affiche icônes + labels au hover */
+
+  /* --- Couleurs dérivées de la charte ---------------------- */
+
+  /* Fond de la sidebar : le plus foncé pour créer le contraste avec le contenu */
+  --bg: var(--color-primary-dark);
+
+  /* Fond secondaire : légèrement plus clair pour les éléments imbriqués */
+  --bg2: var(--color-primary);
+
+  /* Texte principal sur fond sombre : blanc cassé pour rester lisible */
+  --text: #E8F2FA;
+
+  /* Texte atténué : version claire de --color-secondary-light pour les labels discrets */
+  --muted: var(--color-secondary-light);
+
+  /* Bordures séparatrices : blanc très transparent pour rester subtil sur fond sombre */
+  --border: rgba(179, 207, 229, 0.15); /* basé sur --color-secondary-light à 15% d'opacité */
+
+  /* Fond de l'élément actif : teinte légère de --color-accent */
+  --active-bg: rgba(74, 127, 167, 0.18);
+
+  /* Bordure de l'élément actif : version semi-transparente de --color-accent */
+  --active-border: rgba(74, 127, 167, 0.45);
+
+  /* Rayon des coins pour les nav-items et boutons */
+  --radius: 10px;
+
+  /* Animation fluide pour l'expansion/réduction de la sidebar */
+  --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+   BODY
+   Mise en page racine : sidebar + contenu côte à côte
+   ============================================================ */
+body {
+  display: flex;           /* Disposition horizontale sidebar | main */
+  height: 100vh;           /* Occupe toute la hauteur de l'écran */
+  overflow: hidden;        /* Empêche le scroll global (chaque zone scrolle indépendamment) */
+  font-family: 'DM Sans', system-ui, sans-serif; /* Police principale de la charte */
+  background: var(--color-background-light);     /* Fond général blanc bleuté */
+}
+
+/* ============================================================
+   SIDEBAR — CONTENEUR PRINCIPAL
+   Barre latérale collapsée par défaut, déployée au survol
+   ============================================================ */
+.sidebar {
+  width: var(--sb-w-collapsed);       /* Réduite à 60px : seules les icônes sont visibles */
+  background: var(--bg);              /* Fond bleu marine foncé */
+  border-right: 0.5px solid var(--border); /* Fine séparation avec le contenu */
+  display: flex;
+  flex-direction: column;             /* Logo → nav → footer empilés verticalement */
+  transition: var(--transition);      /* Animation douce lors du hover */
+  overflow: hidden;                   /* Masque les labels qui dépassent la largeur réduite */
+  flex-shrink: 0;                     /* La sidebar ne se compresse pas */
+  position: absolute;                 /* Se superpose au contenu quand déployée */
+  z-index: 100;                       /* Reste au-dessus de tous les autres éléments */
+  height: 100vh;                      /* Prend toute la hauteur de l'écran */
+}
+
+/* Déploiement au survol : la sidebar passe à 220px et révèle les labels */
+.sidebar:hover {
+  width: var(--sb-w-expanded);
+}
+
+/* ============================================================
+   LOGO — EN-TÊTE DE LA SIDEBAR
+   ============================================================ */
+.sb-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;                          /* Espace entre l'icône et le texte du logo */
+  padding: 18px 16px 12px;
+  border-bottom: 0.5px solid var(--border); /* Séparateur sous le logo */
+  min-height: 64px;                   /* Hauteur fixe pour éviter les sauts au hover */
+  flex-shrink: 0;                     /* Ne se réduit pas si la nav est trop longue */
+}
+
+/* Carré arrondi contenant le SVG du logo */
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;                     /* Toujours visible même en mode réduit */
+  background: rgba(74, 127, 167, 0.2); /* Teinte légère de --color-accent */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Texte "HealthCare" — caché en mode réduit, visible au hover */
+.logo-text {
+  white-space: nowrap;                /* Empêche le retour à la ligne */
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0;                         /* Invisible par défaut */
+  transition: opacity 0.2s ease 0.05s; /* Apparaît légèrement après l'expansion */
+}
+
+/* La partie colorée du nom "Care" */
+.logo-text span {
+  color: var(--color-accent);         /* Bleu acier pour l'accent du logo */
+}
+
+/* Révèle le texte du logo quand la sidebar est survolée */
+.sidebar:hover .logo-text {
+  opacity: 1;
+}
+
+/* ============================================================
+   NAVIGATION — LISTE DES LIENS
+   ============================================================ */
+.sb-nav {
+  flex: 1;                            /* Prend tout l'espace disponible entre logo et footer */
+  overflow: hidden;                   /* Évite le scroll interne sur la liste */
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;                           /* Petit espacement entre les items */
+}
+
+/* Titre de section (ex: "Principal", "Santé", "Compte") */
+.section-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);                /* Bleu clair atténué */
+  letter-spacing: 0.08em;            /* Légèrement espacé pour l'effet "label" */
+  text-transform: uppercase;
+  padding: 8px 8px 4px;
+  white-space: nowrap;
+  opacity: 0;                         /* Invisible en mode réduit */
+  transition: opacity 0.15s;
+}
+
+/* Révèle les titres de section au hover avec un léger délai */
+.sidebar:hover .section-label {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.1s;
+}
+
+/* ============================================================
+   NAV ITEM — ÉLÉMENT DE NAVIGATION
+   ============================================================ */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;                          /* Espace entre icône et label */
+  padding: 9px 8px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  border: 1px solid transparent;      /* Bordure invisible par défaut (évite les sauts) */
+  transition: background 0.15s;
+  text-decoration: none;              /* Supprime le soulignement si c'est un <a> */
+}
+
+/* Survol d'un item : fond légèrement éclairci */
+.nav-item:hover {
+  background: rgba(74, 127, 167, 0.1); /* Teinte douce de --color-accent */
+}
+
+/* Item actif (page courante) : fond + bordure accentués */
+.nav-item.active {
+  background: var(--active-bg);       /* Fond bleu acier léger */
+  border-color: var(--active-border); /* Bordure bleu acier semi-transparente */
+}
+
+/* L'icône SVG de l'item actif prend la couleur d'accent */
+.nav-item.active .ni-icon svg {
+  stroke: var(--color-accent);        /* Bleu acier #4A7FA7 */
+}
+
+/* ============================================================
+   ICÔNE — CONTENEUR DU SVG
+   ============================================================ */
+.ni-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;                     /* Toujours visible même en mode réduit */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG lui-même : taille fixe, couleur atténuée par défaut */
+.ni-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--muted);               /* Bleu clair atténué par défaut */
+  transition: stroke 0.15s;           /* Transition douce au hover */
+  flex-shrink: 0;
+}
+
+/* Au survol d'un item, l'icône devient blanc cassé (plus visible) */
+.nav-item:hover .ni-icon svg {
+  stroke: var(--text);
+}
+
+/* ============================================================
+   LABEL — TEXTE À CÔTÉ DE L'ICÔNE
+   ============================================================ */
+.ni-label {
+  font-size: 13.5px;
+  color: var(--text);                 /* Blanc cassé pour contraster sur fond sombre */
+  white-space: nowrap;
+  overflow: hidden;
+  opacity: 0;                         /* Caché en mode réduit */
+  transition: opacity 0.15s ease 0.05s;
+}
+
+/* Révèle les labels au hover avec un micro-délai (effet cascade) */
+.sidebar:hover .ni-label {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.08s;
+}
+
+/* ============================================================
+   BADGE — COMPTEUR SUR UN ITEM (ex: "4" sur Rendez-vous)
+   ============================================================ */
+.ni-badge {
+  margin-left: auto;                  /* Pousse le badge à droite */
+  background: rgba(74, 127, 167, 0.25); /* Fond bleu acier translucide */
+  color: var(--color-secondary-light);  /* Texte bleu ciel clair */
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 20px;                /* Forme pilule */
+  padding: 1px 7px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  opacity: 0;                         /* Invisible en mode réduit */
+  transition: opacity 0.15s;
+}
+
+/* Révèle le badge au hover, après les labels (délai plus long) */
+.sidebar:hover .ni-badge {
+  opacity: 1;
+  transition: opacity 0.2s ease 0.12s;
+}
+
+/* ============================================================
+   FOOTER — DÉCONNEXION + PROFIL UTILISATEUR
+   ============================================================ */
+.sb-footer {
+  border-top: 0.5px solid var(--border); /* Séparateur au-dessus du footer */
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;                     /* Ne se compresse pas */
+}
+
+/* Bouton de déconnexion */
+.deconnect-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+/* Fond rouge très subtil au survol pour signaler l'action destructive */
+.deconnect-btn:hover {
+  background: rgba(229, 62, 62, 0.1);
+}
+
+/* Icône de déconnexion en rouge */
+.deconnect-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: #e53e3e;
+  flex-shrink: 0;
+}
+
+/* Label "Déconnexion" — caché en mode réduit */
+.deconnect-label {
+  font-size: 13px;
+  color: #e53e3e;                     /* Rouge pour signaler l'action critique */
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease 0.08s;
+}
+
+/* Révèle le label "Déconnexion" au hover */
+.sidebar:hover .deconnect-label {
+  opacity: 1;
+}
+
+/* ============================================================
+   PROFIL UTILISATEUR — EN BAS DE SIDEBAR
+   ============================================================ */
+.sb-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+}
+
+/* Avatar circulaire avec les initiales de l'utilisateur */
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;                     /* Toujours visible même en mode réduit */
+  background: rgba(74, 127, 167, 0.2);  /* Fond bleu acier léger */
+  color: var(--color-secondary-light);  /* Initiales en bleu ciel */
+  font-size: 11px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(74, 127, 167, 0.4); /* Bordure bleu acier */
+}
+
+/* Bloc nom + rôle — caché en mode réduit */
+.user-info {
+  opacity: 0;
+  transition: opacity 0.2s ease 0.08s;
+  overflow: hidden;
+}
+
+/* Révèle le nom et le rôle au hover */
+.sidebar:hover .user-info {
+  opacity: 1;
+}
+
+/* Nom de l'utilisateur */
+.user-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* Rôle de l'utilisateur (ex: "Patient") */
+.user-role {
+  font-size: 11px;
+  color: var(--muted);               /* Discret, en bleu clair atténué */
+  white-space: nowrap;
+}
+
