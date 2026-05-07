@@ -117,3 +117,108 @@
 
 </body>
 </html>
+
+
+
+
+
+<?php
+// index.php  —  Point d'entrée de l'API (JSON)
+//
+// IMPORTANT: ce fichier contient aussi une page HTML. Pour éviter les corruptions JSON,
+// on ne traite que les routes API.
+
+require_once __DIR__ . '/../BD/config/database.php';
+require_once __DIR__ . '/../BD/middleware/auth.php';
+require_once __DIR__ . '/../BD/utils/Response.php';
+require_once __DIR__ . '/../BD/utils/Validator.php';
+require_once __DIR__ . '/../BD/Controllers/AuthControllers.php';
+require_once __DIR__ . '/../BD/Controllers/VaccinationControllers.php';
+require_once __DIR__ . '/../BD/Controllers/DocumentController.php';
+// (typo historique) : require_once __DIR__ . '/../BD/Controllers/MessageControllers.pho';
+require_once __DIR__ . '/../BD/Controllers/MessageControllers.php';
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
+
+$method = $_SERVER['REQUEST_METHOD'];
+$uri    = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri    = rtrim(preg_replace('#/+#', '/', $uri), '/');
+$segments = array_values(array_filter(explode('/', $uri)));
+
+// On cherche le segment "api" puis on route après.
+$apiIndex = array_search('api', $segments, true);
+if ($apiIndex === false) {
+    http_response_code(404);
+    echo json_encode(['erreur' => 'Route introuvable']);
+    exit;
+}
+$segments = array_slice($segments, $apiIndex + 1);
+
+$s0 = $segments[0] ?? '';
+$s1 = (int)($segments[1] ?? 0);
+$s2 = $segments[2] ?? '';
+
+try {
+    if ($s0 === 'auth') {
+        match([$method, $segments[1] ?? '']) {
+            ['POST', 'register'] => AuthController::register(),
+            ['POST', 'login']    => AuthController::login(),
+            ['POST', 'logout']   => AuthController::logout(),
+            ['GET',  'me']       => AuthController::me(),
+            default => Response::error('Route inconnue', 404),
+        };
+    }
+    elseif ($s0 === 'vaccins' && $method === 'GET') {
+        VaccinationController::listVaccins();
+    }
+    elseif ($s0 === 'patients' && $s2 === 'vaccinations') {
+        match($method) {
+            'GET'  => VaccinationController::carnetPatient($s1),
+            'POST' => VaccinationController::ajouter($s1),
+            default => Response::error('Méthode non autorisée', 405),
+        };
+    }
+    elseif ($s0 === 'patients' && $s2 === 'rappels') {
+        VaccinationController::rappels($s1);
+    }
+    elseif ($s0 === 'patients' && $s2 === 'documents') {
+        match($method) {
+            'GET'  => DocumentController::liste($s1),
+            'POST' => DocumentController::upload($s1),
+            default => Response::error('Méthode non autorisée', 405),
+        };
+    }
+    elseif ($s0 === 'vaccinations' && $s1 && $method === 'DELETE') {
+        VaccinationController::supprimer($s1);
+    }
+    elseif ($s0 === 'vaccinations' && ($segments[1] ?? '') === 'stats') {
+        VaccinationController::stats();
+    }
+    elseif ($s0 === 'consultations') {
+        Response::error('Consultations non couvert dans ce fichier', 501);
+    }
+    elseif ($s0 === 'medecins') {
+        Response::error('Medecins non couvert dans ce fichier', 501);
+    }
+    elseif ($s0 === 'documents' && $s1 && $method === 'DELETE') {
+        DocumentController::supprimer($s1);
+    }
+    else {
+        Response::error('Route introuvable', 404);
+    }
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    Response::error('Erreur base de données', 500);
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    Response::error('Erreur serveur', 500);
+}
+

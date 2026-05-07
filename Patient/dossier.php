@@ -1,344 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dossier medical</title>
-    <link rel="stylesheet" href="../css/dossier.css">
-    <link rel="stylesheet" href="https://ct-awesome/7.0.1/css/all.min.cssdnjs.cloudflare.com/ajax/libs/fon">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
-    
-<!-- MAIN -->
-  <main class="main-content">
 
-    <!-- TOP BAR -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <button class="menu-toggle" id="menuToggle">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        </button>
-        <div class="page-title-block">
-          <h1 class="page-title">Dossier Médical</h1>
-          <p class="page-subtitle">Historique complet de votre santé</p>
-        </div>
+<!-- SIDEBAR bar horizontale -->
+  
+<aside class="sidebar">
+ 
+  <!-- Logo -->
+  <div class="sb-logo">
+    <div class="logo-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1de9b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+      </svg>
+    </div>
+    <div class="logo-text">Health<span>Care</span></div>
+  </div>
+ 
+  <!-- Navigation -->
+  <nav class="sb-nav">
+ 
+    <div class="section-label">Principal</div>
+ 
+    <a href="accueil.php" class="nav-item active">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+          <polyline points="9 21 9 12 15 12 15 21"/>
+        </svg>
       </div>
-      <div class="topbar-right">
-        <div class="search-bar">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input type="text" placeholder="Rechercher une entrée..." id="searchInput" />
-        </div>
-        <div class="notif-btn" id="notifBtn">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-          </svg>
-          <span class="notif-dot"></span>
-        </div>
+      <span class="ni-label">Accueil</span>
+    </a>
+ 
+    <div class="nav-item" onclick="Suivant('rdv', this)">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
       </div>
-    </header>
-
-    <!-- PAGE BODY -->
-    <div class="page-body">
-
-      <!-- RÉSUMÉ MÉDICAL -->
-      <section class="summary-section">
-        <div class="summary-card blood">
-          <div class="summary-icon">🩸</div>
-          <div class="summary-info">
-            <span class="summary-label">Groupe Sanguin</span>
-            <span class="summary-value">A+</span>
-          </div>
-        </div>
-        <div class="summary-card allergy">
-          <div class="summary-icon">⚠️</div>
-          <div class="summary-info">
-            <span class="summary-label">Allergies</span>
-            <span class="summary-value">2 connues</span>
-          </div>
-        </div>
-        <div class="summary-card entries">
-          <div class="summary-icon">📋</div>
-          <div class="summary-info">
-            <span class="summary-label">Entrées totales</span>
-            <span class="summary-value" id="totalEntries">5</span>
-          </div>
-        </div>
-        <div class="summary-card last">
-          <div class="summary-icon">📅</div>
-          <div class="summary-info">
-            <span class="summary-label">Dernière entrée</span>
-            <span class="summary-value">02 Mai 2025</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- FILTRES + BOUTON AJOUTER -->
-      <section class="controls-section">
-        <div class="filters">
-          <button class="filter-btn active" data-filter="tous">Tous</button>
-          <button class="filter-btn" data-filter="consultation">Consultation</button>
-          <button class="filter-btn" data-filter="traitement">Traitement</button>
-          <button class="filter-btn" data-filter="analyse">Analyse</button>
-          <button class="filter-btn" data-filter="chirurgie">Chirurgie</button>
-        </div>
-        <button class="add-btn" id="openModal">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
-          Nouvelle entrée
-        </button>
-      </section>
-
-      <!-- TIMELINE ENTRÉES -->
-      <section class="timeline-section">
-        <div class="timeline" id="timeline">
-
-          <!-- ENTRÉE 1 -->
-          <div class="timeline-item" data-type="consultation" data-id="1">
-            <div class="timeline-dot consultation"></div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-meta">
-                  <span class="badge consultation">Consultation</span>
-                  <span class="card-date">02 Mai 2025</span>
-                </div>
-                <div class="card-actions">
-                  <button class="action-icon edit" onclick="editEntry(1)" title="Modifier">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                  </button>
-                  <button class="action-icon delete" onclick="deleteEntry(1)" title="Supprimer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/>
-                      <path d="M10 11v6"/><path d="M14 11v6"/>
-                      <path d="M9 6V4h6v2"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <h3 class="card-title">Consultation générale — Dr. Kouamé</h3>
-              <p class="card-desc">Examen de routine. Tension artérielle normale (120/80). Aucune anomalie détectée. Prescription vitamines D3 recommandée.</p>
-              <div class="card-tags">
-                <span class="tag">Tension: 120/80</span>
-                <span class="tag">Poids: 68 kg</span>
-                <span class="tag">Dr. Kouamé</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ENTRÉE 2 -->
-          <div class="timeline-item" data-type="analyse" data-id="2">
-            <div class="timeline-dot analyse"></div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-meta">
-                  <span class="badge analyse">Analyse</span>
-                  <span class="card-date">15 Avril 2025</span>
-                </div>
-                <div class="card-actions">
-                  <button class="action-icon edit" onclick="editEntry(2)" title="Modifier">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                  </button>
-                  <button class="action-icon delete" onclick="deleteEntry(2)" title="Supprimer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/>
-                      <path d="M10 11v6"/><path d="M14 11v6"/>
-                      <path d="M9 6V4h6v2"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <h3 class="card-title">Bilan sanguin complet</h3>
-              <p class="card-desc">NFS, glycémie, cholestérol, bilan hépatique. Résultats dans les normes. Légère carence en fer signalée — fer + vitamines prescrits.</p>
-              <div class="card-tags">
-                <span class="tag">Glycémie: 0.95 g/L</span>
-                <span class="tag">Hémoglobine: 12.1</span>
-                <span class="tag">Labo Central</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ENTRÉE 3 -->
-          <div class="timeline-item" data-type="traitement" data-id="3">
-            <div class="timeline-dot traitement"></div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-meta">
-                  <span class="badge traitement">Traitement</span>
-                  <span class="card-date">10 Mars 2025</span>
-                </div>
-                <div class="card-actions">
-                  <button class="action-icon edit" onclick="editEntry(3)" title="Modifier">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                  </button>
-                  <button class="action-icon delete" onclick="deleteEntry(3)" title="Supprimer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/>
-                      <path d="M10 11v6"/><path d="M14 11v6"/>
-                      <path d="M9 6V4h6v2"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <h3 class="card-title">Traitement antipaludéen — Coartem</h3>
-              <p class="card-desc">Paludisme simple diagnostiqué. Traitement Coartem 6 comprimés sur 3 jours. Récupération complète après 5 jours.</p>
-              <div class="card-tags">
-                <span class="tag">Durée: 3 jours</span>
-                <span class="tag">Coartem 80mg</span>
-                <span class="tag">Guéri ✓</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ENTRÉE 4 -->
-          <div class="timeline-item" data-type="consultation" data-id="4">
-            <div class="timeline-dot consultation"></div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-meta">
-                  <span class="badge consultation">Consultation</span>
-                  <span class="card-date">22 Janvier 2025</span>
-                </div>
-                <div class="card-actions">
-                  <button class="action-icon edit" onclick="editEntry(4)" title="Modifier">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                  </button>
-                  <button class="action-icon delete" onclick="deleteEntry(4)" title="Supprimer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/>
-                      <path d="M10 11v6"/><path d="M14 11v6"/>
-                      <path d="M9 6V4h6v2"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <h3 class="card-title">Consultation ORL — Dr. Assi</h3>
-              <p class="card-desc">Douleur auriculaire gauche. Otite externe diagnostiquée. Gouttes auriculaires Otipax prescrites. Suivi à 10 jours.</p>
-              <div class="card-tags">
-                <span class="tag">Otite externe</span>
-                <span class="tag">Otipax gouttes</span>
-                <span class="tag">Résolu ✓</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ENTRÉE 5 -->
-          <div class="timeline-item" data-type="chirurgie" data-id="5">
-            <div class="timeline-dot chirurgie"></div>
-            <div class="timeline-card">
-              <div class="card-header">
-                <div class="card-meta">
-                  <span class="badge chirurgie">Chirurgie</span>
-                  <span class="card-date">08 Juin 2024</span>
-                </div>
-                <div class="card-actions">
-                  <button class="action-icon edit" onclick="editEntry(5)" title="Modifier">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                    </svg>
-                  </button>
-                  <button class="action-icon delete" onclick="deleteEntry(5)" title="Supprimer">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <polyline points="3,6 5,6 21,6"/><path d="M19 6l-1 14H6L5 6"/>
-                      <path d="M10 11v6"/><path d="M14 11v6"/>
-                      <path d="M9 6V4h6v2"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <h3 class="card-title">Appendicectomie — CHU Treichville</h3>
-              <p class="card-desc">Appendicite aiguë opérée en urgence. Intervention laparoscopique réussie. Hospitalisation 3 jours. Convalescence totale.</p>
-              <div class="card-tags">
-                <span class="tag">Laparoscopie</span>
-                <span class="tag">3 jours hospit.</span>
-                <span class="tag">CHU Treichville</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-    </div><!-- end page-body -->
-  </main>
-
-  <!-- MODAL AJOUT / MODIFICATION -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="modal">
-      <div class="modal-header">
-        <h2 class="modal-title" id="modalTitle">Nouvelle Entrée Médicale</h2>
-        <button class="modal-close" id="closeModal">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
+      <span class="ni-label">Rendez-vous</span>
+      <span class="ni-badge">4</span>
+    </div>
+ 
+    <div class="nav-item" onclick="Suivant('consultation', this)">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="23 7 16 12 23 17 23 7"/>
+          <rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
       </div>
-      <div class="modal-body">
-        <input type="hidden" id="editId" value="" />
-        <div class="form-row">
-          <div class="form-group">
-            <label for="entryType">Type d'entrée</label>
-            <select id="entryType">
-              <option value="consultation">Consultation</option>
-              <option value="traitement">Traitement</option>
-              <option value="analyse">Analyse</option>
-              <option value="chirurgie">Chirurgie</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="entryDate">Date</label>
-            <input type="date" id="entryDate" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="entryTitle">Titre / Motif</label>
-          <input type="text" id="entryTitle" placeholder="Ex: Consultation générale — Dr. Koné" />
-        </div>
-        <div class="form-group">
-          <label for="entryDesc">Description</label>
-          <textarea id="entryDesc" rows="4" placeholder="Décrivez le diagnostic, les symptômes, les résultats..."></textarea>
-        </div>
-        <div class="form-group">
-          <label for="entryTags">Tags (séparés par des virgules)</label>
-          <input type="text" id="entryTags" placeholder="Ex: Tension: 120/80, Poids: 70kg, Dr. Koné" />
-        </div>
+      <span class="ni-label">Télé-expertise</span>
+    </div>
+ 
+    <div class="section-label">Santé</div>
+ 
+    <div class="nav-item" onclick="Suivant('vaccins', this)">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="16" y2="8"/>
+          <line x1="16" y1="2" x2="22" y2="8"/>
+          <path d="M16 8l-3 3-1-1-5.5 5.5a2.5 2.5 0 0 0 3.5 3.5L15.5 13l-1-1 3-3"/>
+          <line x1="5" y1="20" x2="2" y2="23"/>
+        </svg>
       </div>
-      <div class="modal-footer">
-        <button class="btn-cancel" id="cancelModal">Annuler</button>
-        <button class="btn-save" id="saveEntry">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <polyline points="20,6 9,17 4,12"/>
-          </svg>
-          Enregistrer
-        </button>
+      <span class="ni-label">Vaccins</span>
+    </div>
+ 
+    <div class="nav-item" onclick="Suivant('dossier', this)">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
+      <span class="ni-label">Dossier médical</span>
+    </div>
+ 
+    <div class="nav-item" onclick="Suivant('ordonnances', this)">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+          <rect x="8" y="2" width="8" height="4" rx="1"/>
+          <line x1="8" y1="12" x2="16" y2="12"/>
+          <line x1="8" y1="16" x2="12" y2="16"/>
+        </svg>
+      </div>
+      <span class="ni-label">Ordonnances</span>
+    </div>
+ 
+    <div class="section-label">Compte</div>
+ 
+    <div class="nav-item" onclick="Suivant('profil', this)">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+      <span class="ni-label">Mon profil</span>
+    </div>
+ 
+  </nav>
+ 
+  <!-- Footer -->
+  <div class="sb-footer">
+    <div class="deconnect-btn" onclick="AutrePage('landing')">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+        <polyline points="16 17 21 12 16 7"/>
+        <line x1="21" y1="12" x2="9" y2="12"/>
+      </svg>
+      <span class="deconnect-label">Déconnexion</span>
+    </div>
+ 
+    <div class="sb-user">
+      <div class="avatar">MD</div>
+      <div class="user-info">
+        <div class="user-name">Manue Essi</div>
+        <div class="user-role">Patient</div>
       </div>
     </div>
   </div>
+ 
+</aside>
+ 
+<!-- MAIN CONTENT -->
 
-  <!-- TOAST -->
-  <div class="toast" id="toast">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <polyline points="20,6 9,17 4,12"/>
-    </svg>
-    <span id="toastMsg">Entrée enregistrée avec succès</span>
+<main class="mmain-content">
+
+<!-- TOPBAR bar verticale -->
+
+<div class="topbar">
+  <button class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <div class="topbar-left">
+    <h1 class="page-title">Tableau de bord</h1>
+    <span class="page-date" id="currentDate"></span>
   </div>
+  <div class="topbar-right">
+    <button class="motif-btn" id="motifBtn">
+      <i class="fas fa-bell"></i>
+      <span class="mofit-dot"></span>
+    </button>
+    <div class="topbar-avatar">KA</div>
+  </div>
+</div>
+ 
+
+
+
+
+
+</main>
+
 
 </body>
 </html>
