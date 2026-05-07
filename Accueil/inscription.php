@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthcare - Inscription</title>
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <style>
         .form-row {
             display: grid;
@@ -44,7 +45,7 @@
     </style>
 </head>
 <body>
-    <a href="index.php" class="btn-retour">&#8592; Retour</a>
+    <a href="home.php" class="btn-retour">&#8592; Retour</a>
     
     <div class="login-page">
         <div class="login-box">

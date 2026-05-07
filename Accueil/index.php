@@ -128,6 +128,15 @@
 // IMPORTANT: ce fichier contient aussi une page HTML. Pour éviter les corruptions JSON,
 // on ne traite que les routes API.
 
+// Si on affiche juste l'UI (connexion), ne pas exécuter le routeur API.
+// L'API est accessible via /api/... (par ex: Accueil/index.php/api/auth/login)
+if (php_sapi_name() !== 'cli') {
+    $pathInfo = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?? '';
+    if (stripos($pathInfo, '/api/') === false) {
+        exit;
+    }
+}
+
 require_once __DIR__ . '/../BD/config/database.php';
 require_once __DIR__ . '/../BD/middleware/auth.php';
 require_once __DIR__ . '/../BD/utils/Response.php';

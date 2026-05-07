@@ -16,7 +16,7 @@
   <div class="nav-bar">
     <div class="logo">Health<span>Care</span></div>
     <div class="land-nav-links">
-      <a href="inscription.php" class="btn btn-ghost">Connexion</a>
+      <a href="index.php" class="btn btn-ghost">Connexion</a>
       <a href="inscription.php" class="btn btn-primary">Inscription</a>
     </div>
   </div>
@@ -63,7 +63,8 @@
       <p class="about-text">
         Nous offrons un accès simplifié à vos soins, un carnet de santé numérique sécurisé et des rappels intelligents pour ne plus jamais oublier un rendez-vous ou un vaccin.
       </p>
-      <a href="inscription.php" class="btn-about-learn">Learn More</a>
+      <a href="index.php" class="btn-about-learn">Connexion</a>
+
     </div>
   </div>
 </section>
