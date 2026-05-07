@@ -6,6 +6,8 @@
     <title>HealthCare - Plateforme de santé numérique</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/footerhome.css">
+    
 </head>
 <body>
 
@@ -33,6 +35,7 @@
 
 </div>
 </section>
+
 
 <!-- section about -->
 
@@ -63,11 +66,45 @@
       <p class="about-text">
         Nous offrons un accès simplifié à vos soins, un carnet de santé numérique sécurisé et des rappels intelligents pour ne plus jamais oublier un rendez-vous ou un vaccin.
       </p>
-      <a href="index.php" class="btn-about-learn">Connexion</a>
+      
 
     </div>
   </div>
 </section>
+
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="footer-brand">
+            <div class="logo">Health<span>Care</span></div>
+            <p>Plateforme de santé numérique — télécosultation, suivi vaccinal et dossier médical.</p>
+        </div>
+
+        <div class="footer-links">
+            <h4>Liens</h4>
+            <ul>
+                <li><a href="index.php">Connexion</a></li>
+                <li><a href="inscription.php">Inscription</a></li>
+
+            </ul>
+        </div>
+
+        <div class="footer-contact">
+            <h4>Contact</h4>
+            <p><i class="fa fa-envelope"></i> emmanuellaessi391@gmail.com</p>
+            <p><i class="fa fa-phone"></i> +225 07 69 48 99 73</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <span>© <span id="year"></span> HealthCare. Tous droits réservés.</span>
+    </div>
+</footer>
+
+<script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+<!-- footer -->
 
 </body>
 </html>
