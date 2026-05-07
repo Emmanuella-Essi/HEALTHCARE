@@ -74,6 +74,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 28px 60px;
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   background: rgba(255,255,255,0.1);
   border-bottom: 1px solid rgba(255,255,255,0.2);
@@ -146,6 +147,7 @@ body {
   color: var(--color-white); 
   padding: 12px 24px; 
   font-size: 0.9rem; 
+  -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 
