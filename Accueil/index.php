@@ -51,7 +51,7 @@
                 <button class="btn-submit">Se connecter</button>
                 <p style="text-align:center; margin-top:16px; font-size:0.85rem;">
                     <span class="lien-compte"
-                          onclick="window.location.href='inscription.php?role=patient'">
+                          onclick="window.location.href='Patient/inscription.php'">
                         Créer un compte
                     </span>
                 </p>
@@ -73,7 +73,7 @@
                 <button class="btn-submit">Se connecter</button>
                 <p style="text-align:center; margin-top:16px; font-size:0.85rem;">
                     <span class="lien-compte"
-                          onclick="window.location.href='inscription.php?role=medecin'">
+                          onclick="window.location.href='Medecin/inscription.php'"
                         Créer un compte
                     </span>
                 </p>
