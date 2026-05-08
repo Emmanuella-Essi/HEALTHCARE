@@ -1,0 +1,35 @@
+/* Accueil patient (dashboard) */
+
+:root {
+  --ap-primary: #1A3D63;
+  --ap-accent:  #4A7FA7;
+  --ap-teal:    #047857;
+}
+
+/* Optionnel : un léger ajustement spécifique à l’accueil patient.
+   Le style principal est déjà dans dossier.css. */
+
+.main-content {
+  background: transparent;
+}
+
+.page-body {
+  padding-bottom: 40px;
+}
+
+.summary-section {
+  margin-top: 4px;
+}
+
+/* timeline items */
+.timeline-item {
+  align-items: stretch;
+}
+
+/* actions rapides */
+.controls-section .filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
