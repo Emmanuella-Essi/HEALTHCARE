@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap');
 
+  
     :root {
       --navy: #0A1628;
       --navy-mid: #112240;
@@ -51,6 +52,7 @@
       justify-content: space-between;
       padding: 14px 32px;
       background: rgba(10,22,40,0.85);
+      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--glass-border);
     }
@@ -160,6 +162,7 @@
       background: rgba(17,34,64,0.6);
       border: 1px solid var(--glass-border);
       border-radius: 16px;
+      -webkit-backdrop-filter: blur(10px);
       backdrop-filter: blur(10px);
       overflow: hidden;
       margin-bottom: 20px;
@@ -330,6 +333,7 @@
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
+      -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
     }
 
