@@ -1,14 +1,10 @@
-# HEALTHCARE - TODO
+# HEALTHCARE — TODO
 
-## Tâche : Harmoniser Admin/securite.php + CSS
-
-- [x] 1) Refaire `Admin/securite.php` pour utiliser la même structure UI que `Admin/accueil.php`/`Admin/consultation.php` (sidebar + main-content + top-bar + content-area + card/table/badges)
-- [x] 2) Mettre à jour les liens CSS et FontAwesome dans `Admin/securite.php`
-- [x] 3) Réécrire `css/admin_securite.css` pour ne contenir que les styles spécifiques à Sécurité (grid-2, flex-between, métriques/progress)
-
-- [ ] 4) S’assurer qu’il n’y a pas de conflits (badges/table/card/btn) avec `css/admin_accueil.css`
-
-- [x] 5) Lancer une vérification rapide (ouvrir la page) pour confirmer que la section “Securite” s’affiche bien comme les autres
+## Dossier patient (front)
+- [x] 1) Mettre à jour `Patient/dossier.php` : remplacer la timeline de démo par une structure “dossier médical” complète (cartes + sections).
+- [ ] 2) Structurer les données en placeholders (JS objet `patientRecord`) : antécédents, allergies, diagnostics, traitements, examens, suivi.
+- [ ] 3) Mettre à jour `css/dossier.css` : styles pour nouvelles sections (tableaux, badges, grilles examens).
+- [ ] 4) Vérifier la page dans le navigateur + responsive (desktop/tablet/mobile).
 
 
 
