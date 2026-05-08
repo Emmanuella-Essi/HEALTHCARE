@@ -1,0 +1,7 @@
+/* Styles dédiés à Admin/rapport.php */
+.admin-section{width:100%;}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0;}
+.stat-card{background:rgba(91,33,182,.06);border:1px solid rgba(91,33,182,.12);border-radius:14px;padding:16px;}
+.card{background:#fff;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.06);}
+.mt-24{margin-top:24px;}
+

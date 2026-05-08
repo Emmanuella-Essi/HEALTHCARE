@@ -75,16 +75,16 @@
       <span class="ni-label">Vaccins</span>
     </div>
  
-    <div class="nav-item" onclick="Suivant('dossier', this)">
+    <a href="dossier.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
         </svg>
       </div>
       <span class="ni-label">Dossier médical</span>
-    </div>
- 
-    <div class="nav-item" onclick="Suivant('ordonnances', this)">
+    </a>
+
+    <a href="ordonnances.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
@@ -94,7 +94,7 @@
         </svg>
       </div>
       <span class="ni-label">Ordonnances</span>
-    </div>
+    </a>
  
     <div class="section-label">Compte</div>
  

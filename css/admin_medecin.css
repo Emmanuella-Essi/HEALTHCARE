@@ -1,0 +1,10 @@
+/* Styles dédiés à Admin/medecin.php */
+.admin-section{width:100%;}
+.card{background:#fff;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.06);}
+.table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;}
+.table th,.table td{padding:12px 14px;border-bottom:1px solid rgba(0,0,0,.06);text-align:left;}
+.table thead th{background:rgba(0,0,0,.02);font-weight:700;}
+.badge{border-radius:999px;padding:6px 12px;font-size:.85rem;display:inline-flex;align-items:center;justify-content:center;}
+.badge-green{background:#dcfce7;color:#166534;}
+.badge-orange{background:#ffedd5;color:#9a3412;}
+
