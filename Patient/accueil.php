@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Accueil patient — HealthCare</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-  <link rel="stylesheet" href="../css/dashboard.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portail Patient</title>
+  <meta name="description" content="Votre espace santé personnel : consultations, ordonnances, résultats et bien plus.">
   <link rel="stylesheet" href="../css/accueil_patient.css">
-  <link rel="stylesheet" href="../css/dossier.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+   <link rel="stylesheet" href="../css/dashboard.css">
+
 </head>
 <body>
 
-<!-- SIDEBAR (même structure que les autres pages patient) -->
+<!-- ================= LAYOUT WRAPPER ================= -->
+<div class="app-layout">
+
+<!-- Toggle mobile -->
+<button class="sb-toggle" id="sb-toggle" aria-label="Menu">
+  <span></span><span></span><span></span>
+</button>
+<div class="sb-overlay" id="sb-overlay"></div>
+
+<!-- ================= SIDEBAR ================= -->
 <aside class="sidebar">
   <div class="sb-logo">
     <div class="logo-icon">
@@ -25,7 +35,7 @@
   <nav class="sb-nav">
     <div class="section-label">Principal</div>
 
-    <a href="accueil.php" class="nav-item active">
+    <a href="accueil.html" class="nav-item active">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
@@ -35,7 +45,17 @@
       <span class="ni-label">Accueil</span>
     </a>
 
-    <a href="rdv.php" class="nav-item">
+    <a href="telexp.html" class="nav-item">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="23 7 16 12 23 17 23 7"/>
+          <rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </div>
+      <span class="ni-label">Télé-expertise</span>
+    </a>
+
+    <a href="#rendez-vous" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -47,20 +67,9 @@
       <span class="ni-label">Rendez-vous</span>
     </a>
 
-    <a href="telexp.php" class="nav-item">
-      <div class="ni-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="23 7 16 12 23 17 23 7"/>
-          <rect x="1" y="5" width="15" height="14" rx="2"/>
-        </svg>
-      </div>
-      <span class="ni-label">Télé-expertise</span>
-    </a>
-
-
     <div class="section-label">Santé</div>
 
-    <a href="vaccins.php" class="nav-item">
+    <a href="vaccins.html" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="16" y2="8"/>
@@ -72,8 +81,7 @@
       <span class="ni-label">Vaccins</span>
     </a>
 
-
-    <a href="dossier.php" class="nav-item">
+    <a href="dossier.html" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
@@ -82,7 +90,7 @@
       <span class="ni-label">Dossier médical</span>
     </a>
 
-    <a href="ordonnances.php" class="nav-item">
+    <a href="ordonnances.html" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
@@ -96,8 +104,7 @@
 
     <div class="section-label">Compte</div>
 
-    <a href="profil.php" class="nav-item">
-
+    <a href="profil.html" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/>
@@ -105,13 +112,11 @@
         </svg>
       </div>
       <span class="ni-label">Mon profil</span>
-    </div>
+    </a>
   </nav>
 
   <div class="sb-footer">
-    <div class="deconnect-btn" onclick="window.location.href='accueil.php'">
-
-
+    <div class="deconnect-btn" onclick="window.location.href='login.html'">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
         <polyline points="16 17 21 12 16 7"/>
@@ -121,163 +126,442 @@
     </div>
 
     <div class="sb-user">
-      <div class="avatar">MD</div>
+      <div class="sb-avatar">SM</div>
       <div class="user-info">
-        <div class="user-name">Patient</div>
-        <div class="user-role">Accueil</div>
+        <div class="user-name">Sophie Martin</div>
+        <div class="user-role">Patient</div>
       </div>
     </div>
   </div>
 </aside>
 
-<!-- MAIN -->
-<main class="main-content">
+<!-- ================= CONTENU PRINCIPAL ================= -->
+<div class="main-content">
 
-  <div class="topbar">
-    <button class="menu-toggle" id="menuToggle">
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <div class="topbar-left">
-      <h1 class="page-title">Accueil patient</h1>
-      <span class="page-subtitle" id="topDate"></span>
-    </div>
-
-    <div class="topbar-right">
-      <div class="notif-btn" title="Notifications">
-        <i class="fa-solid fa-bell"></i>
-        <span class="notif-dot"></span>
-      </div>
-      <div class="topbar-avatar">KA</div>
-    </div>
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
   </div>
 
-  <div class="page-body">
+  <div class="hero-grid">
 
-    <!-- Résumé -->
-    <div class="summary-section">
-      <div class="summary-card entries">
-        <div class="summary-icon" style="color:#4A7FA7"><i class="fa-solid fa-file-medical"></i></div>
-        <div class="summary-info">
-          <div class="summary-label">Documents</div>
-          <div class="summary-value" id="statDocuments">0</div>
-        </div>
+    <!-- Texte -->
+    <div class="hero-content">
+      <div class="hero-pill">
+        <span class="pill-dot"></span>
+        Portail santé de confiance
       </div>
 
-      <div class="summary-card last">
-        <div class="summary-icon" style="color:#0A8C74"><i class="fa-solid fa-stethoscope"></i></div>
-        <div class="summary-info">
-          <div class="summary-label">Résultats</div>
-          <div class="summary-value" id="statResultats">0</div>
-        </div>
+      <h1 class="hero-h1">
+        Bienvenue,<br>
+        <span class="accent">Sophie</span> 👋<br>
+        votre santé,<br>simplifiée.
+      </h1>
+
+      <p class="hero-sub">
+        Gérez vos rendez-vous, consultez vos ordonnances et accédez
+        à vos résultats médicaux depuis un seul espace sécurisé et intuitif.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#rendez-vous" class="btn btn-teal btn-lg">📅 Prendre rendez-vous</a>
+        <a href="dossier.html" class="btn btn-ghost btn-lg">📂 Mon dossier</a>
       </div>
 
-      <div class="summary-card allergy">
-        <div class="summary-icon" style="color:#F59E0B"><i class="fa-solid fa-calendar-check"></i></div>
-        <div class="summary-info">
-          <div class="summary-label">Dernier jour de passage</div>
-          <div class="summary-value" id="statDernierJour">—</div>
+      <div class="hero-kpi">
+        <div>
+          <div class="kpi-val">+12k</div>
+          <div class="kpi-label">Patients</div>
         </div>
-      </div>
-
-      <div class="summary-card blood">
-        <div class="summary-icon" style="color:#EF4444"><i class="fa-solid fa-link"></i></div>
-        <div class="summary-info">
-          <div class="summary-label">Accès dossier</div>
-          <div class="summary-value"><a href="dossier.php" style="color:inherit;text-decoration:none">Ouvrir</a></div>
+        <div>
+          <div class="kpi-val">98%</div>
+          <div class="kpi-label">Satisfaction</div>
+        </div>
+        <div>
+          <div class="kpi-val">150+</div>
+          <div class="kpi-label">Médecins</div>
         </div>
       </div>
     </div>
 
-    <!-- Résultats (exemples / démo) -->
-    <section class="timeline-section">
-      <div class="controls-section" style="margin-top:4px;">
-        <div class="filters">
-          <button class="filter-btn active" data-filter="tous">Tous</button>
-          <button class="filter-btn" data-filter="resultat">Résultats</button>
-          <button class="filter-btn" data-filter="document">Documents</button>
+    <!-- Carte patient -->
+    <div class="patient-card">
+      <div class="pc-head">
+        <div class="pc-patient">
+          <div class="avatar">SM</div>
+          <div>
+            <div class="pc-name">Sophie Martin</div>
+            <div class="pc-id">PAT-20847</div>
+          </div>
         </div>
+        <span class="tag-active">Actif</span>
+      </div>
 
-        <div class="search-bar" style="margin-left:auto;">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="searchInput" placeholder="Rechercher un résultat…" />
+      <div class="vitals">
+        <div class="vital">
+          <span class="vital-ico">❤️</span>
+          <div>
+            <div class="vital-lbl">Tension</div>
+            <div class="vital-val">120/80</div>
+          </div>
+        </div>
+        <div class="vital">
+          <span class="vital-ico">🩸</span>
+          <div>
+            <div class="vital-lbl">Groupe</div>
+            <div class="vital-val">A+</div>
+          </div>
+        </div>
+        <div class="vital">
+          <span class="vital-ico">⚖️</span>
+          <div>
+            <div class="vital-lbl">IMC</div>
+            <div class="vital-val">22.4</div>
+          </div>
+        </div>
+        <div class="vital">
+          <span class="vital-ico">🌡️</span>
+          <div>
+            <div class="vital-lbl">Temp.</div>
+            <div class="vital-val">36.7°C</div>
+          </div>
         </div>
       </div>
 
-      <div class="timeline" id="timeline"></div>
-
-      <div id="emptyState" style="display:none; margin-top:16px; padding:14px 18px; border:1px dashed var(--color-border); border-radius:var(--radius); background:rgba(255,255,255,0.7);">
-        Aucun résultat pour le moment.
+      <div class="next-rdv">
+        <div class="label-sm">Prochain rendez-vous</div>
+        <div class="rdv-item">
+          <div>
+            <div class="rdv-doc">Dr. Éric Dubois</div>
+            <div class="rdv-spec">Cardiologie</div>
+          </div>
+          <div>
+            <div class="rdv-time">09h30</div>
+            <div class="rdv-date">13 Mai 2026</div>
+          </div>
+        </div>
       </div>
-    </section>
-
-    <!-- Actions rapides -->
-    <section class="controls-section" style="margin-top:6px;">
-      <a class="filter-btn" href="dossier.php"><i class="fa-solid fa-clock-rotate-left"></i> Voir tout le dossier</a>
-      <a class="filter-btn" href="ordonnances.php"><i class="fa-solid fa-pills"></i> Ordonnances</a>
-      <a class="filter-btn" href="vaccins.php"><i class="fa-solid fa-syringe"></i> Vaccins</a>
-      <a class="filter-btn" href="profil.php"><i class="fa-solid fa-user"></i> Profil</a>
-    </section>
+    </div>
 
   </div>
-</main>
+</section>
 
-<!-- On réutilise le même script démo que sur l’ancienne page accueil_dossier.php -->
+<!-- ================= SERVICES ================= -->
+<section id="services" class="services">
+  <div class="section-center">
+    <span class="s-tag">Nos services</span>
+    <h2 class="s-title">Tout ce dont vous avez besoin</h2>
+    <p class="s-sub">Un portail complet pour gérer votre parcours de soins de A à Z.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <div class="svc-card">
+      <div class="svc-ico">🩺</div>
+      <div class="svc-name">Consultation</div>
+      <p class="svc-desc">Prenez rendez-vous avec nos spécialistes en quelques clics, 24h/24.</p>
+      <a href="#" class="svc-link">En savoir plus →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-ico">📋</div>
+      <div class="svc-name">Ordonnances</div>
+      <p class="svc-desc">Renouvelez vos prescriptions et suivez votre traitement en ligne.</p>
+      <a href="#" class="svc-link">En savoir plus →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-ico">🔬</div>
+      <div class="svc-name">Analyses</div>
+      <p class="svc-desc">Accédez à vos résultats d'analyses dès leur disponibilité.</p>
+      <a href="#" class="svc-link">En savoir plus →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-ico">💊</div>
+      <div class="svc-name">Pharmacie</div>
+      <p class="svc-desc">Commandez vos médicaments avec livraison à domicile rapide.</p>
+      <a href="#" class="svc-link">En savoir plus →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-ico">🏥</div>
+      <div class="svc-name">Hospitalisation</div>
+      <p class="svc-desc">Gérez vos admissions et consultez votre dossier hospitalier.</p>
+      <a href="#" class="svc-link">En savoir plus →</a>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-ico">📱</div>
+      <div class="svc-name">Téléconsultation</div>
+      <p class="svc-desc">Consultez un médecin en vidéo, où que vous soyez dans le monde.</p>
+      <a href="#" class="svc-link">En savoir plus →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= RENDEZ-VOUS ================= -->
+<section id="rendez-vous" class="appt-section">
+  <div class="appt-inner">
+
+    <!-- Texte gauche -->
+    <div class="appt-text">
+      <span class="s-tag" style="background:rgba(0,180,160,.18); color:#00b4a0;">Réservation</span>
+      <h2 class="s-title">Prenez rendez-vous en 2 minutes</h2>
+      <p class="s-sub">
+        Choisissez votre spécialiste, sélectionnez un créneau et confirmez en un clic.
+        Notre équipe vous rappelle sous 24 h.
+      </p>
+      <ul class="check-list">
+        <li>
+          <span class="check-ico">✓</span>
+          Confirmation immédiate par SMS
+        </li>
+        <li>
+          <span class="check-ico">✓</span>
+          Rappel automatique 24 h avant le rendez-vous
+        </li>
+        <li>
+          <span class="check-ico">✓</span>
+          Annulation gratuite jusqu'à 4 h avant
+        </li>
+        <li>
+          <span class="check-ico">✓</span>
+          Consultation en présentiel ou en vidéo
+        </li>
+      </ul>
+    </div>
+
+    <!-- Formulaire -->
+    <div class="appt-form">
+      <h3>📅 Nouvelle demande</h3>
+
+      <!-- Alertes JS -->
+      <div id="alert-success" class="alert alert-success hidden">
+        ✅ Votre demande a bien été enregistrée. Nous vous contacterons sous 24 h.
+      </div>
+      <div id="alert-error" class="alert alert-error hidden">
+        ⚠️ Veuillez remplir tous les champs correctement.
+      </div>
+
+      <form id="rdv-form" novalidate>
+
+        <div class="form-row-2">
+          <div class="fg">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" placeholder="Votre prénom" required>
+          </div>
+          <div class="fg">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label for="telephone">Téléphone</label>
+          <input type="tel" id="telephone" name="telephone" placeholder="+225 07 00 00 00 00" required>
+        </div>
+
+        <div class="fg">
+          <label for="specialite">Spécialité</label>
+          <select id="specialite" name="specialite" required>
+            <option value="">-- Sélectionner --</option>
+            <option value="Cardiologie">Cardiologie</option>
+            <option value="Pédiatrie">Pédiatrie</option>
+            <option value="Dermatologie">Dermatologie</option>
+            <option value="Neurologie">Neurologie</option>
+            <option value="Ophtalmologie">Ophtalmologie</option>
+            <option value="Gynécologie">Gynécologie</option>
+            <option value="Médecine générale">Médecine générale</option>
+            <option value="Orthopédie">Orthopédie</option>
+          </select>
+        </div>
+
+        <div class="fg">
+          <label for="date_rdv">Date souhaitée</label>
+          <input type="date" id="date_rdv" name="date_rdv" required>
+        </div>
+
+        <button type="submit" class="btn btn-teal btn-lg btn-block">
+          Envoyer ma demande →
+        </button>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= MÉDECINS ================= -->
+<section id="medecins" class="doctors">
+  <div class="section-center">
+    <span class="s-tag">Notre équipe</span>
+    <h2 class="s-title">Des spécialistes à votre écoute</h2>
+    <p class="s-sub">Nos médecins sont sélectionnés pour leur expertise et leur bienveillance.</p>
+  </div>
+
+  <div class="doctors-grid">
+
+    <div class="doc-card">
+      <div class="doc-av">👨‍⚕️</div>
+      <div class="doc-name">Dr. Éric Dubois</div>
+      <div class="doc-spec">Cardiologie</div>
+      <div class="doc-rating">
+        <span class="stars">★★★★★</span>
+        <strong>4.9</strong>
+        <span>(128 avis)</span>
+      </div>
+      <a href="#rendez-vous" class="btn btn-navy btn-block">Prendre RDV</a>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-av">👩‍⚕️</div>
+      <div class="doc-name">Dr. Amina Koné</div>
+      <div class="doc-spec">Pédiatrie</div>
+      <div class="doc-rating">
+        <span class="stars">★★★★★</span>
+        <strong>4.8</strong>
+        <span>(97 avis)</span>
+      </div>
+      <a href="#rendez-vous" class="btn btn-navy btn-block">Prendre RDV</a>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-av">👨‍⚕️</div>
+      <div class="doc-name">Dr. Marc Lefevre</div>
+      <div class="doc-spec">Neurologie</div>
+      <div class="doc-rating">
+        <span class="stars">★★★★☆</span>
+        <strong>4.7</strong>
+        <span>(84 avis)</span>
+      </div>
+      <a href="#rendez-vous" class="btn btn-navy btn-block">Prendre RDV</a>
+    </div>
+
+    <div class="doc-card">
+      <div class="doc-av">👩‍⚕️</div>
+      <div class="doc-name">Dr. Claire Nguyen</div>
+      <div class="doc-spec">Dermatologie</div>
+      <div class="doc-rating">
+        <span class="stars">★★★★★</span>
+        <strong>4.9</strong>
+        <span>(156 avis)</span>
+      </div>
+      <a href="#rendez-vous" class="btn btn-navy btn-block">Prendre RDV</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+  <div class="footer-grid">
+
+    <div>
+      <span class="footer-brand-name">MediCare+</span>
+      <p class="footer-desc">
+        Votre portail de santé numérique — sécurisé, simple et accessible 24h/24.
+        Votre santé est notre priorité.
+      </p>
+    </div>
+
+    <div class="fc">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Consultations</a></li>
+        <li><a href="#">Ordonnances</a></li>
+        <li><a href="#">Résultats</a></li>
+        <li><a href="#">Télémédecine</a></li>
+      </ul>
+    </div>
+
+    <div class="fc">
+      <h4>Aide</h4>
+      <ul>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Support</a></li>
+        <li><a href="#">Mon compte</a></li>
+        <li><a href="#">Confidentialité</a></li>
+      </ul>
+    </div>
+
+    <div class="fc">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="tel:+22507000000">+225 07 00 00 00</a></li>
+        <li><a href="mailto:contact@medicare.ci">contact@medicare.ci</a></li>
+        <li><a href="#">Abidjan, Côte d'Ivoire</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>&copy; 2026 MediCare+. Tous droits réservés.</span>
+    <span>Fait avec ❤️ pour votre santé</span>
+  </div>
+</footer>
+
+<!-- ================= JS (validation formulaire) ================= -->
 <script>
-  const entries = [
-    {
-      id: 1,
-      type: 'document',
-      title: 'Compte rendu consultation',
-      date: '2026-01-12',
-      details: 'Document médical (démo)'
-    },
-    {
-      id: 2,
-      type: 'resultat',
-      title: 'Résultat analyse sanguine',
-      date: '2026-02-03',
-      details: 'Résultat (démo)'
-    }
-  ];
+  // Date minimum = aujourd'hui
+  const dateInput = document.getElementById('date_rdv');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.setAttribute('min', today);
 
-  // Petites helpers (démo) si le JS original n’est pas chargé.
-  const timeline = document.getElementById('timeline');
-  const emptyState = document.getElementById('emptyState');
-  const statDocuments = document.getElementById('statDocuments');
-  const statResultats = document.getElementById('statResultats');
+  // Toggle sidebar mobile
+  const toggle   = document.getElementById('sb-toggle');
+  const sidebar  = document.querySelector('.sidebar');
+  const overlay  = document.getElementById('sb-overlay');
 
-  function renderTimeline(list) {
-    timeline.innerHTML = '';
-    if (!list || list.length === 0) {
-      emptyState.style.display = 'block';
+  function openSidebar()  { sidebar.classList.add('open');  overlay.classList.add('open'); }
+  function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
+
+  toggle.addEventListener('click', () => sidebar.classList.contains('open') ? closeSidebar() : openSidebar());
+  overlay.addEventListener('click', closeSidebar);
+  document.getElementById('rdv-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const prenom    = document.getElementById('prenom').value.trim();
+    const nom       = document.getElementById('nom').value.trim();
+    const telephone = document.getElementById('telephone').value.trim();
+    const specialite = document.getElementById('specialite').value;
+    const dateRdv   = document.getElementById('date_rdv').value;
+
+    const telRegex = /^\+?[0-9\s\-]{7,20}$/;
+
+    const alertSuccess = document.getElementById('alert-success');
+    const alertError   = document.getElementById('alert-error');
+
+    alertSuccess.classList.add('hidden');
+    alertError.classList.add('hidden');
+
+    if (!prenom || !nom || !telephone || !specialite || !dateRdv) {
+      alertError.textContent = '⚠️ Veuillez remplir tous les champs du formulaire.';
+      alertError.classList.remove('hidden');
       return;
     }
-    emptyState.style.display = 'none';
 
-    list.forEach(e => {
-      const card = document.createElement('div');
-      card.className = 'timeline-item';
-      card.innerHTML = `
-        <div class="ti-date">${e.date}</div>
-        <div class="ti-title">${e.title}</div>
-        <div class="ti-details">${e.details}</div>
-      `;
-      timeline.appendChild(card);
-    });
-  }
+    if (!telRegex.test(telephone)) {
+      alertError.textContent = '⚠️ Numéro de téléphone invalide.';
+      alertError.classList.remove('hidden');
+      return;
+    }
 
-  function applyStats() {
-    const docs = entries.filter(x => x.type === 'document').length;
-    const res = entries.filter(x => x.type === 'resultat').length;
-    if (statDocuments) statDocuments.textContent = docs;
-    if (statResultats) statResultats.textContent = res;
-  }
-
-  renderTimeline(entries);
-  applyStats();
+    // Succès → afficher le message, réinitialiser le formulaire
+    alertSuccess.textContent =
+      `✅ Merci ${prenom} ! Votre demande en ${specialite} le ${dateRdv} est bien enregistrée. Nous vous contacterons sous 24 h.`;
+    alertSuccess.classList.remove('hidden');
+    this.reset();
+  });
 </script>
+
+  </div><!-- /.main-content -->
+</div><!-- /.app-layout -->
 
 </body>
 </html>
-

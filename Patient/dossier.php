@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="stylesheet" href="../css/dossier.css">
   <link rel="stylesheet" href="../css/dashboard.css">
+   
 
   <!-- Fonts (cohérence avec le dashboard) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -27,7 +28,8 @@
   <nav class="sb-nav">
     <div class="section-label">Principal</div>
 
-    <a href="dashboard.php" class="nav-item">
+    <a href="accueil.php" class="nav-item">
+
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
@@ -36,6 +38,19 @@
       </div>
       <span class="ni-label">Accueil</span>
     </a>
+
+    
+
+      <a href="telexp.php" class="nav-item">
+      <div class="ni-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="23 7 16 12 23 17 23 7"/>
+          <rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </div>
+      <span class="ni-label">Télé-expertise</span>
+    </a>
+ 
 
     <div class="nav-item" onclick="Suivant('rdv', this)">
       <div class="ni-icon">
@@ -49,30 +64,21 @@
       <span class="ni-label">Rendez-vous</span>
     </div>
 
-    <div class="nav-item" onclick="Suivant('consultation', this)">
-      <div class="ni-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="23 7 16 12 23 17 23 7"/>
-          <rect x="1" y="5" width="15" height="14" rx="2"/>
-        </svg>
-      </div>
-      <span class="ni-label">Télé-expertise</span>
-    </div>
+    
 
     <div class="section-label">Santé</div>
 
-    <div class="nav-item" onclick="Suivant('vaccins', this)">
-      <div class="ni-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="16" y2="8"/>
-          <line x1="16" y1="2" x2="22" y2="8"/>
-          <path d="M16 8l-3 3-1-1-5.5 5.5a2.5 2.5 0 0 0 3.5 3.5L15.5 13l-1-1 3-3"/>
-          <line x1="5" y1="20" x2="2" y2="23"/>
-        </svg>
-      </div>
-      <span class="ni-label">Vaccins</span>
-    </div>
-
+    <a href="vaccins.php" class="nav-item">
+        <div class="ni-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="16" y2="8"/>
+            <line x1="16" y1="2" x2="22" y2="8"/>
+            <path d="M16 8l-3 3-1-1-5.5 5.5a2.5 2.5 0 0 0 3.5 3.5L15.5 13l-1-1 3-3"/>
+            <line x1="5" y1="20" x2="2" y2="23"/>
+          </svg>
+        </div>
+        <span class="ni-label">Vaccins</span>
+      </a>
     <a href="dossier.php" class="nav-item active">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">

@@ -31,7 +31,7 @@
  
     <div class="section-label">Principal</div>
  
-    <a href="dashboard.php" class="nav-item">
+    <a href="accueil.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
