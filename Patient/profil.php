@@ -28,17 +28,17 @@
  
     <div class="section-label">Principal</div>
  
-    <a href="accueil.php" class="nav-item active">
+    <a href="dashboard.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
           <polyline points="9 21 9 12 15 12 15 21"/>
         </svg>
       </div>
-      <span class="ni-label">Accueil</span>
+      <span class="ni-label">Tableau de bord</span>
     </a>
  
-    <div class="nav-item" onclick="Suivant('rdv', this)">
+    <a href="rdv.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -49,9 +49,9 @@
       </div>
       <span class="ni-label">Rendez-vous</span>
       <span class="ni-badge">4</span>
-    </div>
+    </a>
  
-    <div class="nav-item" onclick="Suivant('consultation', this)">
+    <a href="telexp.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="23 7 16 12 23 17 23 7"/>
@@ -59,11 +59,11 @@
         </svg>
       </div>
       <span class="ni-label">Télé-expertise</span>
-    </div>
+    </a>
  
     <div class="section-label">Santé</div>
  
-    <div class="nav-item" onclick="Suivant('vaccins', this)">
+    <a href="vaccins.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="16" y2="8"/>
@@ -73,18 +73,18 @@
         </svg>
       </div>
       <span class="ni-label">Vaccins</span>
-    </div>
+    </a>
  
-    <div class="nav-item" onclick="Suivant('dossier', this)">
+    <a href="dossier.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
         </svg>
       </div>
       <span class="ni-label">Dossier médical</span>
-    </div>
+    </a>
  
-    <div class="nav-item" onclick="Suivant('ordonnances', this)">
+    <a href="ordonnances.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
@@ -94,11 +94,11 @@
         </svg>
       </div>
       <span class="ni-label">Ordonnances</span>
-    </div>
+    </a>
  
     <div class="section-label">Compte</div>
  
-    <div class="nav-item" onclick="Suivant('profil', this)">
+    <a href="profil.php" class="nav-item active">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/>
@@ -106,7 +106,7 @@
         </svg>
       </div>
       <span class="ni-label">Mon profil</span>
-    </div>
+    </a>
  
   </nav>
  
