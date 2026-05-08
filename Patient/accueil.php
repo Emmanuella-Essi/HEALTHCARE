@@ -35,7 +35,7 @@
       <span class="ni-label">Accueil</span>
     </a>
 
-    <div class="nav-item" onclick="Suivant('rdv', this)">
+    <a href="rdv.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -45,9 +45,9 @@
         </svg>
       </div>
       <span class="ni-label">Rendez-vous</span>
-    </div>
+    </a>
 
-    <div class="nav-item" onclick="Suivant('consultation', this)">
+    <a href="telexp.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <polygon points="23 7 16 12 23 17 23 7"/>
@@ -55,11 +55,12 @@
         </svg>
       </div>
       <span class="ni-label">Télé-expertise</span>
-    </div>
+    </a>
+
 
     <div class="section-label">Santé</div>
 
-    <div class="nav-item" onclick="Suivant('vaccins', this)">
+    <a href="vaccins.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <line x1="22" y1="2" x2="16" y2="8"/>
@@ -69,7 +70,8 @@
         </svg>
       </div>
       <span class="ni-label">Vaccins</span>
-    </div>
+    </a>
+
 
     <a href="dossier.php" class="nav-item">
       <div class="ni-icon">
@@ -94,7 +96,8 @@
 
     <div class="section-label">Compte</div>
 
-    <div class="nav-item" onclick="Suivant('profil', this)">
+    <a href="profil.php" class="nav-item">
+
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/>
@@ -106,7 +109,9 @@
   </nav>
 
   <div class="sb-footer">
-    <div class="deconnect-btn" onclick="AutrePage('landing')">
+    <div class="deconnect-btn" onclick="window.location.href='accueil.php'">
+
+
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
         <polyline points="16 17 21 12 16 7"/>

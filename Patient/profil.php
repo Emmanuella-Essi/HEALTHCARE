@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/profil.css" />
+  <link rel="stylesheet" href="../css/dashboard.css">
+
 </head>
 <body>
 
@@ -112,7 +114,8 @@
  
   <!-- Footer -->
   <div class="sb-footer">
-    <div class="deconnect-btn" onclick="AutrePage('landing')">
+    <div class="deconnect-btn" onclick="window.location.href='accueil.php'">
+
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
         <polyline points="16 17 21 12 16 7"/>
