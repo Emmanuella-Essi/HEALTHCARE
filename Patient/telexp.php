@@ -3,109 +3,900 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consultation Patient</title>
-  <link rel="stylesheet" href="../css/telexp.css"> <!-- Ton fichier CSS -->
-  <link rel="stylesheet" href="https://ct-awesome/7.0.1/css/all.min.cssdnjs.cloudflare.com/ajax/libs/fon">
+  <title>HealthCare — Consultation en ligne</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --navy: #0A1628;
+      --navy-mid: #112240;
+      --blue: #1A4480;
+      --accent: #2E7CF6;
+      --accent-soft: #4A9FFF;
+      --teal: #0EA5C9;
+      --green: #10B981;
+      --red: #EF4444;
+      --border: rgba(46,124,246,0.15);
+      --glass: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #E8F0FF;
+      --text-muted: #7A9ABE;
+      --text-dim: #4A6A8A;
+      --font: 'DM Sans', sans-serif;
+      --font-display: 'Playfair Display', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      background: var(--navy);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Fond animé */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(46,124,246,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(14,165,201,0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(10,22,40,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      color: var(--accent-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .logo span { color: var(--text); }
+
+    .divider-v {
+      width: 1px;
+      height: 24px;
+      background: var(--glass-border);
+    }
+
+    .page-title {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-live {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--green);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .dot-live {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-live 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .btn-exit {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 8px;
+      color: #FF7070;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font);
+    }
+
+    .btn-exit:hover {
+      background: rgba(239,68,68,0.2);
+      border-color: rgba(239,68,68,0.5);
+    }
+
+    /* ── LAYOUT ── */
+    .main {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 20px;
+      padding: 24px 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 960px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: rgba(17,34,64,0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      margin-bottom: 20px;
+      transition: border-color 0.3s;
+    }
+
+    .card:hover { border-color: rgba(46,124,246,0.2); }
+
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(26,68,128,0.2);
+    }
+
+    .card-head-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(46,124,246,0.15);
+      border: 1px solid rgba(46,124,246,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: var(--accent-soft);
+    }
+
+    .card-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    .card-body { padding: 20px; }
+
+    /* ── VIDEO ── */
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--navy-mid);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #0A1628 0%, #112240 50%, #0E2040 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .video-avatar-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      box-shadow: 0 0 40px rgba(46,124,246,0.35);
+      border: 2px solid rgba(46,124,246,0.4);
+    }
+
+    .video-doc-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    /* Grille de points décoratifs */
+    .video-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(46,124,246,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* Miniature patient en bas à droite */
+    .video-self {
+      position: absolute;
+      bottom: 16px;
+      right: 16px;
+      width: 130px;
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #0E2040, #1A4480);
+      border-radius: 10px;
+      border: 2px solid rgba(46,124,246,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+
+    .video-self-label {
+      position: absolute;
+      bottom: 6px;
+      left: 8px;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.6);
+      font-weight: 500;
+    }
+
+    /* Overlay contrôles vidéo */
+    .video-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px;
+      background: linear-gradient(to top, rgba(10,22,40,0.9) 0%, transparent 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .video-timer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.08em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-live 1.5s ease-in-out infinite;
+    }
+
+    .video-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    .vbtn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(17,34,64,0.7);
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      backdrop-filter: blur(8px);
+    }
+
+    .vbtn:hover {
+      background: rgba(46,124,246,0.4);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .vbtn.muted { background: rgba(239,68,68,0.3); border-color: rgba(239,68,68,0.4); }
+    .vbtn.end-call { background: rgba(239,68,68,0.85); border-color: #EF4444; }
+    .vbtn.end-call:hover { background: #EF4444; transform: scale(1.1); }
+
+    /* ── CHAT ── */
+    .chat-messages {
+      height: 280px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding-right: 4px;
+    }
+
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 999px; }
+
+    .msg { display: flex; flex-direction: column; max-width: 75%; }
+    .msg-in { align-self: flex-start; }
+    .msg-out { align-self: flex-end; }
+
+    .msg-sender {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .msg-in .msg-sender { padding-left: 4px; }
+    .msg-out .msg-sender { padding-right: 4px; text-align: right; }
+
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.875rem;
+      line-height: 1.55;
+    }
+
+    .msg-in .msg-bubble {
+      background: rgba(46,124,246,0.1);
+      border: 1px solid rgba(46,124,246,0.15);
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg-out .msg-bubble {
+      background: linear-gradient(135deg, var(--accent), #1A5FD4);
+      color: white;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 4px 12px rgba(46,124,246,0.25);
+    }
+
+    .msg-time {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .msg-out .msg-time { text-align: right; }
+
+    .chat-input-wrap {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 10px 16px;
+      background: rgba(10,22,40,0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.875rem;
+      font-family: var(--font);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .chat-input::placeholder { color: var(--text-dim); }
+
+    .chat-input:focus {
+      border-color: rgba(46,124,246,0.4);
+      box-shadow: 0 0 0 3px rgba(46,124,246,0.08);
+    }
+
+    .chat-send {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: none;
+      color: white;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(46,124,246,0.35);
+      flex-shrink: 0;
+    }
+
+    .chat-send:hover { background: var(--accent-soft); transform: scale(1.08); }
+
+    /* ── SIDEBAR MÉDECIN ── */
+    .doc-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .doc-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(46,124,246,0.3);
+      border: 1px solid rgba(46,124,246,0.3);
+    }
+
+    .doc-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+
+    .doc-spec {
+      font-size: 0.78rem;
+      color: var(--accent-soft);
+      font-weight: 500;
+    }
+
+    .doc-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      color: var(--green);
+      margin-top: 4px;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .info-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .info-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: rgba(46,124,246,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--accent-soft);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .info-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 3px;
+    }
+
+    .info-value {
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── MOTIF ── */
+    .motif-block {
+      background: rgba(46,124,246,0.06);
+      border: 1px solid rgba(46,124,246,0.15);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 12px 14px;
+      margin-top: 16px;
+    }
+
+    .motif-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 5px;
+    }
+
+    .motif-text {
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* ── FORMULAIRE ── */
+    .form-label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .form-textarea {
+      width: 100%;
+      min-height: 110px;
+      padding: 12px 14px;
+      background: rgba(10,22,40,0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 0.875rem;
+      font-family: var(--font);
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-textarea::placeholder { color: var(--text-dim); }
+
+    .form-textarea:focus {
+      border-color: rgba(46,124,246,0.4);
+      box-shadow: 0 0 0 3px rgba(46,124,246,0.08);
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    /* Boutons action */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--blue) 100%);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(46,124,246,0.35);
+      transition: all 0.2s;
+      margin-top: 4px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(46,124,246,0.45);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 11px 20px;
+      background: transparent;
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(46,124,246,0.3);
+      color: var(--text);
+      background: rgba(46,124,246,0.05);
+    }
+
+    /* ── TIMER COUNTER (JS) ── */
+    #timerDisplay { font-variant-numeric: tabular-nums; }
+
+    /* Animations d'entrée */
+    .card { animation: fadeUp 0.4s ease both; }
+    .card:nth-child(2) { animation-delay: 0.1s; }
+    .card:nth-child(3) { animation-delay: 0.2s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-  <section class="patient-section">
-    
-    <!-- Barre supérieure -->
-    <div class="top-bar">
-      <h2>Consultation en ligne</h2>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Health<span>Care</span></div>
+      <div class="divider-v"></div>
+      <span class="page-title">Téléconsultation</span>
     </div>
+    <div class="topbar-right">
+      <div class="badge-live"><span class="dot-live"></span>En direct</div>
+      <button class="btn-exit"><i class="fa fa-sign-out-alt"></i> Quitter</button>
+    </div>
+  </header>
 
-    <!-- Zone de contenu -->
-    <div class="content-area">
-      <div class="grid-32">
-        
-        <!-- Colonne principale -->
-        <div>
-          <!-- Carte vidéo -->
-          <div class="card mb-24">
-            <div class="card-header">
-              <span class="card-title">Vidéo Consultation</span>
-              <span class="badge badge-green">En direct</span>
-            </div>
-            <div class="card-body">
-              <div class="video-consultation">
-                <div class="video-bg">
-                  <span class="video-avatar">👨‍⚕️</span>
-                </div>
-                <div class="video-overlay">
-                  <span class="video-timer">00:12:45</span>
-                  <div class="video-controls">
-                    <button class="video-btn">🎤</button>
-                    <button class="video-btn">🎥</button>
-                    <button class="video-btn end">📞</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+  <!-- MAIN LAYOUT -->
+  <main class="main">
+
+    <!-- COLONNE PRINCIPALE -->
+    <div>
+
+      <!-- VIDÉO -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-icon"><i class="fa fa-video"></i></div>
+            <span class="card-title">Flux vidéo</span>
           </div>
-
-          <!-- Carte chat -->
-          <div class="card mb-24">
-            <div class="card-header">
-              <span class="card-title">Messagerie</span>
+          <div class="badge-live" style="font-size:0.7rem;padding:4px 10px;">
+            <span class="dot-live"></span>HD · 1080p
+          </div>
+        </div>
+        <div class="card-body" style="padding:16px;">
+          <div class="video-wrap">
+            <div class="video-bg">
+              <div class="video-avatar-circle">👨‍⚕️</div>
+              <span class="video-doc-name">Dr. Sangare</span>
             </div>
-            <div class="card-body">
-              <div class="chat-container">
-                <div class="chat-messages">
-                  <div class="msg msg-in">
-                    <div class="msg-bubble">Bonjour, comment vous sentez-vous ?</div>
-                    <div class="msg-time">15:45</div>
-                  </div>
-                  <div class="msg msg-out">
-                    <div class="msg-bubble">J’ai encore des douleurs au ventre.</div>
-                    <div class="msg-time">15:46</div>
-                  </div>
-                </div>
-                <div class="chat-input">
-                  <input type="text" placeholder="Écrire un message...">
-                  <button class="chat-send">➤</button>
-                </div>
+
+            <!-- Miniature patient -->
+            <div class="video-self">
+              <span>🧑</span>
+              <span class="video-self-label">Vous</span>
+            </div>
+
+            <!-- Contrôles -->
+            <div class="video-overlay">
+              <div class="video-timer">
+                <span class="timer-dot"></span>
+                <span id="timerDisplay">00:00:00</span>
+              </div>
+              <div class="video-controls">
+                <button class="vbtn" title="Micro" id="micBtn"><i class="fa fa-microphone"></i></button>
+                <button class="vbtn" title="Caméra" id="camBtn"><i class="fa fa-camera"></i></button>
+                <button class="vbtn" title="Partager l'écran"><i class="fa fa-desktop"></i></button>
+                <button class="vbtn end-call" title="Raccrocher"><i class="fa fa-phone-slash"></i></button>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Colonne latérale -->
-        <div>
-          <!-- Informations médecin -->
-          <div class="card mb-24">
-            <div class="card-header">
-              <span class="card-title">Médecin</span>
-            </div>
-            <div class="card-body">
-              <div class="avatar avatar-teal">DR</div>
-              <p class="text-muted">Dr. Sangare — Pédiatre</p>
-              <div class="divider"></div>
-              <div class="info-motif">
-                <strong>Motif :</strong> Douleurs abdominales persistantes
-              </div>
-            </div>
-          </div>
-
-          <!-- Formulaire compte-rendu -->
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">Compte-rendu médical</span>
-            </div>
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <label class="form-label">Observations</label>
-                  <textarea class="form-textarea"></textarea>
-                </div>
-                <button type="submit" class="btn-submit">Enregistrer</button>
-              </form>
-            </div>
-          </div>
-        </div>
-
       </div>
+
+      <!-- MESSAGERIE -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-icon"><i class="fa fa-comment-dots"></i></div>
+            <span class="card-title">Messagerie instantanée</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chat-messages" id="chatMessages">
+            <div class="msg msg-in">
+              <div class="msg-sender">Dr. Sangare</div>
+              <div class="msg-bubble">Bonjour ! Comment vous sentez-vous aujourd'hui ?</div>
+              <div class="msg-time">15:42</div>
+            </div>
+            <div class="msg msg-out">
+              <div class="msg-sender">Vous</div>
+              <div class="msg-bubble">Bonjour Docteur. J'ai encore des douleurs au ventre depuis hier soir.</div>
+              <div class="msg-time">15:43</div>
+            </div>
+            <div class="msg msg-in">
+              <div class="msg-sender">Dr. Sangare</div>
+              <div class="msg-bubble">Je vois. Ces douleurs sont-elles localisées ou diffuses ? Sur une échelle de 1 à 10 ?</div>
+              <div class="msg-time">15:45</div>
+            </div>
+          </div>
+          <div class="chat-input-wrap">
+            <input class="chat-input" type="text" id="msgInput" placeholder="Écrire un message...">
+            <button class="chat-send" onclick="sendMessage()"><i class="fa fa-paper-plane"></i></button>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </section>
+
+    <!-- COLONNE LATÉRALE -->
+    <div>
+
+      <!-- MÉDECIN -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-icon"><i class="fa fa-user-md"></i></div>
+            <span class="card-title">Informations</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="doc-info">
+            <div class="doc-avatar">DS</div>
+            <div>
+              <div class="doc-name">Dr. Sangare Moussa</div>
+              <div class="doc-spec">Pédiatre · 12 ans d'expérience</div>
+              <div class="doc-status"><span class="dot-live"></span> En ligne</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon"><i class="fa fa-calendar"></i></div>
+            <div>
+              <div class="info-label">Date</div>
+              <div class="info-value" id="currentDate">—</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon"><i class="fa fa-clock"></i></div>
+            <div>
+              <div class="info-label">Heure de début</div>
+              <div class="info-value">15:30</div>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-icon"><i class="fa fa-user"></i></div>
+            <div>
+              <div class="info-label">Patient</div>
+              <div class="info-value">Eunice K. — 28 ans</div>
+            </div>
+          </div>
+
+          <div class="motif-block">
+            <div class="motif-label"><i class="fa fa-notes-medical"></i> Motif de consultation</div>
+            <div class="motif-text">Douleurs abdominales persistantes depuis 48h, sans fièvre associée.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPTE-RENDU -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-head-left">
+            <div class="card-icon"><i class="fa fa-file-medical"></i></div>
+            <span class="card-title">Compte-rendu médical</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label"><i class="fa fa-stethoscope"></i> Observations cliniques</label>
+            <textarea class="form-textarea" placeholder="Saisir vos observations..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label"><i class="fa fa-prescription"></i> Prescription / Traitement</label>
+            <textarea class="form-textarea" style="min-height:80px;" placeholder="Médicaments, posologie..."></textarea>
+          </div>
+          <button class="btn-primary"><i class="fa fa-save"></i> Enregistrer le compte-rendu</button>
+          <button class="btn-secondary"><i class="fa fa-print"></i> Générer l'ordonnance PDF</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // Timer de consultation
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+      const s = String(seconds % 60).padStart(2, '0');
+      document.getElementById('timerDisplay').textContent = `${h}:${m}:${s}`;
+    }, 1000);
+
+    // Date actuelle
+    const now = new Date();
+    document.getElementById('currentDate').textContent = now.toLocaleDateString('fr-FR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    // Envoyer message
+    function sendMessage() {
+      const input = document.getElementById('msgInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const chat = document.getElementById('chatMessages');
+      const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+      const msg = document.createElement('div');
+      msg.className = 'msg msg-out';
+      msg.innerHTML = `
+        <div class="msg-sender">Vous</div>
+        <div class="msg-bubble">${text}</div>
+        <div class="msg-time">${time}</div>
+      `;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+      input.value = '';
+    }
+
+    document.getElementById('msgInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    // Toggle micro/caméra
+    document.getElementById('micBtn').addEventListener('click', function() {
+      this.classList.toggle('muted');
+      const icon = this.querySelector('i');
+      icon.className = this.classList.contains('muted') ? 'fa fa-microphone-slash' : 'fa fa-microphone';
+    });
+
+    document.getElementById('camBtn').addEventListener('click', function() {
+      this.classList.toggle('muted');
+      const icon = this.querySelector('i');
+      icon.className = this.classList.contains('muted') ? 'fa fa-video-slash' : 'fa fa-camera';
+    });
+  </script>
 </body>
 </html>
