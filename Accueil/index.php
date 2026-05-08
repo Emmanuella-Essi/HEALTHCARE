@@ -96,30 +96,61 @@
 
         </div>
     </div>
-
     <script>
-        var roleActif = 'patient';
+var roleActif = 'patient';
 
-        function switchTab(role, el) {
-            roleActif = role;
-            var forms = document.querySelectorAll('.tab-form');
-            forms.forEach(f => f.classList.remove('active'));
-            var tabs = document.querySelectorAll('.login-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            document.getElementById('form-' + role).classList.add('active');
-            el.classList.add('active');
+function switchTab(role, el) {
+    roleActif = role;
+    var forms = document.querySelectorAll('.tab-form');
+    forms.forEach(f => f.classList.remove('active'));
+    var tabs = document.querySelectorAll('.login-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    document.getElementById('form-' + role).classList.add('active');
+    el.classList.add('active');
+}
+
+function seConnecter() {
+
+    // ============ PATIENT ============
+    if (roleActif === 'patient') {
+        var email = document.querySelector('#form-patient input[type="email"]').value;
+        var password = document.querySelector('#form-patient input[type="password"]').value;
+
+        // Vérifie que les champs ne sont pas vides
+        if (email === '' || password === '') {
+            alert('Veuillez remplir tous les champs !');
+            return; // ← stop, on ne redirige pas
         }
 
-        function seConnecter() {
-            if (roleActif === 'patient') {
-                window.location.href = '../Patient/accueil.php';
-            } else if (roleActif === 'medecin') {
-                window.location.href = '../Medecin/accueil.php';
-            } else if (roleActif === 'admin') {
-                window.location.href = '../Admin/accueil.php';
-            }
+        window.location.href = '../Patient/accueil.php';
+
+    // ============ MÉDECIN ============
+    } else if (roleActif === 'medecin') {
+        var email = document.querySelector('#form-medecin input[type="email"]').value;
+        var idMedecin = document.querySelector('#form-medecin input[type="text"]').value;
+        var password = document.querySelector('#form-medecin input[type="password"]').value;
+
+        if (email === '' || idMedecin === '' || password === '') {
+            alert('Veuillez remplir tous les champs !');
+            return;
         }
-    </script>
+
+        window.location.href = '../Medecin/accueil.php';
+
+    // ============ ADMIN ============
+    } else if (roleActif === 'admin') {
+        var identifiant = document.querySelector('#form-admin input[type="text"]').value;
+        var password = document.querySelector('#form-admin input[type="password"]').value;
+
+        if (identifiant === '' || password === '') {
+            alert('Veuillez remplir tous les champs !');
+            return;
+        }
+
+        window.location.href = '../Admin/accueil.php';
+    }
+}
+</script>
 
 </body>
 </html>

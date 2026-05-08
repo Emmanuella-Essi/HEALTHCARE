@@ -137,32 +137,56 @@
     </div>
 
     <script>
-    
-    var roleActif = 'patient';
+   var roleActif = 'patient';
 
+function switchTab(role, el) {
+    roleActif = role;
+    var forms = document.querySelectorAll('.tab-form');
+    forms.forEach(f => f.classList.remove('active'));
+    var tabs = document.querySelectorAll('.login-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    document.getElementById('form-' + role).classList.add('active');
+    el.classList.add('active');
+}
 
-    function switchTab(role, el) {
-        roleActif = role; //
+function inscrire() {
 
-        var forms = document.querySelectorAll('.tab-form');
-        forms.forEach(f => f.classList.remove('active'));
+    // Récupère les champs communs
+    var nom = document.querySelectorAll('input[type="text"]')[0].value;
+    var email = document.querySelector('input[type="email"]').value;
+    var password = document.querySelectorAll('input[type="password"]')[0].value;
+    var tel = document.querySelector('input[type="tel"]').value;
 
-        var tabs = document.querySelectorAll('.login-tab');
-        tabs.forEach(t => t.classList.remove('active'));
-
-        document.getElementById('form-' + role).classList.add('active');
-        el.classList.add('active');
+    // Vérifie les champs communs
+    if (nom === '' || email === '' || password === '') {
+        alert('Veuillez remplir : Nom, Email et Mot de passe !');
+        return;
     }
 
-    function inscrire() {
-        if (roleActif === 'patient') {
-            window.location.href = '../Patient/accueil.php';
-        } else if (roleActif === 'medecin') {
-            window.location.href = '../Medecin/accueil.php';
-        } else if (roleActif === 'admin') {
-            window.location.href = '../Admin/accueil.php';
+    // Vérifie les champs spécifiques selon le rôle
+    if (roleActif === 'medecin') {
+        var idMedecin = document.querySelector('#form-medecin input[type="text"]').value;
+        if (idMedecin === '') {
+            alert('Veuillez remplir le numéro d\'ordre médical !');
+            return;
         }
+        window.location.href = '../Medecin/accueil.php';
+
+    } else if (roleActif === 'admin') {
+        var codeAdmin = document.querySelector('#form-admin input[type="password"]').value;
+        if (codeAdmin === '') {
+            alert('Veuillez remplir le code d\'accès admin !');
+            return;
+        }
+        window.location.href = '../Admin/accueil.php';
+
+    } else {
+        // patient par défaut
+        window.location.href = '../Patient/accueil.php';
     }
+}
+
+   
 </script>
          
 
