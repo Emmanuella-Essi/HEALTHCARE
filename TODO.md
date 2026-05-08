@@ -1,6 +1,14 @@
-# TODO - Admin Consultation UI/Interactivité
+# HEALTHCARE - TODO
 
-- [ ] Mettre à niveau `Admin/consultation.php` (structure, header/top-bar, barre de recherche + filtres, bouton Détails par ligne, états empty)
-- [ ] Mettre à jour `css/admin_consultation.css` (UI moderne, badges, table responsive/hover, styles modal/drawer)
-- [ ] Ajouter le JS inline dans `Admin/consultation.php` (filtrage/recherche client-side + ouverture Détails)
-- [ ] Tester : afficher la section consultations, recherche + filtre, responsive, bouton Détails
+## Tâche : Harmoniser Admin/securite.php + CSS
+
+- [x] 1) Refaire `Admin/securite.php` pour utiliser la même structure UI que `Admin/accueil.php`/`Admin/consultation.php` (sidebar + main-content + top-bar + content-area + card/table/badges)
+- [x] 2) Mettre à jour les liens CSS et FontAwesome dans `Admin/securite.php`
+- [x] 3) Réécrire `css/admin_securite.css` pour ne contenir que les styles spécifiques à Sécurité (grid-2, flex-between, métriques/progress)
+
+- [ ] 4) S’assurer qu’il n’y a pas de conflits (badges/table/card/btn) avec `css/admin_accueil.css`
+
+- [x] 5) Lancer une vérification rapide (ouvrir la page) pour confirmer que la section “Securite” s’affiche bien comme les autres
+
+
+

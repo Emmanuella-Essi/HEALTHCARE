@@ -1,9 +1,168 @@
 /* Styles dédiés à Admin/vaccin.php */
+
 .admin-section{width:100%;}
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0;}
-.stat-card{background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.12);border-radius:14px;padding:16px;}
-.metric-bar{margin-top:12px;}
-.card{background:#fff;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,.06);}
-.progress-bar{background:rgba(0,0,0,.06);border-radius:999px;overflow:hidden;height:10px;margin-top:8px;}
-.progress-fill{height:100%;border-radius:999px;}
+
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px 18px;
+  background:linear-gradient(180deg, rgba(16,185,129,.10), rgba(255,255,255,0));
+  border:1px solid rgba(16,185,129,.18);
+  border-radius:16px;
+  margin-bottom:16px;
+}
+
+.top-bar-title{
+  font-size:20px;
+  margin:0;
+  color:#0f766e;
+  letter-spacing:.2px;
+}
+
+.top-bar-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+/* Boutons - fallback (si d'autres CSS ont déjà btn/btn-primary, ça reste compatible) */
+.btn{
+  cursor:pointer;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:700;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease, opacity .12s ease;
+}
+
+.btn-primary{
+  background:#10b981;
+  color:#062b23;
+  box-shadow:0 10px 18px rgba(16,185,129,.18);
+}
+
+.btn-primary:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 25px rgba(16,185,129,.25);
+}
+
+.btn-primary:active{
+  transform:translateY(0);
+  opacity:.95;
+}
+
+.content-area{padding:0;}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin:20px 0;
+}
+
+.stat-card{
+  background:rgba(34,197,94,.06);
+  border:1px solid rgba(34,197,94,.12);
+  border-radius:14px;
+  padding:16px;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.stat-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 26px rgba(0,0,0,.06);
+  border-color:rgba(34,197,94,.20);
+}
+
+.stat-icon{
+  font-size:18px;
+  line-height:1;
+  margin-bottom:8px;
+}
+
+.stat-value{
+  font-size:24px;
+  font-weight:800;
+  color:#0f766e;
+  margin-bottom:2px;
+}
+
+.stat-label{
+  font-size:13px;
+  color:#334155;
+  margin-bottom:8px;
+}
+
+.stat-change{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+
+.change-up{color:#059669;}
+.change-down{color:#dc2626;}
+
+.card{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+  border:1px solid rgba(2,6,23,.06);
+}
+
+.card-header{
+  padding:14px 16px;
+  border-bottom:1px solid rgba(2,6,23,.06);
+}
+
+.card-title{
+  font-weight:900;
+  color:#0f172a;
+  font-size:14px;
+}
+
+.card-body{padding:14px 16px;}
+
+.mt-24{margin-top:24px;}
+
+.metric-bar{margin-top:14px;}
+.metric-bar:first-child{margin-top:0;}
+
+.metric-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:6px;
+}
+
+.metric-name{font-size:13px;color:#0f172a;font-weight:800;}
+.metric-value{font-size:13px;color:#334155;font-weight:800;}
+
+.progress-bar{
+  background:rgba(0,0,0,.06);
+  border-radius:999px;
+  overflow:hidden;
+  height:10px;
+}
+
+.progress-fill{
+  height:100%;
+  border-radius:999px;
+  transition:width .4s ease;
+}
+
+.fill-teal{background:linear-gradient(90deg,#14b8a6,#10b981);} 
+.fill-blue{background:linear-gradient(90deg,#38bdf8,#3b82f6);} 
+.fill-orange{background:linear-gradient(90deg,#fb923c,#f97316);} 
+
+@media (max-width: 1100px){
+  .stats-grid{grid-template-columns:repeat(2,1fr);} 
+}
+
+@media (max-width: 640px){
+  .top-bar{flex-direction:column;align-items:flex-start;} 
+  .stats-grid{grid-template-columns:1fr;} 
+}
 

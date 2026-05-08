@@ -19,7 +19,7 @@
     ══════════════════════════════════ -->
     <div class="sidebar">
       <div class="sidebar-logo">
-        <div class="logo">Med<span>Connect</span></div>
+        <div class="logo">Health<span>Care</span></div>
         <div class="sidebar-role">Administration</div>
       </div>
 

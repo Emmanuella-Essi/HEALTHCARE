@@ -1,9 +1,35 @@
-/* Styles dédiés à Admin/utlisateur.php */
-.admin-section{width:100%;}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:20px 0;}
-.stat-card{background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12);border-radius:14px;padding:16px;}
-.table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;}
-.table th,.table td{padding:12px 14px;border-bottom:1px solid rgba(0,0,0,.06);text-align:left;}
-.table thead th{background:rgba(0,0,0,.02);font-weight:700;}
-.input{border:1px solid rgba(0,0,0,.12);border-radius:10px;padding:10px 12px;}
+/* =====================================================
+   Admin Utilisateurs CSS (spécifique page)
+   - S’appuie sur css/admin_accueil.css pour le style global.
+   - Ici uniquement les micro-ajustements / classes spécifiques.
+   ===================================================== */
+
+/* Aucun style lourd pour ne pas casser le framework */
+
+/* Stats Grid : on force 3 colonnes sur cette page (comme l’ancien design) */
+#a-utilisateurs .stats-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Table : permettre au contenu d’avoir un peu plus de respiration */
+#a-utilisateurs .table-wrap {
+  overflow-x: auto;
+}
+
+#a-utilisateurs .th-actions,
+#a-utilisateurs .td-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Input de recherche : léger ajustement de taille */
+#a-utilisateurs .search-input {
+  min-width: 220px;
+}
+
+/* Petit style optionnel pour badge total */
+#a-utilisateurs .badge-blue {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
 
