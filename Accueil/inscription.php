@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            <button class="btn-submit" style="margin-top: 20px; width: 100%;">
+            <button class="btn-submit" style="margin-top: 20px; width: 100%;" onclick="inscrire()">
                 S'inscrire
             </button>
 
@@ -137,19 +137,35 @@
     </div>
 
     <script>
-        function switchTab(role, el) {
-            // Masquer tous les formulaires spécifiques
-            var forms = document.querySelectorAll('.tab-form');
-            forms.forEach(f => f.classList.remove('active'));
+    
+    var roleActif = 'patient';
 
-            // Désactiver tous les onglets
-            var tabs = document.querySelectorAll('.login-tab');
-            tabs.forEach(t => t.classList.remove('active'));
 
-            // Activer le bon formulaire et le bon onglet
-            document.getElementById('form-' + role).classList.add('active');
-            el.classList.add('active');
+    function switchTab(role, el) {
+        roleActif = role; //
+
+        var forms = document.querySelectorAll('.tab-form');
+        forms.forEach(f => f.classList.remove('active'));
+
+        var tabs = document.querySelectorAll('.login-tab');
+        tabs.forEach(t => t.classList.remove('active'));
+
+        document.getElementById('form-' + role).classList.add('active');
+        el.classList.add('active');
+    }
+
+    function inscrire() {
+        if (roleActif === 'patient') {
+            window.location.href = '../Patient/accueil.php';
+        } else if (roleActif === 'medecin') {
+            window.location.href = '../Medecin/accueil.php';
+        } else if (roleActif === 'admin') {
+            window.location.href = '../Admin/accueil.php';
         }
-    </script>
+    }
+</script>
+         
+
+
 </body>
 </html>
