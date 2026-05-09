@@ -488,7 +488,7 @@ function updateChatHeader(conv) {
 
     // Met à jour le lien vers la fiche patient
     document.getElementById("chat-fiche-link").href =
-        "patient-fiche.html?id=" + conv.patientId; // URL avec l'ID du patient
+        "../patient/patient-fiche.html?id=" + conv.patientId; // URL avec l'ID du patient
 
     // Met à jour l'indicateur de frappe (avatar du patient)
     document.getElementById("typing-avatar").textContent = conv.initiales;
@@ -827,7 +827,7 @@ function updateInfoPanel(conv) {
 
     // Lien vers la fiche du patient
     const link = document.querySelector(".info-panel-link");
-    if (link) link.href = "patient-fiche.html?id=" + conv.patientId;
+    if (link) link.href = "../patient/patient-fiche.html?id=" + conv.patientId;
 }
 
 // ============================================================

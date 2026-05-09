@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/_auth.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -6,9 +7,8 @@
     <title>Vue d'ensemble</title>
     <!-- Font Awesome 6 (version stable et disponible sur cdnjs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- CSS dédié Admin et style de dashboard Patient -->
+    <!-- CSS dédié Admin -->
     <link rel="stylesheet" href="../css/admin_accueil.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
@@ -114,7 +114,7 @@
         </a>
       </nav>
 
-      <div class="sb-footer" onclick="window.location.href='../Accueil/home.php'">
+      <div class="sb-footer" onclick="window.location.href='accueil.php?logout=1'">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <polyline points="16 17 21 12 16 7"/>
@@ -124,9 +124,9 @@
         </div>
 
         <div class="sb-user">
-          <div class="avatar">AD</div>
+          <div class="avatar"><?= htmlspecialchars($adminInitiales, ENT_QUOTES, 'UTF-8') ?></div>
           <div class="user-info">
-            <div class="user-name">Admin Système</div>
+            <div class="user-name"><?= htmlspecialchars(trim($adminPrenom . ' ' . $adminNom), ENT_QUOTES, 'UTF-8') ?></div>
             <div class="user-role">Super Administrateur</div>
           </div>
         </div>
@@ -258,6 +258,162 @@
               </div>
             </div>
           </div><!-- /grid-2 -->
+
+          <!-- ── Informations essentielles admin ── -->
+          <div class="admin-info-grid mb-24">
+            <div class="card admin-guide-card">
+              <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-compass"></i> Ce qu'il faut surveiller</span>
+              </div>
+              <div class="card-body">
+                <div class="guide-list">
+                  <div class="guide-item">
+                    <span class="guide-icon"><i class="fa-solid fa-user-check"></i></span>
+                    <div>
+                      <div class="guide-title">Validation des comptes</div>
+                      <div class="guide-text">Contrôler les nouveaux médecins, profils incomplets et comptes désactivés.</div>
+                    </div>
+                  </div>
+                  <div class="guide-item">
+                    <span class="guide-icon"><i class="fa-solid fa-shield-halved"></i></span>
+                    <div>
+                      <div class="guide-title">Sécurité et accès</div>
+                      <div class="guide-text">Examiner les connexions admin, tentatives échouées et accès aux dossiers sensibles.</div>
+                    </div>
+                  </div>
+                  <div class="guide-item">
+                    <span class="guide-icon"><i class="fa-solid fa-database"></i></span>
+                    <div>
+                      <div class="guide-title">Sauvegardes</div>
+                      <div class="guide-text">Vérifier la dernière sauvegarde et l'état du serveur backup avant chaque fin de journée.</div>
+                    </div>
+                  </div>
+                  <div class="guide-item">
+                    <span class="guide-icon"><i class="fa-solid fa-file-medical"></i></span>
+                    <div>
+                      <div class="guide-title">Données médicales</div>
+                      <div class="guide-text">Suivre les documents importés, certificats vaccinaux et ordonnances à valider.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-list-check"></i> Files d'attente</span>
+              </div>
+              <div class="card-body">
+                <div class="queue-list">
+                  <a href="utilisateur.php" class="queue-row">
+                    <span>Comptes utilisateurs à vérifier</span>
+                    <strong>12</strong>
+                  </a>
+                  <a href="medecin.php" class="queue-row">
+                    <span>Médecins en attente de validation</span>
+                    <strong>3</strong>
+                  </a>
+                  <a href="vaccin.php" class="queue-row">
+                    <span>Certificats vaccinaux à contrôler</span>
+                    <strong>18</strong>
+                  </a>
+                  <a href="securite.php" class="queue-row">
+                    <span>Événements sécurité à revoir</span>
+                    <strong>7</strong>
+                  </a>
+                  <a href="rapport.php" class="queue-row">
+                    <span>Rapports mensuels à exporter</span>
+                    <strong>2</strong>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Modules + checklist ── -->
+          <div class="grid-2 mb-24">
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-table-cells-large"></i> Modules administrateur</span>
+              </div>
+              <div class="card-body">
+                <div class="module-grid">
+                  <a class="module-card" href="utilisateur.php">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Utilisateurs</span>
+                    <small>Patients, médecins, admins</small>
+                  </a>
+                  <a class="module-card" href="medecin.php">
+                    <i class="fa-solid fa-user-doctor"></i>
+                    <span>Médecins</span>
+                    <small>Validation et activité</small>
+                  </a>
+                  <a class="module-card" href="consultation.php">
+                    <i class="fa-solid fa-video"></i>
+                    <span>Consultations</span>
+                    <small>Suivi des rendez-vous</small>
+                  </a>
+                  <a class="module-card" href="vaccin.php">
+                    <i class="fa-solid fa-syringe"></i>
+                    <span>Vaccins</span>
+                    <small>Couverture et rappels</small>
+                  </a>
+                  <a class="module-card" href="rapport.php">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Rapports</span>
+                    <small>Statistiques et exports</small>
+                  </a>
+                  <a class="module-card" href="securite.php">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>Sécurité</span>
+                    <small>Logs et conformité</small>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <span class="card-title"><i class="fa-solid fa-clipboard-check"></i> Checklist quotidienne</span>
+              </div>
+              <div class="card-body">
+                <div class="checklist">
+                  <label class="check-row"><input type="checkbox" checked> Vérifier les alertes de sécurité critiques</label>
+                  <label class="check-row"><input type="checkbox" checked> Confirmer que les API principales répondent</label>
+                  <label class="check-row"><input type="checkbox"> Valider les nouveaux comptes médecins</label>
+                  <label class="check-row"><input type="checkbox"> Exporter le rapport d'activité si fin de période</label>
+                  <label class="check-row"><input type="checkbox"> Contrôler les sauvegardes et la restauration test</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Gouvernance et conformité ── -->
+          <div class="card mb-24">
+            <div class="card-header">
+              <span class="card-title"><i class="fa-solid fa-scale-balanced"></i> Gouvernance des données</span>
+            </div>
+            <div class="card-body">
+              <div class="policy-grid">
+                <div class="policy-item">
+                  <strong>Confidentialité</strong>
+                  <span>Limiter l'accès aux dossiers aux rôles autorisés et tracer les consultations sensibles.</span>
+                </div>
+                <div class="policy-item">
+                  <strong>Qualité des données</strong>
+                  <span>Surveiller les profils incomplets, doublons patients et informations médicales non validées.</span>
+                </div>
+                <div class="policy-item">
+                  <strong>Disponibilité</strong>
+                  <span>Suivre les performances API, la base de données et les sauvegardes automatiques.</span>
+                </div>
+                <div class="policy-item">
+                  <strong>Traçabilité</strong>
+                  <span>Conserver les journaux d'accès admin, médecin et patient pour les audits internes.</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- ── Activité récente + Alertes ── -->
           <div class="grid-2">

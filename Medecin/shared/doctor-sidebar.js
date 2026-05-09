@@ -1,4 +1,4 @@
-q(function () {
+(function () {
   const pages = [
     {
       key: "dashboard-medecin",
@@ -78,7 +78,8 @@ q(function () {
     const folder = parts[parts.length - 2] || "";
 
     if (file === "patient-fiche.html") return "patient";
-    return folder || file.replace(".html", "");
+    if (file === "dashboard-medecin.php") return "dashboard-medecin";
+    return folder || file.replace(/\.(html|php)$/, "");
   }
 
   function svg(content) {
@@ -103,8 +104,7 @@ q(function () {
     return `
       <div class="sidebar-logo">
         <div class="logo-icon">${svg('<path d="M12 2v20M2 12h20" />')}</div>
-<span class="logo-text">HealthCare</span>
-HealthCare</span>
+        <span class="logo-text">HealthCare</span>
         <span class="logo-badge">Pro</span>
       </div>
 
@@ -129,7 +129,7 @@ HealthCare</span>
       </nav>
 
       <div class="sidebar-logout">
-        <a href="../login.php" class="logout-link">
+        <a href="../../Accueil/index.php" class="logout-link">
           ${svg('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16,17 21,12 16,7" /><line x1="21" y1="12" x2="9" y2="12" />')}
           <span>Deconnexion</span>
         </a>

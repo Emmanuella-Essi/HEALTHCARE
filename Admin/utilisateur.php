@@ -1,3 +1,4 @@
+<?php require_once __DIR__ . '/_auth.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -50,7 +51,7 @@
                 </div>
             </nav>
 
-            <div class="sidebar-footer" onclick="window.location.href='../Accueil/home.php'">
+            <div class="sidebar-footer" onclick="window.location.href='accueil.php?logout=1'">
                     <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
                 </div>
 
@@ -232,4 +233,3 @@
 
 </body>
 </html>
-
