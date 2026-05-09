@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedConnect – Vue d'ensemble</title>
+    <title>Vue d'ensemble</title>
     <!-- Font Awesome 6 (version stable et disponible sur cdnjs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- CSS dédié Admin et style de dashboard Patient -->
@@ -39,6 +39,7 @@
               <polyline points="9 21 9 12 15 12 15 21"/>
             </svg>
           </div>
+<<<<<<< HEAD
           <span class="ni-label">Tableau de bord</span>
         </a>
 
@@ -62,6 +63,11 @@
               <path d="M16 11.5v4.5"/>
               <path d="M8 11.5v4.5"/>
             </svg>
+=======
+
+          <div class="nav-item" onclick="window.location.href='rapport.php'">
+            <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Rapports
+>>>>>>> 0039b5e5382c251a6c6406b0fcff242ecd726a0d
           </div>
           <span class="ni-label">Médecins</span>
         </a>
@@ -132,7 +138,8 @@
           </div>
         </div>
       </div>
-    </div><!-- /sidebar -->
+    </div>
+    <!-- /sidebar -->
 
     <!-- ══════════════════════════════════
          CONTENU PRINCIPAL

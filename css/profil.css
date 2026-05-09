@@ -27,6 +27,7 @@ body {
   color: var(--color-text-dark);
   display: flex;
   min-height: 100vh;
+  overflow-y: auto;
 }
 
 /* ===== SIDEBAR ===== */
@@ -43,7 +44,7 @@ body {
   z-index: 100;                       /* Reste au-dessus de tous les autres éléments */
   height: 100vh;                      /* Prend toute la hauteur de l'écran */
 }
-
+&
 /* Déploiement au survol : la sidebar passe à 220px et révèle les labels */
 .sidebar:hover {
   width: var(--sb-w-expanded);
