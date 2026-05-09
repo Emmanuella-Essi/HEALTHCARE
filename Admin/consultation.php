@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../css/admin_consultation.css">
     <link rel="stylesheet" href="../css/admin_shared.css">
+    <script src="admin-sidebar.js" defer></script>
 </head>
 <body>
 
@@ -342,4 +343,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-

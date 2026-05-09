@@ -10,6 +10,7 @@
   <!-- CSS dédié -->
   <link rel="stylesheet" href="../css/admin_rapport.css">
   <link rel="stylesheet" href="../css/admin_shared.css">
+  <script src="admin-sidebar.js" defer></script>
   <!-- Chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" defer></script>
 </head>

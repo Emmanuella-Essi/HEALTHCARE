@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/admin_accueil.css">
     <link rel="stylesheet" href="../css/admin_utlisateur.css">
     <link rel="stylesheet" href="../css/admin_shared.css">
+    <script src="admin-sidebar.js" defer></script>
 </head>
 <body>
 

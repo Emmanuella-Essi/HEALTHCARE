@@ -10,6 +10,7 @@
     <!-- CSS dédié -->
     <link rel="stylesheet" href="../css/admin_medecin.css">
     <link rel="stylesheet" href="../css/admin_shared.css">
+    <script src="admin-sidebar.js" defer></script>
 </head>
 <body>
 
