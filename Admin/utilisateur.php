@@ -51,7 +51,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <div class="back-btn" onclick="window.location.href='../index.php'">
+onclick="window.location.href='../Accueil/home.php'"
                     <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
                 </div>
 

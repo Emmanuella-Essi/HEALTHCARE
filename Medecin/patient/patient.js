@@ -530,3 +530,10 @@ document.getElementById("modal-nouveau-patient").addEventListener("click", funct
     // Si le clic est sur l'overlay (fond), pas sur la boîte
     if (e.target === this) closeModalNouveauPatient();
 });
+
+// Ajouter un patient depuis patients.js
+fetch('traitement_patient.php?action=ajouter', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prenom: 'Konan', nom: 'Kouassi', ... })
+});

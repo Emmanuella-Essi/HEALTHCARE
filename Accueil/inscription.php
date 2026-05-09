@@ -1,3 +1,99 @@
+<?php
+session_start();
+
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '') === 'register') {
+    require_once __DIR__ . '/../BD/config/database.php';
+
+    header('Content-Type: application/json; charset=UTF-8');
+
+    $role = $_POST['role'] ?? 'patient';
+    $nom = trim($_POST['nom'] ?? '');
+    $prenom = trim($_POST['prenom'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['mot_de_passe'] ?? '';
+    $telephone = trim($_POST['telephone'] ?? '');
+
+    if (!in_array($role, ['patient', 'medecin', 'admin'], true) || $nom === '' || $prenom === '' || $email === '' || strlen($password) < 6) {
+        http_response_code(422);
+        echo json_encode(['success' => false, 'message' => 'Veuillez remplir les champs obligatoires. Mot de passe: 6 caracteres minimum.']);
+        exit;
+    }
+
+    try {
+        $pdo = Database::getInstance();
+        $stmt = $pdo->prepare("SELECT id FROM utilisateurs WHERE email = :email LIMIT 1");
+        $stmt->execute([':email' => $email]);
+        if ($stmt->fetch()) {
+            http_response_code(409);
+            echo json_encode(['success' => false, 'message' => 'Cet email existe deja.']);
+            exit;
+        }
+
+        $pdo->beginTransaction();
+
+        $hash = password_hash($password, PASSWORD_BCRYPT);
+        $stmt = $pdo->prepare("
+            INSERT INTO utilisateurs (nom, prenom, email, mot_de_passe, role, telephone, actif, est_actif)
+            VALUES (:nom, :prenom, :email, :mot_de_passe, :role, :telephone, 1, 1)
+        ");
+        $stmt->execute([
+            ':nom' => $nom,
+            ':prenom' => $prenom,
+            ':email' => $email,
+            ':mot_de_passe' => $hash,
+            ':role' => $role,
+            ':telephone' => $telephone ?: null,
+        ]);
+        $userId = (int) $pdo->lastInsertId();
+
+        if ($role === 'patient') {
+            $stmt = $pdo->prepare("
+                INSERT INTO patients (user_id, nom, prenom, email, telephone, tel, groupe_sanguin, medecin_id, actif)
+                VALUES (:user_id, :nom, :prenom, :email, :telephone, :tel, :groupe_sanguin, 1, 1)
+            ");
+            $stmt->execute([
+                ':user_id' => $userId,
+                ':nom' => $nom,
+                ':prenom' => $prenom,
+                ':email' => $email,
+                ':telephone' => $telephone ?: null,
+                ':tel' => $telephone ?: null,
+                ':groupe_sanguin' => $_POST['groupe_sanguin'] ?: null,
+            ]);
+        } elseif ($role === 'medecin') {
+            $numeroOrdre = trim($_POST['numero_ordre'] ?? '');
+            if ($numeroOrdre === '') {
+                throw new RuntimeException('Numero ordre requis.');
+            }
+            $stmt = $pdo->prepare("
+                INSERT INTO medecins (user_id, nom, prenom, email, mot_de_passe, numero_ordre, specialite, telephone, statut)
+                VALUES (:user_id, :nom, :prenom, :email, :mot_de_passe, :numero_ordre, :specialite, :telephone, 'actif')
+            ");
+            $stmt->execute([
+                ':user_id' => $userId,
+                ':nom' => $nom,
+                ':prenom' => $prenom,
+                ':email' => $email,
+                ':mot_de_passe' => $hash,
+                ':numero_ordre' => $numeroOrdre,
+                ':specialite' => $_POST['specialite'] ?: 'Medecin Generaliste',
+                ':telephone' => $telephone ?: null,
+            ]);
+        }
+
+        $pdo->commit();
+        echo json_encode(['success' => true, 'redirect' => 'index.php']);
+    } catch (Throwable $e) {
+        if (isset($pdo) && $pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log($e->getMessage());
+        http_response_code(500);
+        echo json_encode(['success' => false, 'message' => 'Inscription impossible. Verifiez les informations.']);
+    }
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
