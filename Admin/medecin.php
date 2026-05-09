@@ -19,7 +19,7 @@
     ══════════════════════════════════ -->
     <div class="sidebar">
       <div class="sidebar-logo">
-        <div class="logo">Med<span>Connect</span></div>
+        <div class="logo">Health<span>Care</span></div>
         <div class="sidebar-role">Administration</div>
       </div>
 
@@ -42,9 +42,7 @@
           <div class="nav-item" onclick="window.location.href='consultation.php'">
             <span class="nav-icon"><i class="fa-solid fa-video"></i></span> Consultations
           </div>
-          <div class="nav-item" onclick="window.location.href='vaccin.php'">
-            <span class="nav-icon"><i class="fa-solid fa-syringe"></i></span> Suivi vaccinal
-          </div>
+
           <div class="nav-item" onclick="window.location.href='rapport.php'">
             <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Rapports
           </div>

@@ -1,0 +1,1212 @@
+/* ============================================================
+   agenda.css — Page Agenda / Calendrier du Dashboard Médecin
+   Police : 'Plus Jakarta Sans' (moderne, médicale, lisible)
+   Palette : bleu marine #1A3D63 + teal #047857 + fond #F6FAFD
+   ============================================================ */
+
+/* ── Variables CSS globales (cohérentes avec global.css) ── */
+:root {
+  --color-primary-dark:     #0A1931;      /* Fond sidebar très foncé        */
+  --color-primary:          #1A3D63;      /* Bleu principal titres/accents   */
+  --color-secondary-light:  #B3CFE5;      /* Bleu clair doux                 */
+  --color-accent:           #4A7FA7;      /* Bleu moyen liens/hover          */
+  --color-teal:             #047857;      /* Vert teal actions principales   */
+  --color-teal-light:       #0A8C74;      /* Vert hover                      */
+  --color-bg:               #F6FAFD;      /* Fond général de la page         */
+  --color-white:            #FFFFFF;
+  --color-text-dark:        #1F2937;      /* Texte principal                 */
+  --color-text-muted:       #6B7280;      /* Texte secondaire / grisé        */
+  --color-border:           #E2EBF4;      /* Bordures légères                */
+
+  /* Couleurs sémantiques types d'événements */
+  --color-consult:          #4A7FA7;      /* Bleu : consultation normale     */
+  --color-consult-bg:       rgba(74,127,167,0.10);
+  --color-urgence:          #DC2626;      /* Rouge : urgence                 */
+  --color-urgence-bg:       rgba(220,38,38,0.09);
+  --color-suivi:            #047857;      /* Vert : suivi régulier           */
+  --color-suivi-bg:         rgba(4,120,87,0.10);
+  --color-tele:             #7C3AED;      /* Violet : téléconsultation       */
+  --color-tele-bg:          rgba(124,58,237,0.09);
+
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.05);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.10), 0 4px 6px -4px rgba(0,0,0,0.05);
+
+  --sidebar-width: 250px;                 /* Largeur sidebar étendue         */
+  --radius:        14px;                  /* Rayon coins cartes              */
+  --radius-sm:     8px;                   /* Rayon coins petits éléments     */
+  --font:          'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+}
+
+/* ── Reset global ── */
+*, *::before, *::after {
+  box-sizing: border-box;  /* Modèle boîte uniforme */
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Corps de la page ── */
+body {
+  font-family: var(--font);               /* Police principale               */
+  background: var(--color-bg);            /* Fond clair bleuté               */
+  color: var(--color-text-dark);
+  display: flex;                          /* Layout flex sidebar + contenu   */
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   SIDEBAR — Navigation latérale complète (250px)
+   ============================================================ */
+.sidebar {
+  width: var(--sidebar-width);            /* Largeur fixe                    */
+  background: var(--color-primary-dark);  /* Fond bleu très foncé            */
+  display: flex;
+  flex-direction: column;
+  position: fixed;                        /* Fixée à gauche                  */
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 100;
+  padding: 0 0 24px;
+  overflow-y: auto;                       /* Scroll si trop d'items          */
+}
+
+/* Scrollbar fine dans la sidebar */
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12);
+  border-radius: 4px;
+}
+
+/* ── En-tête de la sidebar (logo + nom app) ── */
+.sidebar-header {
+  padding: 28px 24px 20px;               /* Espacement interne              */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.07); /* Séparateur discret    */
+}
+
+/* Rond logo vert */
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--color-teal);
+  border-radius: 12px;                    /* Coins arrondis (pas cercle)     */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-logo svg {
+  width: 20px; height: 20px;
+  stroke: #fff; fill: none;
+  stroke-width: 2.5; stroke-linecap: round;
+}
+
+/* Nom de l'application */
+.sidebar-app-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-white);
+  letter-spacing: -0.3px;
+}
+
+.sidebar-app-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);         /* Sous-titre grisé                */
+}
+
+/* ── Libellé de section dans la sidebar ── */
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: rgba(255,255,255,0.30);         /* Très discret                    */
+  padding: 20px 24px 8px;
+}
+
+/* ── Navigation ── */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 12px;
+}
+
+/* Chaque lien de navigation */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.60);         /* Texte grisé par défaut          */
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.07);
+  color: var(--color-white);
+}
+
+/* Item actif (page courante) */
+.nav-item.active {
+  background: var(--color-teal);         /* Fond vert teal                  */
+  color: var(--color-white);
+  font-weight: 600;
+}
+
+/* Icônes SVG dans la nav */
+.nav-item svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+/* Badge nombre (messages non lus, alertes) */
+.nav-badge {
+  margin-left: auto;                      /* Pousse à droite                 */
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--color-urgence);
+  color: #fff;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Carte médecin en bas de sidebar ── */
+.sidebar-doctor-card {
+  margin: auto 12px 0;                    /* Colle en bas                    */
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar-doctor-card:hover {
+  background: rgba(255,255,255,0.10);
+}
+
+/* Avatar médecin */
+.doc-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--color-accent);
+  flex-shrink: 0;
+}
+
+.doc-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Nom + spécialité */
+.doc-info { flex: 1; min-width: 0; }
+
+.doc-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-specialty {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ============================================================
+   ZONE PRINCIPALE
+   ============================================================ */
+.main-content {
+  margin-left: var(--sidebar-width);      /* Décalage = largeur sidebar      */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Topbar / En-tête de page ── */
+.topbar {
+  background: var(--color-white);
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-left { display: flex; flex-direction: column; gap: 2px; }
+
+/* Lien breadcrumb */
+.back-link {
+  font-size: 12px;
+  color: var(--color-accent);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 4px;
+  transition: color 0.2s;
+}
+.back-link:hover { color: var(--color-primary); }
+
+.back-link svg {
+  width: 13px; height: 13px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+}
+
+/* Titre principal de la page */
+.page-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.4px;
+}
+
+/* Droite topbar : actions rapides */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Bouton ajouter RDV */
+.btn-primary {
+  padding: 10px 20px;
+  background: var(--color-teal);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover {
+  background: var(--color-teal-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:active { transform: translateY(0); }
+
+.btn-primary svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 2.5;
+}
+
+/* Cloche notification */
+.notif-btn {
+  position: relative;
+  width: 40px; height: 40px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: all 0.2s;
+}
+.notif-btn:hover { border-color: var(--color-accent); color: var(--color-primary); }
+
+.notif-btn svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+}
+
+/* Point rouge notification */
+.notif-dot {
+  position: absolute; top: 8px; right: 8px;
+  width: 7px; height: 7px;
+  background: var(--color-urgence);
+  border-radius: 50%;
+  border: 2px solid var(--color-white);
+}
+
+/* Avatar médecin topbar */
+.topbar-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%; overflow: hidden;
+  border: 2px solid var(--color-secondary-light);
+  cursor: pointer;
+}
+.topbar-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ============================================================
+   PAGE AGENDA — Layout principal
+   ============================================================ */
+.agenda-page {
+  padding: 28px 32px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Barre de contrôle du calendrier ── */
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Groupe navigation mois/semaine */
+.cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Nom du mois + année */
+.cal-period {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-primary);
+  min-width: 220px;
+  text-align: center;
+  letter-spacing: -0.3px;
+}
+
+/* Flèches précédent / suivant */
+.cal-arrow {
+  width: 36px; height: 36px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: all 0.2s;
+}
+.cal-arrow:hover { border-color: var(--color-accent); color: var(--color-primary); }
+
+.cal-arrow svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+}
+
+/* Bouton "Aujourd'hui" */
+.btn-today {
+  padding: 8px 18px;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-today:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Sélecteur de vue : Mois / Semaine / Jour */
+.view-switcher {
+  display: flex;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+/* Bouton de vue */
+.view-btn {
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.18s;
+  border-right: 1px solid var(--color-border);
+}
+.view-btn:last-child { border-right: none; }
+
+.view-btn:hover { background: var(--color-bg); color: var(--color-primary); }
+
+/* Vue active */
+.view-btn.active {
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ── Corps du calendrier + panneau latéral ── */
+.agenda-body {
+  display: grid;
+  grid-template-columns: 1fr 300px;      /* Calendrier large + panneau      */
+  gap: 20px;
+  align-items: start;
+}
+
+/* ============================================================
+   CALENDRIER MENSUEL
+   ============================================================ */
+.calendar-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* Grille des jours de la semaine (en-tête) */
+.cal-week-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 colonnes égales               */
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Cellule jour de semaine (Lun, Mar, etc.) */
+.cal-day-label {
+  padding: 14px 0;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--color-text-muted);
+}
+
+/* Dimanche en rouge discret */
+.cal-day-label.sunday { color: var(--color-urgence); }
+
+/* Grille des cellules de jours */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* Cellule individuelle d'un jour */
+.cal-cell {
+  min-height: 100px;                      /* Hauteur minimale               */
+  padding: 8px 6px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+  vertical-align: top;
+}
+
+/* Supprime la bordure droite des dernières colonnes */
+.cal-cell:nth-child(7n) { border-right: none; }
+
+/* Hover sur une cellule */
+.cal-cell:hover { background: rgba(246,250,253,0.8); }
+
+/* Cellule hors du mois courant (grisée) */
+.cal-cell.other-month { background: rgba(246,250,253,0.5); }
+.cal-cell.other-month .cal-day-num { color: var(--color-border); }
+
+/* Numéro du jour dans la cellule */
+.cal-day-num {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+/* Aujourd'hui : cercle coloré */
+.cal-cell.today .cal-day-num {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Jour sélectionné */
+.cal-cell.selected { background: rgba(74,127,167,0.05); }
+.cal-cell.selected .cal-day-num {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* Pastille événement dans la cellule */
+.cal-event {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.cal-event:hover { opacity: 0.8; }
+
+/* Pastille colorée devant le nom */
+.cal-event-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Types d'événements */
+.event-consult   { background: var(--color-consult-bg); color: var(--color-consult); }
+.event-consult   .cal-event-dot { background: var(--color-consult); }
+.event-urgence   { background: var(--color-urgence-bg); color: var(--color-urgence); }
+.event-urgence   .cal-event-dot { background: var(--color-urgence); }
+.event-suivi     { background: var(--color-suivi-bg); color: var(--color-suivi); }
+.event-suivi     .cal-event-dot { background: var(--color-suivi); }
+.event-tele      { background: var(--color-tele-bg); color: var(--color-tele); }
+.event-tele      .cal-event-dot { background: var(--color-tele); }
+
+/* Mention "+N autres" dans la cellule */
+.cal-more {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  padding: 1px 6px;
+  cursor: pointer;
+}
+.cal-more:hover { color: var(--color-accent); }
+
+/* ============================================================
+   VUE SEMAINE
+   ============================================================ */
+.week-view { display: none; }            /* Cachée par défaut               */
+.week-view.active { display: block; }
+
+/* Grille semaine avec colonne heures */
+.week-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr); /* Heures + 7 jours           */
+  overflow-y: auto;
+  max-height: 600px;
+}
+
+/* Colonne des heures */
+.week-time-col { border-right: 1px solid var(--color-border); }
+
+/* Cellule heure */
+.week-hour {
+  height: 60px;                           /* 1h = 60px                       */
+  padding: 4px 8px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-align: right;
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+}
+
+/* En-têtes jours de la semaine */
+.week-day-header {
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+  position: sticky; top: 0;
+  background: var(--color-white);
+  z-index: 2;
+}
+
+/* Numéro du jour dans l'en-tête semaine */
+.week-day-header .day-number {
+  display: inline-block;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  line-height: 32px;
+  font-size: 16px;
+  margin-bottom: 2px;
+}
+
+.week-day-header.today-col .day-number {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Colonne journée de la semaine */
+.week-day-col {
+  border-left: 1px solid var(--color-border);
+  position: relative;
+}
+
+/* Cellule heure dans la colonne journée */
+.week-day-slot {
+  height: 60px;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  padding: 2px 4px;
+}
+
+/* Événement en vue semaine */
+.week-event {
+  position: absolute;
+  left: 2px; right: 2px;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  border-left: 3px solid;
+  transition: opacity 0.15s, box-shadow 0.15s;
+}
+.week-event:hover { opacity: 0.9; box-shadow: var(--shadow-sm); }
+
+/* ============================================================
+   VUE JOUR
+   ============================================================ */
+.day-view { display: none; }             /* Cachée par défaut               */
+.day-view.active { display: block; }
+
+/* ============================================================
+   PANNEAU LATÉRAL DROIT
+   ============================================================ */
+.agenda-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Mini-calendrier (navigation rapide) ── */
+.mini-cal-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+}
+
+/* En-tête mini calendrier */
+.mini-cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* Mois + année du mini cal */
+.mini-cal-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Flèches mini cal */
+.mini-arrow {
+  width: 26px; height: 26px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted);
+  transition: all 0.2s;
+}
+.mini-arrow:hover { border-color: var(--color-accent); color: var(--color-primary); }
+
+.mini-arrow svg {
+  width: 12px; height: 12px;
+  fill: none; stroke: currentColor; stroke-width: 2;
+}
+
+/* Grille du mini calendrier */
+.mini-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+/* Nom des jours */
+.mini-day-name {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* Cellule du mini calendrier */
+.mini-day {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-dark);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  margin: auto;
+}
+.mini-day:hover { background: var(--color-bg); color: var(--color-primary); }
+
+/* Jour hors mois */
+.mini-day.other  { color: var(--color-border); cursor: default; }
+.mini-day.other:hover { background: transparent; }
+
+/* Aujourd'hui */
+.mini-day.today  { background: var(--color-primary); color: #fff; font-weight: 700; }
+
+/* Jour sélectionné */
+.mini-day.selected { background: var(--color-accent); color: #fff; }
+
+/* Indicateur événement (point vert sous le chiffre) */
+.mini-day.has-event { position: relative; }
+.mini-day.has-event::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  width: 4px; height: 4px;
+  background: var(--color-teal);
+  border-radius: 50%;
+}
+
+/* ── Légende des types ── */
+.legend-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+}
+
+.legend-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Item de légende */
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--color-text-dark);
+}
+
+/* Carré couleur */
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+/* ── Carte rendez-vous du jour sélectionné ── */
+.rdv-day-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+.rdv-day-card::-webkit-scrollbar { width: 4px; }
+.rdv-day-card::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+/* Titre : RDV du jour */
+.rdv-day-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rdv-count-badge {
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+}
+
+/* Liste vide */
+.rdv-empty {
+  text-align: center;
+  padding: 24px 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+/* Carte RDV individuelle */
+.rdv-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+  align-items: flex-start;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: var(--radius-sm);
+  padding: 10px 8px;
+}
+.rdv-item:last-child { border-bottom: none; }
+.rdv-item:hover { background: var(--color-bg); }
+
+/* Colonne heure */
+.rdv-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 44px;
+  text-align: right;
+}
+
+.rdv-time span {
+  display: block;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  font-size: 10px;
+}
+
+/* Barre colorée type */
+.rdv-bar {
+  width: 3px;
+  border-radius: 3px;
+  align-self: stretch;
+  min-height: 36px;
+  flex-shrink: 0;
+}
+
+/* Infos du RDV */
+.rdv-info { flex: 1; min-width: 0; }
+
+.rdv-patient-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rdv-type-label {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* Avatar patient dans le RDV */
+.rdv-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.rdv-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Placeholder initiales */
+.rdv-avatar-ph {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   MODAL — Ajouter / Modifier un rendez-vous
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,25,49,0.50);        /* Overlay bleu foncé semi-transparent */
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s, visibility 0.25s;
+}
+
+/* Modal ouvert */
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-box {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 520px;
+  max-height: 92vh;
+  overflow-y: auto;
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.25s;
+}
+
+.modal-overlay.open .modal-box {
+  transform: translateY(0) scale(1);      /* Entrée douce                    */
+}
+
+/* En-tête du modal */
+.modal-header {
+  padding: 28px 28px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+/* Bouton X fermer */
+.modal-close {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-text-muted);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 20px; line-height: 1;
+  transition: all 0.2s;
+}
+.modal-close:hover { border-color: var(--color-urgence); color: var(--color-urgence); }
+
+/* Corps du modal */
+.modal-body { padding: 0 28px 28px; }
+
+/* Groupe champ de formulaire */
+.form-group { margin-bottom: 16px; }
+
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+/* Champs input / select / textarea */
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--color-text-dark);
+  background: var(--color-white);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(74,127,167,0.12); /* Halo bleu focus           */
+}
+
+.form-textarea { resize: vertical; min-height: 80px; }
+
+/* Deux colonnes dans le modal */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Sélecteur type de rendez-vous (boutons radio visuels) */
+.type-selector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.type-option {
+  padding: 10px 12px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: var(--color-text-muted);
+}
+
+.type-option:hover { border-color: var(--color-accent); color: var(--color-primary); }
+
+/* Type sélectionné */
+.type-option.selected-consult { border-color: var(--color-consult); color: var(--color-consult); background: var(--color-consult-bg); }
+.type-option.selected-urgence { border-color: var(--color-urgence); color: var(--color-urgence); background: var(--color-urgence-bg); }
+.type-option.selected-suivi   { border-color: var(--color-suivi);   color: var(--color-suivi);   background: var(--color-suivi-bg); }
+.type-option.selected-tele    { border-color: var(--color-tele);    color: var(--color-tele);    background: var(--color-tele-bg); }
+
+/* Pied du modal */
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Bouton annuler */
+.btn-secondary {
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Bouton danger (supprimer RDV) */
+.btn-danger {
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--color-urgence);
+  border: 1px solid var(--color-urgence);
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-danger:hover { background: var(--color-urgence); color: #fff; }
+
+/* ── Toast de confirmation ── */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 500;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--color-teal); }
+.toast.error   { background: var(--color-urgence); }
+
+.toast svg {
+  width: 18px; height: 18px;
+  fill: none; stroke: currentColor; stroke-width: 2.5;
+  flex-shrink: 0;
+}
+
+/* ── Animation d'entrée des cartes ── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.calendar-card,
+.agenda-panel > * {
+  animation: slideUp 0.35s ease both;
+}
+
+.agenda-panel > *:nth-child(1) { animation-delay: 0.05s; }
+.agenda-panel > *:nth-child(2) { animation-delay: 0.10s; }
+.agenda-panel > *:nth-child(3) { animation-delay: 0.15s; }
+
+/* ── Responsive (tablettes) ── */
+@media (max-width: 1100px) {
+  .agenda-body {
+    grid-template-columns: 1fr;           /* Panneau en dessous sur tablette */
+  }
+  .agenda-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;      /* 2 colonnes                      */
+  }
+  .rdv-day-card { grid-column: 1 / -1; } /* RDV prend toute la largeur      */
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
+  .sidebar.open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .agenda-page { padding: 20px 16px; }
+  .cal-period { font-size: 16px; min-width: 160px; }
+  .agenda-panel { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}

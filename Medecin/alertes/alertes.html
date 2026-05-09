@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alertes — Dashboard Médecin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="global.css"/>
+  <link rel="stylesheet" href="alertes.css"/>
+  <link rel="stylesheet" href="../shared/doctor-sidebar.css"/>
+  <script src="../shared/doctor-sidebar.js" defer></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════ SIDEBAR ═══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon"><i class="fas fa-heartbeat"></i></div>
+      <span class="brand-name">MediCare<em>Pro</em></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="nav-item">
+        <i class="fas fa-th-large"></i><span>Dashboard</span>
+      </a>
+      <a href="patients.html" class="nav-item">
+        <i class="fas fa-users"></i><span>Patients</span>
+      </a>
+      <a href="consultations.html" class="nav-item">
+        <i class="fas fa-stethoscope"></i><span>Consultations</span>
+      </a>
+      <a href="agenda.html" class="nav-item">
+        <i class="fas fa-calendar-alt"></i><span>Agenda</span>
+      </a>
+      <a href="vaccins.html" class="nav-item">
+        <i class="fas fa-syringe"></i><span>Vaccins</span>
+      </a>
+      <a href="messagerie.html" class="nav-item">
+        <i class="fas fa-comments"></i><span>Messagerie</span>
+        <span class="nav-badge">3</span>
+      </a>
+      <a href="ordonnances.html" class="nav-item">
+        <i class="fas fa-file-prescription"></i><span>Ordonnances</span>
+      </a>
+      <a href="alertes.html" class="nav-item active">
+        <i class="fas fa-bell"></i><span>Alertes</span>
+        <span class="nav-badge urgent">7</span>
+      </a>
+      <a href="analyses.html" class="nav-item">
+        <i class="fas fa-chart-line"></i><span>Analyses</span>
+      </a>
+      <a href="profil.html" class="nav-item">
+        <i class="fas fa-user-md"></i><span>Profil</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="doctor-mini">
+        <img src="https://i.pravatar.cc/40?img=12" alt="Dr. Martin" class="doctor-avatar"/>
+        <div class="doctor-info">
+          <span class="doctor-name">Dr. Martin</span>
+          <span class="doctor-spec">Généraliste</span>
+        </div>
+      </div>
+      <a href="login.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════ MAIN ═══ -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="sidebar-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="topbar-title">
+        <h1>Alertes & Notifications</h1>
+        <p>Jeudi 07 mai 2026 — Priorisez vos actions médicales</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-mark-all" onclick="markAllRead()">
+          <i class="fas fa-check-double"></i> Tout marquer lu
+        </button>
+        <div class="topbar-notif" id="topbarNotifCount">
+          <i class="fas fa-bell"></i>
+          <span class="notif-dot"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- HERO STATS BAND -->
+    <section class="alert-hero">
+      <div class="hero-stat urgent-stat" data-filter="urgente">
+        <div class="hero-stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="hero-stat-info">
+          <span class="hero-stat-count" id="countUrgent">3</span>
+          <span class="hero-stat-label">Urgentes</span>
+        </div>
+        <div class="hero-stat-pulse"></div>
+      </div>
+      <div class="hero-stat vaccine-stat" data-filter="vaccin">
+        <div class="hero-stat-icon"><i class="fas fa-syringe"></i></div>
+        <div class="hero-stat-info">
+          <span class="hero-stat-count" id="countVaccin">2</span>
+          <span class="hero-stat-label">Vaccins retard</span>
+        </div>
+      </div>
+      <div class="hero-stat message-stat" data-filter="message">
+        <div class="hero-stat-icon"><i class="fas fa-comment-medical"></i></div>
+        <div class="hero-stat-info">
+          <span class="hero-stat-count" id="countMessage">4</span>
+          <span class="hero-stat-label">Messages urgents</span>
+        </div>
+      </div>
+      <div class="hero-stat risk-stat" data-filter="risque">
+        <div class="hero-stat-icon"><i class="fas fa-user-injured"></i></div>
+        <div class="hero-stat-info">
+          <span class="hero-stat-count" id="countRisque">1</span>
+          <span class="hero-stat-label">Patients à risque</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <section class="filter-section">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" onclick="filterAlerts('all', this)">
+          <i class="fas fa-list"></i> Toutes
+          <span class="tab-count" id="tabAll">10</span>
+        </button>
+        <button class="filter-tab" data-filter="non-lue" onclick="filterAlerts('non-lue', this)">
+          <i class="fas fa-circle"></i> Non lues
+          <span class="tab-count" id="tabUnread">7</span>
+        </button>
+        <button class="filter-tab" data-filter="urgente" onclick="filterAlerts('urgente', this)">
+          <i class="fas fa-fire"></i> Urgentes
+          <span class="tab-count" id="tabUrgent">3</span>
+        </button>
+        <button class="filter-tab" data-filter="vaccin" onclick="filterAlerts('vaccin', this)">
+          <i class="fas fa-syringe"></i> Vaccins
+          <span class="tab-count" id="tabVaccin">2</span>
+        </button>
+        <button class="filter-tab" data-filter="message" onclick="filterAlerts('message', this)">
+          <i class="fas fa-envelope"></i> Messages
+          <span class="tab-count" id="tabMessage">4</span>
+        </button>
+        <button class="filter-tab" data-filter="risque" onclick="filterAlerts('risque', this)">
+          <i class="fas fa-heart-broken"></i> Risque
+          <span class="tab-count" id="tabRisque">1</span>
+        </button>
+      </div>
+      <div class="filter-actions">
+        <button class="btn-action secondary" onclick="deleteAllRead()">
+          <i class="fas fa-trash-alt"></i> Supprimer lues
+        </button>
+      </div>
+    </section>
+
+    <!-- ALERTS LIST -->
+    <section class="alerts-container" id="alertsContainer">
+
+      <!-- URGENTE — non lue -->
+      <div class="alert-card urgente non-lue" data-id="1">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap urgente">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag urgente">🔴 Urgente</span>
+              <span class="alert-tag risque">Patient à risque</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 12 min</span>
+          </div>
+          <h3 class="alert-title">Détresse respiratoire signalée — Mme Leila Bennani</h3>
+          <p class="alert-desc">La patiente a signalé une difficulté respiratoire sévère accompagnée de douleurs thoraciques. Saturation O₂ rapportée à 89%. Consultation immédiate recommandée.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=47" alt=""/>
+            <span>Leila Bennani</span> · <em>44 ans · A+</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="viewPatient(1)">
+            <i class="fas fa-eye"></i> Voir fiche
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(1, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(1, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- MESSAGE URGENT — non lue -->
+      <div class="alert-card message non-lue" data-id="2">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap message">
+          <i class="fas fa-comment-medical"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag message">💬 Message urgent</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 28 min</span>
+          </div>
+          <h3 class="alert-title">Message non lu — M. Karim Slimani</h3>
+          <p class="alert-desc">Le patient a envoyé un message concernant des effets secondaires inhabituels suite à la prise d'Amoxicilline prescrite lors de la dernière consultation.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=52" alt=""/>
+            <span>Karim Slimani</span> · <em>31 ans · O-</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="openMessage(2)">
+            <i class="fas fa-reply"></i> Répondre
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(2, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(2, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- VACCIN EN RETARD — non lue -->
+      <div class="alert-card vaccin non-lue" data-id="3">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap vaccin">
+          <i class="fas fa-syringe"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag vaccin">💉 Vaccin en retard</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 2h</span>
+          </div>
+          <h3 class="alert-title">Rappel vaccin DTP dépassé — Mme Sara Morel</h3>
+          <p class="alert-desc">Le rappel vaccin DTP-Polio était prévu le 15 mars 2026. Retard de 53 jours. Prise de contact recommandée pour reprogrammer le rendez-vous.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=25" alt=""/>
+            <span>Sara Morel</span> · <em>28 ans · B+</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="scheduleVaccin(3)">
+            <i class="fas fa-calendar-plus"></i> Programmer
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(3, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(3, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- MESSAGE — non lue -->
+      <div class="alert-card message non-lue" data-id="4">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap message">
+          <i class="fas fa-comment-medical"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag message">💬 Message</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 3h</span>
+          </div>
+          <h3 class="alert-title">Nouvelle question — M. Pierre Dupont</h3>
+          <p class="alert-desc">Le patient demande si une douleur persistante au genou droit nécessite une consultation ou peut être traitée avec des anti-inflammatoires.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=11" alt=""/>
+            <span>Pierre Dupont</span> · <em>56 ans · AB+</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="openMessage(4)">
+            <i class="fas fa-reply"></i> Répondre
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(4, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(4, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- URGENTE — non lue -->
+      <div class="alert-card urgente non-lue" data-id="5">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap urgente">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag urgente">🔴 Urgente</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 4h</span>
+          </div>
+          <h3 class="alert-title">Résultat d'analyse critique — M. Ahmed Tazi</h3>
+          <p class="alert-desc">Les résultats de glycémie indiquent un taux de 4.2 g/L à jeun. Seuil critique dépassé. Révision immédiate du traitement diabétique préconisée.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=33" alt=""/>
+            <span>Ahmed Tazi</span> · <em>62 ans · O+</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="viewPatient(5)">
+            <i class="fas fa-eye"></i> Voir fiche
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(5, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(5, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- VACCIN EN RETARD — non lue -->
+      <div class="alert-card vaccin non-lue" data-id="6">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap vaccin">
+          <i class="fas fa-syringe"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag vaccin">💉 Vaccin en retard</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 5h</span>
+          </div>
+          <h3 class="alert-title">Vaccin ROR manqué — Lucas Bernard (8 ans)</h3>
+          <p class="alert-desc">Le vaccin ROR (rougeole, oreillons, rubéole) n'a pas été effectué à la date prévue du 01 avril 2026. Rappel envoyé aux parents sans réponse.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=61" alt=""/>
+            <span>Lucas Bernard</span> · <em>8 ans · A-</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="scheduleVaccin(6)">
+            <i class="fas fa-calendar-plus"></i> Programmer
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(6, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(6, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- MESSAGE — non lue -->
+      <div class="alert-card message non-lue" data-id="7">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap message">
+          <i class="fas fa-comment-medical"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag message">💬 Message</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Il y a 6h</span>
+          </div>
+          <h3 class="alert-title">Demande de renouvellement — Mme Fatima Alaoui</h3>
+          <p class="alert-desc">La patiente demande le renouvellement de son ordonnance pour Bisoprolol 5mg et Ramipril 10mg. Dernière prescription datée du 03 février 2026.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=44" alt=""/>
+            <span>Fatima Alaoui</span> · <em>71 ans · B-</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="createOrdonnance(7)">
+            <i class="fas fa-file-prescription"></i> Ordonnance
+          </button>
+          <button class="btn-alert-action success" onclick="markRead(7, this)">
+            <i class="fas fa-check"></i>
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(7, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+        <div class="unread-dot"></div>
+      </div>
+
+      <!-- URGENTE — lue -->
+      <div class="alert-card urgente lue" data-id="8">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap urgente">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag urgente">🔴 Urgente</span>
+              <span class="alert-tag lue-tag">✓ Lue</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Hier 14:30</span>
+          </div>
+          <h3 class="alert-title">Chute de tension — M. Joseph Martin</h3>
+          <p class="alert-desc">Tension artérielle rapportée à 85/55 mmHg. Patient traité pour hypertension. Possible surdosage d'antihypertenseur. Pris en charge le 06/05.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=7" alt=""/>
+            <span>Joseph Martin</span> · <em>78 ans · A+</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="viewPatient(8)">
+            <i class="fas fa-eye"></i> Voir fiche
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(8, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- MESSAGE — lue -->
+      <div class="alert-card message lue" data-id="9">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap message">
+          <i class="fas fa-comment-medical"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag message">💬 Message</span>
+              <span class="alert-tag lue-tag">✓ Lue</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> Hier 10:15</span>
+          </div>
+          <h3 class="alert-title">Confirmation de rendez-vous — Mme Nadia El Fassi</h3>
+          <p class="alert-desc">La patiente confirme sa présence pour la consultation du 10 mai à 09h00. Elle signale un léger mieux concernant ses migraines.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=38" alt=""/>
+            <span>Nadia El Fassi</span> · <em>35 ans · O+</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="openMessage(9)">
+            <i class="fas fa-reply"></i> Répondre
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(9, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- RISQUE — lue -->
+      <div class="alert-card risque lue" data-id="10">
+        <div class="alert-severity-bar"></div>
+        <div class="alert-icon-wrap risque">
+          <i class="fas fa-user-injured"></i>
+        </div>
+        <div class="alert-body">
+          <div class="alert-header-row">
+            <div class="alert-tags">
+              <span class="alert-tag risque">⚠️ Patient à risque</span>
+              <span class="alert-tag lue-tag">✓ Lue</span>
+            </div>
+            <span class="alert-time"><i class="far fa-clock"></i> 05/05 09:00</span>
+          </div>
+          <h3 class="alert-title">Suivi insuffisant — M. Omar Idrissi</h3>
+          <p class="alert-desc">Patient diabétique de type 2 sans consultation depuis 8 mois. Dernière HbA1c à 9.2%. Risque de complications cardiovasculaires élevé. Rappel nécessaire.</p>
+          <div class="alert-patient-chip">
+            <img src="https://i.pravatar.cc/28?img=58" alt=""/>
+            <span>Omar Idrissi</span> · <em>67 ans · AB-</em>
+          </div>
+        </div>
+        <div class="alert-actions">
+          <button class="btn-alert-action primary" onclick="viewPatient(10)">
+            <i class="fas fa-eye"></i> Voir fiche
+          </button>
+          <button class="btn-alert-action danger" onclick="deleteAlert(10, this)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- EMPTY STATE (caché par défaut) -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-icon"><i class="fas fa-bell-slash"></i></div>
+        <h3>Aucune alerte</h3>
+        <p>Vous êtes à jour pour cette catégorie.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ═══════════════ TOAST ═══ -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ═══════════════ MODAL QUICK VIEW ═══ -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="global.js"></script>
+  <script src="alertes.js"></script>
+</body>
+</html>

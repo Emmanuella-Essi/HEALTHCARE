@@ -8,15 +8,12 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../css/telexp.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
-
+  <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
- 
-  <!-- Logo -->
   <div class="sb-logo">
     <div class="logo-icon">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1de9b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -25,12 +22,10 @@
     </div>
     <div class="logo-text">Health<span>Care</span></div>
   </div>
- 
-  <!-- Navigation -->
+
   <nav class="sb-nav">
- 
     <div class="section-label">Principal</div>
- 
+
     <a href="accueil.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -40,7 +35,7 @@
       </div>
       <span class="ni-label">Tableau de bord</span>
     </a>
- 
+
     <a href="rdv.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -53,7 +48,7 @@
       <span class="ni-label">Rendez-vous</span>
       <span class="ni-badge">4</span>
     </a>
- 
+
     <a href="telexp.php" class="nav-item active">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -63,9 +58,9 @@
       </div>
       <span class="ni-label">Télé-expertise</span>
     </a>
- 
+
     <div class="section-label">Santé</div>
- 
+
     <a href="vaccins.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -77,7 +72,7 @@
       </div>
       <span class="ni-label">Vaccins</span>
     </a>
- 
+
     <a href="dossier.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -98,9 +93,9 @@
       </div>
       <span class="ni-label">Ordonnances</span>
     </a>
- 
+
     <div class="section-label">Compte</div>
- 
+
     <a href="profil.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -110,10 +105,8 @@
       </div>
       <span class="ni-label">Mon profil</span>
     </a>
- 
   </nav>
- 
-  <!-- Footer -->
+
   <div class="sb-footer">
     <div class="deconnect-btn" onclick="window.location.href='../index.php'">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -123,7 +116,6 @@
       </svg>
       <span class="deconnect-label">Déconnexion</span>
     </div>
- 
     <div class="sb-user">
       <div class="avatar">KD</div>
       <div class="user-info">
@@ -132,8 +124,10 @@
       </div>
     </div>
   </div>
- 
 </aside>
+
+<!-- PAGE WRAPPER -->
+<div class="page-wrapper">
 
   <!-- TOP BAR -->
   <header class="topbar">
@@ -144,7 +138,9 @@
     </div>
     <div class="topbar-right">
       <div class="badge-live"><span class="dot-live"></span>En direct</div>
-      <button class="btn-exit"><i class="fa fa-sign-out-alt"></i> Quitter</button>
+      <button class="btn-exit" onclick="showEndCallModal()">
+        <i class="fa fa-sign-out-alt"></i> Quitter
+      </button>
     </div>
   </header>
 
@@ -166,14 +162,14 @@
           </div>
         </div>
         <div class="card-body" style="padding:16px;">
-          <div class="video-wrap">
-            <div class="video-bg">
-              <div class="video-avatar-circle">👨‍⚕️</div>
-              <span class="video-doc-name">Dr. Sangare</span>
+          <div class="video-wrap" id="videoWrap">
+            <div class="video-bg" id="videoBg">
+              <div class="video-avatar-circle" id="docAvatar">👨‍⚕️</div>
+              <span class="video-doc-name" id="docVideoName">Dr. Sangare</span>
             </div>
 
             <!-- Miniature patient -->
-            <div class="video-self">
+            <div class="video-self" title="Cliquer pour agrandir">
               <span>🧑</span>
               <span class="video-self-label">Vous</span>
             </div>
@@ -187,8 +183,10 @@
               <div class="video-controls">
                 <button class="vbtn" title="Micro" id="micBtn"><i class="fa fa-microphone"></i></button>
                 <button class="vbtn" title="Caméra" id="camBtn"><i class="fa fa-camera"></i></button>
-                <button class="vbtn" title="Partager l'écran"><i class="fa fa-desktop"></i></button>
-                <button class="vbtn end-call" title="Raccrocher"><i class="fa fa-phone-slash"></i></button>
+                <button class="vbtn" title="Partager l'écran" id="shareBtn"><i class="fa fa-desktop"></i></button>
+                <button class="vbtn end-call" title="Raccrocher" onclick="showEndCallModal()">
+                  <i class="fa fa-phone-slash"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -202,6 +200,7 @@
             <div class="card-icon"><i class="fa fa-comment-dots"></i></div>
             <span class="card-title">Messagerie instantanée</span>
           </div>
+          <span style="font-size:0.72rem;color:var(--text-dim);" id="typingStatus"></span>
         </div>
         <div class="card-body">
           <div class="chat-messages" id="chatMessages">
@@ -223,7 +222,9 @@
           </div>
           <div class="chat-input-wrap">
             <input class="chat-input" type="text" id="msgInput" placeholder="Écrire un message...">
-            <button class="chat-send" onclick="sendMessage()"><i class="fa fa-paper-plane"></i></button>
+            <button class="chat-send" onclick="sendMessage()" title="Envoyer">
+              <i class="fa fa-paper-plane"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -291,74 +292,222 @@
         <div class="card-body">
           <div class="form-group">
             <label class="form-label"><i class="fa fa-stethoscope"></i> Observations cliniques</label>
-            <textarea class="form-textarea" placeholder="Saisir vos observations..."></textarea>
+            <textarea class="form-textarea" id="observations" placeholder="Saisir vos observations..." oninput="updateCounter(this, 'obsCount')"></textarea>
+            <div class="char-counter"><span id="obsCount">0</span> caractères</div>
           </div>
           <div class="form-group">
             <label class="form-label"><i class="fa fa-prescription"></i> Prescription / Traitement</label>
-            <textarea class="form-textarea" style="min-height:80px;" placeholder="Médicaments, posologie..."></textarea>
+            <textarea class="form-textarea" id="prescription" style="min-height:80px;" placeholder="Médicaments, posologie..." oninput="updateCounter(this, 'prescCount')"></textarea>
+            <div class="char-counter"><span id="prescCount">0</span> caractères</div>
           </div>
-          <button class="btn-primary"><i class="fa fa-save"></i> Enregistrer le compte-rendu</button>
-          <button class="btn-secondary"><i class="fa fa-print"></i> Générer l'ordonnance PDF</button>
+          <button class="btn-primary" id="saveBtn" onclick="saveReport()">
+            <i class="fa fa-save"></i> Enregistrer le compte-rendu
+          </button>
+          <button class="btn-secondary" onclick="generatePDF()">
+            <i class="fa fa-print"></i> Générer l'ordonnance PDF
+          </button>
         </div>
       </div>
 
     </div>
   </main>
 
-  <script>
-    // Timer de consultation
-    let seconds = 0;
-    setInterval(() => {
-      seconds++;
-      const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-      const s = String(seconds % 60).padStart(2, '0');
-      document.getElementById('timerDisplay').textContent = `${h}:${m}:${s}`;
-    }, 1000);
+</div><!-- /page-wrapper -->
 
-    // Date actuelle
-    const now = new Date();
-    document.getElementById('currentDate').textContent = now.toLocaleDateString('fr-FR', {
-      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-    });
+<!-- MODAL FIN D'APPEL -->
+<div class="modal-overlay" id="endCallModal">
+  <div class="modal">
+    <div class="modal-icon"><i class="fa fa-phone-slash"></i></div>
+    <h3>Terminer la consultation ?</h3>
+    <p>La session sera clôturée et le compte-rendu sera sauvegardé automatiquement.</p>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">Annuler</button>
+      <button class="modal-confirm" onclick="endCall()">Terminer</button>
+    </div>
+  </div>
+</div>
 
-    // Envoyer message
-    function sendMessage() {
-      const input = document.getElementById('msgInput');
-      const text = input.value.trim();
-      if (!text) return;
+<!-- TOAST NOTIFICATION -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✅</span>
+  <span id="toastMsg">Action effectuée</span>
+</div>
 
-      const chat = document.getElementById('chatMessages');
-      const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+<script>
+  /* ─── TIMER ─── */
+  let seconds = 0;
+  const timerInterval = setInterval(() => {
+    seconds++;
+    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
+    const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+    const s = String(seconds % 60).padStart(2, '0');
+    document.getElementById('timerDisplay').textContent = `${h}:${m}:${s}`;
+  }, 1000);
 
-      const msg = document.createElement('div');
-      msg.className = 'msg msg-out';
-      msg.innerHTML = `
-        <div class="msg-sender">Vous</div>
-        <div class="msg-bubble">${text}</div>
-        <div class="msg-time">${time}</div>
+  /* ─── DATE ─── */
+  const now = new Date();
+  document.getElementById('currentDate').textContent = now.toLocaleDateString('fr-FR', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+  });
+
+  /* ─── TOAST ─── */
+  function showToast(msg, icon = '✅') {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    document.getElementById('toastIcon').textContent = icon;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  /* ─── CHAT ─── */
+  const drReplies = [
+    "Je comprends. Avez-vous pris des antalgiques ?",
+    "D'accord, pouvez-vous préciser depuis combien de temps exactement ?",
+    "Notez bien ces symptômes, je vais faire une ordonnance.",
+    "Très bien. Je vous recommande de rester hydraté(e).",
+    "Je vais regarder votre dossier pour adapter le traitement."
+  ];
+  let replyIndex = 0;
+  let typingTimeout = null;
+
+  function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (!text) return;
+
+    const chat = document.getElementById('chatMessages');
+    const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+    const msg = document.createElement('div');
+    msg.className = 'msg msg-out';
+    msg.innerHTML = `
+      <div class="msg-sender">Vous</div>
+      <div class="msg-bubble">${escapeHtml(text)}</div>
+      <div class="msg-time">${time}</div>
+    `;
+    chat.appendChild(msg);
+    chat.scrollTop = chat.scrollHeight;
+    input.value = '';
+
+    // Typing indicator
+    clearTimeout(typingTimeout);
+    const status = document.getElementById('typingStatus');
+    status.textContent = 'Dr. Sangare écrit…';
+
+    const typing = document.createElement('div');
+    typing.className = 'msg msg-in';
+    typing.id = 'typingMsg';
+    typing.innerHTML = `
+      <div class="msg-sender">Dr. Sangare</div>
+      <div class="typing-indicator"><span></span><span></span><span></span></div>
+    `;
+    chat.appendChild(typing);
+    chat.scrollTop = chat.scrollHeight;
+
+    typingTimeout = setTimeout(() => {
+      const el = document.getElementById('typingMsg');
+      if (el) el.remove();
+      status.textContent = '';
+
+      const replyTime = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      const reply = document.createElement('div');
+      reply.className = 'msg msg-in';
+      reply.innerHTML = `
+        <div class="msg-sender">Dr. Sangare</div>
+        <div class="msg-bubble">${drReplies[replyIndex % drReplies.length]}</div>
+        <div class="msg-time">${replyTime}</div>
       `;
-      chat.appendChild(msg);
+      chat.appendChild(reply);
       chat.scrollTop = chat.scrollHeight;
-      input.value = '';
+      replyIndex++;
+    }, 1800);
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  document.getElementById('msgInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendMessage();
+  });
+
+  /* ─── MIC / CAM ─── */
+  document.getElementById('micBtn').addEventListener('click', function() {
+    this.classList.toggle('muted');
+    const icon = this.querySelector('i');
+    const muted = this.classList.contains('muted');
+    icon.className = muted ? 'fa fa-microphone-slash' : 'fa fa-microphone';
+    showToast(muted ? 'Microphone coupé' : 'Microphone activé', muted ? '🔇' : '🎤');
+  });
+
+  document.getElementById('camBtn').addEventListener('click', function() {
+    this.classList.toggle('muted');
+    const icon = this.querySelector('i');
+    const muted = this.classList.contains('muted');
+    icon.className = muted ? 'fa fa-video-slash' : 'fa fa-camera';
+    // Simule caméra coupée
+    document.getElementById('videoBg').style.filter = muted ? 'brightness(0.3)' : 'brightness(1)';
+    showToast(muted ? 'Caméra désactivée' : 'Caméra activée', muted ? '📵' : '📹');
+  });
+
+  document.getElementById('shareBtn').addEventListener('click', function() {
+    this.classList.toggle('muted');
+    showToast('Partage d\'écran ' + (this.classList.contains('muted') ? 'activé' : 'désactivé'), '🖥️');
+  });
+
+  /* ─── CHAR COUNTER ─── */
+  function updateCounter(el, counterId) {
+    document.getElementById(counterId).textContent = el.value.length;
+  }
+
+  /* ─── SAVE REPORT ─── */
+  function saveReport() {
+    const obs = document.getElementById('observations').value.trim();
+    const presc = document.getElementById('prescription').value.trim();
+    if (!obs && !presc) {
+      showToast('Veuillez saisir au moins un champ', '⚠️');
+      return;
     }
+    const btn = document.getElementById('saveBtn');
+    btn.classList.add('saved');
+    btn.innerHTML = '<i class="fa fa-check"></i> Enregistré !';
+    showToast('Compte-rendu enregistré avec succès', '✅');
+    setTimeout(() => {
+      btn.classList.remove('saved');
+      btn.innerHTML = '<i class="fa fa-save"></i> Enregistrer le compte-rendu';
+    }, 3000);
+  }
 
-    document.getElementById('msgInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') sendMessage();
-    });
+  /* ─── GENERATE PDF ─── */
+  function generatePDF() {
+    showToast('Génération de l\'ordonnance en cours…', '📄');
+  }
 
-    // Toggle micro/caméra
-    document.getElementById('micBtn').addEventListener('click', function() {
-      this.classList.toggle('muted');
-      const icon = this.querySelector('i');
-      icon.className = this.classList.contains('muted') ? 'fa fa-microphone-slash' : 'fa fa-microphone';
-    });
+  /* ─── MODAL FIN D'APPEL ─── */
+  function showEndCallModal() {
+    document.getElementById('endCallModal').classList.add('visible');
+  }
 
-    document.getElementById('camBtn').addEventListener('click', function() {
-      this.classList.toggle('muted');
-      const icon = this.querySelector('i');
-      icon.className = this.classList.contains('muted') ? 'fa fa-video-slash' : 'fa fa-camera';
-    });
-  </script>
+  function closeModal() {
+    document.getElementById('endCallModal').classList.remove('visible');
+  }
+
+  function endCall() {
+    clearInterval(timerInterval);
+    closeModal();
+    showToast('Consultation terminée. À bientôt !', '👋');
+    setTimeout(() => window.location.href = 'accueil.php', 2000);
+  }
+
+  // Fermer modal avec Echap
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Fermer modal en cliquant hors
+  document.getElementById('endCallModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
 </body>
 </html>

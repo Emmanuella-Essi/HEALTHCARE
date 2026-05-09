@@ -1,0 +1,897 @@
+/* ============================================================
+   analyses.css — Dashboard Médecin : Page Analyses
+   Graphiques, KPIs, tableau récapitulatif
+   Charte graphique MediCare Pro
+   ============================================================ */
+
+
+/* ============================================================
+   VARIABLES DE COULEURS ET DESIGN TOKENS
+   ============================================================ */
+:root {
+    /* --- Palette principale (charte graphique) --- */
+    --color-primary-dark:     #0A1931;   /* Fond sidebar : bleu nuit profond */
+    --color-primary:          #1A3D63;   /* Bleu médical principal */
+    --color-secondary-light:  #B3CFE5;   /* Bleu pâle : accents doux */
+    --color-accent:           #4A7FA7;   /* Bleu accent : boutons, icônes */
+    --color-teal-light:       #0A8C74;   /* Vert teal clair */
+    --color-teal:             #047857;   /* Vert teal foncé : succès */
+    --color-background-light: #F6FAFD;   /* Fond page : gris-bleu très clair */
+    --color-white:            #FFFFFF;   /* Blanc pur */
+    --color-text-dark:        #1F2937;   /* Texte principal */
+    --color-text-medium:      #4B5563;   /* Texte secondaire */
+    --color-text-light:       #9CA3AF;   /* Texte discret */
+    --color-border:           #E5EDF5;   /* Bordures légères */
+
+    /* --- Couleurs sémantiques --- */
+    --color-orange:  #F59E0B;   /* Orange : messagerie, alertes */
+    --color-red:     #EF4444;   /* Rouge : retards, erreurs */
+    --color-green:   #10B981;   /* Vert : succès, vaccins effectués */
+    --color-blue:    #4A7FA7;   /* Bleu : patients, liens */
+
+    /* --- Ombres (shadow tokens) --- */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* --- Dimensions layout --- */
+    --sidebar-width:   260px;  /* Largeur fixe de la sidebar */
+    --border-radius:   12px;   /* Arrondi principal */
+    --border-radius-sm: 8px;   /* Arrondi secondaire */
+
+    /* --- Transitions --- */
+    --transition: 0.25s ease;  /* Durée et easing globaux */
+}
+
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+/* Suppression marges/padding, box-sizing inclut border/padding */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corps : police, fond, couleur texte par défaut */
+body {
+    font-family: 'Outfit', sans-serif;       /* Police charte */
+    background-color: var(--color-background-light); /* Fond bleuté doux */
+    color: var(--color-text-dark);           /* Texte sombre par défaut */
+    line-height: 1.5;                        /* Interlignage confortable */
+    font-size: 15px;                         /* Taille de base */
+}
+
+/* Suppression style par défaut des liens */
+a { text-decoration: none; color: inherit; }
+
+/* Suppression style par défaut des boutons */
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* Inputs, selects : police héritée */
+input, select { font-family: inherit; font-size: 14px; outline: none; }
+
+
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
+
+/* Flexbox horizontal : sidebar gauche + contenu droite */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+
+/* Panneau latéral fixe bleu nuit */
+.sidebar {
+    width: var(--sidebar-width);              /* Largeur fixe 260px */
+    background: var(--color-primary-dark);   /* Fond bleu nuit */
+    display: flex;
+    flex-direction: column;                  /* Empile verticalement */
+    position: fixed;                         /* Ne scroll pas */
+    top: 0;
+    left: 0;
+    height: 100vh;                           /* Hauteur plein écran */
+    z-index: 100;                            /* Au-dessus du contenu */
+    transition: transform var(--transition); /* Animation slide mobile */
+    overflow-y: auto;                        /* Scroll si menu trop long */
+}
+
+/* Logo : icône + texte */
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08); /* Séparateur semi-transparent */
+}
+
+/* Carré arrondi contenant l'icône stéthoscope */
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--color-accent);   /* Bleu accent */
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 18px;
+    flex-shrink: 0;                    /* Ne rétrécit pas */
+}
+
+/* "MediCare" en gras blanc */
+.logo-title {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-white);
+}
+
+/* "Pro" en bleu clair discret */
+.logo-subtitle {
+    display: block;
+    font-size: 11px;
+    color: var(--color-secondary-light);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Bloc profil médecin */
+.sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Conteneur avatar + point de statut */
+.profile-avatar { position: relative; flex-shrink: 0; }
+
+/* Image de profil ronde */
+.profile-avatar img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    object-fit: cover;
+}
+
+/* Point vert "en ligne" positionné sur l'avatar */
+.status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary-dark); /* Contour couleur sidebar */
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+}
+
+/* Couleur verte pour "online" */
+.status-dot.online { background: var(--color-green); }
+
+/* Nom du médecin */
+.profile-name { font-size: 14px; font-weight: 600; color: var(--color-white); }
+
+/* Spécialité */
+.profile-role { font-size: 12px; color: var(--color-secondary-light); margin-top: 2px; }
+
+/* Zone navigation */
+.sidebar-nav { padding: 16px; flex: 1; }
+
+/* Étiquette de section (NAVIGATION, COMPTE) */
+.nav-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(179,207,229,0.5);
+    padding: 0 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* Élément de navigation */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: var(--border-radius-sm);
+    color: rgba(179,207,229,0.8);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all var(--transition);
+    margin-bottom: 2px;
+}
+
+/* Survol nav item */
+.nav-item:hover {
+    background: rgba(74,127,167,0.25);
+    color: var(--color-white);
+}
+
+/* Élément actif (page courante) */
+.nav-item.active {
+    background: var(--color-accent); /* Bleu accent plein */
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+}
+
+/* Icône nav : largeur fixe pour alignement */
+.nav-icon { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; }
+
+/* Label nav : prend l'espace restant */
+.nav-label { flex: 1; }
+
+/* Badge compteur arrondi */
+.nav-badge {
+    background: rgba(255,255,255,0.2);
+    color: var(--color-white);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    min-width: 22px;
+    text-align: center;
+}
+
+/* Déconnexion : rouge au hover */
+.nav-item.logout:hover {
+    background: rgba(239,68,68,0.2);
+    color: #FCA5A5;
+}
+
+
+/* ============================================================
+   CONTENU PRINCIPAL
+   ============================================================ */
+
+/* Décalé à droite de la sidebar */
+.main-content {
+    margin-left: var(--sidebar-width); /* Espace pour sidebar fixe */
+    flex: 1;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+
+/* ============================================================
+   TOPBAR
+   ============================================================ */
+
+/* Barre de titre collante en haut */
+.topbar {
+    background: var(--color-white);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    position: sticky;   /* Reste visible au scroll */
+    top: 0;
+    z-index: 50;
+    flex-wrap: wrap;    /* Retour ligne sur petit écran */
+}
+
+/* Toggle sidebar mobile — masqué desktop */
+.sidebar-toggle {
+    font-size: 18px;
+    color: var(--color-text-medium);
+    padding: 8px;
+    border-radius: 8px;
+    display: none; /* Affiché uniquement mobile via media query */
+    transition: background var(--transition);
+}
+.sidebar-toggle:hover { background: var(--color-background-light); }
+
+/* Titre et description page */
+.topbar-title { flex: 1; }
+.topbar-title h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+.topbar-title p {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-top: 2px;
+}
+
+/* Groupe d'actions à droite */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ---- Sélecteur de période ---- */
+.periode-selector {
+    display: flex;
+    gap: 4px;
+    background: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 4px;
+}
+
+/* Bouton de période */
+.periode-btn {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-medium);
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+.periode-btn:hover {
+    background: var(--color-white);
+    color: var(--color-primary);
+}
+/* Bouton période actif */
+.periode-btn.active {
+    background: var(--color-accent);
+    color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ---- Bouton export --- */
+.btn-export {
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 10px 18px;
+    border-radius: var(--border-radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+.btn-export:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* ---- Bouton cloche notifications ---- */
+.notif-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-background-light);
+    color: var(--color-text-medium);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+}
+.notif-btn:hover {
+    background: var(--color-secondary-light);
+    color: var(--color-primary);
+}
+
+/* Point rouge sur la cloche */
+.notif-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-red);
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: 1.5px solid var(--color-white);
+}
+
+
+/* ============================================================
+   CARTES KPI
+   ============================================================ */
+
+/* Grille 4 colonnes pour les indicateurs clés */
+.kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cartes égales */
+    gap: 20px;
+    padding: 28px 32px 0;
+}
+
+/* Carte KPI individuelle */
+.kpi-card {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 20px 20px 12px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition), box-shadow var(--transition);
+    overflow: hidden;            /* Cache le sparkline débordant */
+    position: relative;
+}
+.kpi-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+/* En-tête KPI : icône + tendance */
+.kpi-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+/* Icône KPI avec fond coloré */
+.kpi-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+/* Couleurs icônes KPI */
+.kpi-icon.blue   { background: rgba(74,127,167,0.12); color: var(--color-accent); }
+.kpi-icon.teal   { background: rgba(4,120,87,0.12);   color: var(--color-teal); }
+.kpi-icon.green  { background: rgba(16,185,129,0.12); color: var(--color-green); }
+.kpi-icon.orange { background: rgba(245,158,11,0.12); color: var(--color-orange); }
+
+/* Badge tendance (hausse/baisse) */
+.kpi-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 9px;
+    border-radius: 20px;
+}
+/* Tendance positive : vert */
+.kpi-trend.up {
+    background: rgba(16,185,129,0.12);
+    color: var(--color-teal);
+}
+/* Tendance négative : rouge */
+.kpi-trend.down {
+    background: rgba(239,68,68,0.1);
+    color: var(--color-red);
+}
+
+/* Corps KPI : valeur + label */
+.kpi-body { margin-bottom: 8px; }
+
+/* Valeur principale (grand chiffre animé) */
+.kpi-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--color-primary);
+    line-height: 1.1;
+    letter-spacing: -1px;       /* Resserrement typographique */
+}
+
+/* Label descriptif */
+.kpi-label {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-top: 3px;
+    font-weight: 500;
+}
+
+/* Zone mini-graphique sparkline */
+.kpi-sparkline {
+    margin: 0 -20px -12px; /* Déborde sur les côtés pour effet plein largeur */
+    height: 48px;
+}
+.kpi-sparkline canvas {
+    width: 100% !important;  /* Force largeur totale */
+    height: 48px !important; /* Hauteur fixe */
+}
+
+
+/* ============================================================
+   LIGNES DE GRAPHIQUES
+   ============================================================ */
+
+/* Conteneur flex pour placer 2 graphiques côte à côte */
+.charts-row {
+    display: flex;
+    gap: 20px;
+    padding: 24px 32px 0;
+    align-items: stretch; /* Hauteur égale entre cartes */
+}
+
+/* Carte graphique de base */
+.chart-card {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: box-shadow var(--transition);
+}
+.chart-card:hover { box-shadow: var(--shadow-md); }
+
+/* Taille "large" : 2/3 de la ligne */
+.chart-card.large { flex: 2; min-width: 0; }
+
+/* Taille "small" : 1/3 de la ligne */
+.chart-card.small { flex: 1; min-width: 0; }
+
+/* Taille "medium" : 50/50 */
+.chart-card.medium { flex: 1; min-width: 0; }
+
+/* En-tête de chaque carte graphique */
+.chart-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* Titre de graphique : icône + textes */
+.chart-card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Icône titre de graphique */
+.chart-title-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+/* Couleurs icônes titres graphiques */
+.chart-title-icon.blue   { background: rgba(74,127,167,0.12); color: var(--color-accent); }
+.chart-title-icon.teal   { background: rgba(4,120,87,0.12);   color: var(--color-teal); }
+.chart-title-icon.green  { background: rgba(16,185,129,0.12); color: var(--color-green); }
+.chart-title-icon.orange { background: rgba(245,158,11,0.12); color: var(--color-orange); }
+
+/* Titre h2 du graphique */
+.chart-card-title h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Sous-titre descriptif */
+.chart-card-title p {
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-top: 2px;
+}
+
+/* Boutons d'action sur graphique */
+.chart-actions { display: flex; gap: 6px; }
+.chart-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--color-text-light);
+    background: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+}
+.chart-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+    border-color: var(--color-accent);
+}
+
+/* Légende inline (points colorés + texte) */
+.chart-legend-inline {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--color-text-medium);
+    font-weight: 500;
+}
+
+/* Point de couleur dans la légende */
+.legend-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+/* Couleurs des points de légende */
+.legend-dot.green  { background: var(--color-green); }
+.legend-dot.red    { background: var(--color-red); }
+.legend-dot.orange { background: var(--color-orange); }
+.legend-dot.blue   { background: var(--color-accent); }
+
+/* Zone canvas des graphiques */
+.chart-canvas-wrapper {
+    padding: 20px 20px 16px;
+    flex: 1;
+    position: relative;
+    min-height: 260px; /* Hauteur minimum pour visibilité */
+}
+
+/* Wrapper spécifique donut (camembert) */
+.donut-wrapper {
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.donut-wrapper canvas {
+    max-width: 220px; /* Limite la taille du donut */
+    max-height: 220px;
+}
+
+/* Légende personnalisée du donut */
+.donut-legend {
+    padding: 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Ligne de légende donut */
+.donut-legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+}
+
+/* Partie gauche : carré couleur + label */
+.donut-legend-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-medium);
+}
+
+/* Carré de couleur légende donut */
+.donut-color-square {
+    width: 11px;
+    height: 11px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+
+/* Pourcentage à droite */
+.donut-legend-pct {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+
+/* ============================================================
+   SECTION RÉCAPITULATIF MENSUEL
+   ============================================================ */
+
+.recap-section {
+    margin: 24px 32px 32px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+/* En-tête récap */
+.recap-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+.recap-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.recap-header h2 i { color: var(--color-accent); }
+
+/* Bouton export CSV */
+.btn-export-table {
+    background: rgba(74,127,167,0.1);
+    color: var(--color-accent);
+    padding: 8px 16px;
+    border-radius: var(--border-radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    border: 1px solid rgba(74,127,167,0.3);
+    transition: all var(--transition);
+}
+.btn-export-table:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+}
+
+/* Zone scrollable pour le tableau */
+.table-wrapper { overflow-x: auto; }
+
+/* Tableau récapitulatif */
+.recap-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* En-têtes colonnes */
+.recap-table thead tr { background: var(--color-background-light); }
+.recap-table th {
+    padding: 13px 18px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+/* Cellules données */
+.recap-table td {
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+}
+
+/* Suppression bordure dernière ligne */
+.recap-table tbody tr:last-child td { border-bottom: none; }
+
+/* Hover ligne */
+.recap-table tbody tr:hover { background: rgba(74,127,167,0.03); }
+
+/* Colonne mois en gras */
+.recap-table td:first-child { font-weight: 600; color: var(--color-primary); }
+
+/* Barre de progression taux de complétion */
+.completion-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.completion-bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 3px;
+    overflow: hidden;
+    min-width: 80px;
+}
+.completion-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease; /* Animation de remplissage */
+}
+/* Couleur verte > 70%, orange > 50%, rouge sinon */
+.completion-bar-fill.high   { background: var(--color-green); }
+.completion-bar-fill.medium { background: var(--color-orange); }
+.completion-bar-fill.low    { background: var(--color-red); }
+
+/* Valeur pourcentage */
+.completion-pct {
+    font-size: 12px;
+    font-weight: 700;
+    min-width: 36px;
+    text-align: right;
+}
+
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+
+/* Notification flottante en bas à droite */
+.toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 14px 20px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    z-index: 500;
+    transform: translateY(100px); /* Caché sous l'écran par défaut */
+    opacity: 0;
+    transition: all 0.3s ease;   /* Animation entrée/sortie */
+    pointer-events: none;
+}
+.toast-icon { color: var(--color-green); font-size: 16px; }
+/* Classe JS qui déclenche l'apparition */
+.toast.show { transform: translateY(0); opacity: 1; }
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablette : 2 colonnes KPI */
+@media (max-width: 1200px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Tablette : graphiques en colonne */
+@media (max-width: 1024px) {
+    .charts-row { flex-direction: column; } /* Empile les graphiques */
+    .chart-card.large,
+    .chart-card.small,
+    .chart-card.medium { flex: none; width: 100%; } /* Pleine largeur */
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    /* Cache la sidebar */
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); } /* Ouverte via JS */
+
+    /* Contenu prend toute la largeur */
+    .main-content { margin-left: 0; }
+
+    /* Affiche le bouton toggle */
+    .sidebar-toggle { display: flex; }
+
+    /* Padding réduit */
+    .topbar { padding: 16px 20px; }
+    .kpi-row { padding: 16px 20px 0; }
+    .charts-row { padding: 16px 20px 0; }
+    .recap-section { margin: 16px 20px 24px; }
+
+    /* KPI en 1 colonne */
+    .kpi-row { grid-template-columns: 1fr; }
+
+    /* Topbar actions sur nouvelle ligne */
+    .topbar-actions { flex-wrap: wrap; }
+
+    /* Cache le texte du bouton export */
+    .btn-export span { display: none; }
+}
+
+/* Très petit écran */
+@media (max-width: 480px) {
+    .kpi-value { font-size: 26px; }
+    .chart-canvas-wrapper { padding: 12px; min-height: 200px; }
+}

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- =====================================================
+         Encodage et compatibilité mobile
+    ===================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyses — Dashboard Médecin</title>
+
+    <!-- Lien vers la feuille de style de la page -->
+    <link rel="stylesheet" href="analyses.css">
+    <link rel="stylesheet" href="../shared/doctor-sidebar.css">
+    <script src="../shared/doctor-sidebar.js" defer></script>
+
+    <!-- Icônes Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Police Outfit (charte graphique) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Chart.js : bibliothèque de graphiques -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- =========================================================
+     STRUCTURE PRINCIPALE : sidebar + contenu
+========================================================= -->
+<div class="app-layout">
+
+    <!-- ===================================================
+         SIDEBAR NAVIGATION (identique aux autres pages)
+    =================================================== -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Logo MediCare Pro -->
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-stethoscope"></i>
+            </div>
+            <div class="logo-text">
+                <span class="logo-title">MediCare</span>
+                <span class="logo-subtitle">Pro</span>
+            </div>
+        </div>
+
+        <!-- Profil médecin -->
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                <!-- Avatar généré via API UI-Avatars -->
+                <img src="https://ui-avatars.com/api/?name=Dr+Martin&background=4A7FA7&color=fff&size=80" alt="Dr. Martin">
+                <span class="status-dot online"></span>
+            </div>
+            <div class="profile-info">
+                <p class="profile-name">Dr. Martin</p>
+                <p class="profile-role">Médecin Généraliste</p>
+            </div>
+        </div>
+
+        <!-- Menu de navigation -->
+        <nav class="sidebar-nav">
+            <p class="nav-section-label">NAVIGATION</p>
+
+            <!-- Accueil -->
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-house-medical"></i></span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+
+            <!-- Patients -->
+            <a href="patients.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="nav-label">Patients</span>
+                <span class="nav-badge">124</span>
+            </a>
+
+            <!-- Consultations -->
+            <a href="consultations.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span>
+                <span class="nav-label">Consultations</span>
+            </a>
+
+            <!-- Vaccins -->
+            <a href="vaccins.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-syringe"></i></span>
+                <span class="nav-label">Vaccins</span>
+            </a>
+
+            <!-- Messages -->
+            <a href="messages.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-comments"></i></span>
+                <span class="nav-label">Messages</span>
+                <span class="nav-badge">3</span>
+            </a>
+
+            <!-- Ordonnances -->
+            <a href="ordonnances.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-file-medical"></i></span>
+                <span class="nav-label">Ordonnances</span>
+            </a>
+
+            <!-- Agenda -->
+            <a href="agenda.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                <span class="nav-label">Agenda</span>
+            </a>
+
+            <!-- Analyses — ACTIF -->
+            <a href="analyses.html" class="nav-item active">
+                <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span>
+                <span class="nav-label">Analyses</span>
+            </a>
+
+            <p class="nav-section-label" style="margin-top:20px">COMPTE</p>
+
+            <!-- Profil -->
+            <a href="profil.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span>
+                <span class="nav-label">Profil</span>
+            </a>
+
+            <!-- Déconnexion -->
+            <a href="login.html" class="nav-item logout">
+                <span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                <span class="nav-label">Déconnexion</span>
+            </a>
+        </nav>
+    </aside>
+    <!-- FIN SIDEBAR -->
+
+    <!-- ===================================================
+         CONTENU PRINCIPAL
+    =================================================== -->
+    <main class="main-content">
+
+        <!-- -----------------------------------------------
+             TOPBAR : titre + actions
+        ----------------------------------------------- -->
+        <header class="topbar">
+            <!-- Bouton toggle sidebar (mobile) -->
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Titre page -->
+            <div class="topbar-title">
+                <h1>Tableau de Bord Analytique</h1>
+                <p>Vue d'ensemble de votre activité médicale</p>
+            </div>
+
+            <!-- Actions topbar -->
+            <div class="topbar-actions">
+
+                <!-- Sélecteur de période -->
+                <div class="periode-selector">
+                    <button class="periode-btn active" data-periode="6">6 mois</button>
+                    <button class="periode-btn" data-periode="12">1 an</button>
+                    <button class="periode-btn" data-periode="24">2 ans</button>
+                </div>
+
+                <!-- Bouton export PDF -->
+                <button class="btn-export" id="btnExport">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    Exporter
+                </button>
+
+                <!-- Cloche notifications -->
+                <button class="notif-btn" id="notifBtn">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+            </div>
+        </header>
+        <!-- FIN TOPBAR -->
+
+        <!-- -----------------------------------------------
+             CARTES KPI — Indicateurs clés
+        ----------------------------------------------- -->
+        <section class="kpi-row">
+
+            <!-- KPI : Total patients -->
+            <div class="kpi-card" data-animate="true">
+                <div class="kpi-header">
+                    <div class="kpi-icon blue">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <span class="kpi-trend up">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +12%
+                    </span>
+                </div>
+                <div class="kpi-body">
+                    <!-- Valeur animée par JS (compteur) -->
+                    <p class="kpi-value" data-target="124">0</p>
+                    <p class="kpi-label">Total patients</p>
+                </div>
+                <!-- Mini sparkline sous la carte -->
+                <div class="kpi-sparkline">
+                    <canvas id="sparkline1" height="40"></canvas>
+                </div>
+            </div>
+
+            <!-- KPI : Consultations ce mois -->
+            <div class="kpi-card" data-animate="true">
+                <div class="kpi-header">
+                    <div class="kpi-icon teal">
+                        <i class="fa-solid fa-calendar-check"></i>
+                    </div>
+                    <span class="kpi-trend up">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +8%
+                    </span>
+                </div>
+                <div class="kpi-body">
+                    <p class="kpi-value" data-target="47">0</p>
+                    <p class="kpi-label">Consultations / mois</p>
+                </div>
+                <div class="kpi-sparkline">
+                    <canvas id="sparkline2" height="40"></canvas>
+                </div>
+            </div>
+
+            <!-- KPI : Vaccins effectués -->
+            <div class="kpi-card" data-animate="true">
+                <div class="kpi-header">
+                    <div class="kpi-icon green">
+                        <i class="fa-solid fa-syringe"></i>
+                    </div>
+                    <span class="kpi-trend down">
+                        <i class="fa-solid fa-arrow-trend-down"></i> -3%
+                    </span>
+                </div>
+                <div class="kpi-body">
+                    <p class="kpi-value" data-target="89">0</p>
+                    <p class="kpi-label">Vaccins effectués</p>
+                </div>
+                <div class="kpi-sparkline">
+                    <canvas id="sparkline3" height="40"></canvas>
+                </div>
+            </div>
+
+            <!-- KPI : Messages échangés -->
+            <div class="kpi-card" data-animate="true">
+                <div class="kpi-header">
+                    <div class="kpi-icon orange">
+                        <i class="fa-solid fa-comments"></i>
+                    </div>
+                    <span class="kpi-trend up">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +21%
+                    </span>
+                </div>
+                <div class="kpi-body">
+                    <p class="kpi-value" data-target="213">0</p>
+                    <p class="kpi-label">Messages échangés</p>
+                </div>
+                <div class="kpi-sparkline">
+                    <canvas id="sparkline4" height="40"></canvas>
+                </div>
+            </div>
+        </section>
+        <!-- FIN KPI -->
+
+        <!-- -----------------------------------------------
+             LIGNE 1 GRAPHIQUES : Courbe + Camembert
+        ----------------------------------------------- -->
+        <div class="charts-row">
+
+            <!-- GRAPHIQUE 1 : Patients par mois (courbe) -->
+            <div class="chart-card large">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <div class="chart-title-icon blue">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                            <h2>Nouveaux patients par mois</h2>
+                            <p>Évolution sur la période sélectionnée</p>
+                        </div>
+                    </div>
+                    <!-- Menu options graphique -->
+                    <div class="chart-actions">
+                        <button class="chart-btn" id="toggleCourbe" title="Changer le type">
+                            <i class="fa-solid fa-chart-area"></i>
+                        </button>
+                        <button class="chart-btn" title="Plein écran">
+                            <i class="fa-solid fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Canvas Chart.js courbe -->
+                <div class="chart-canvas-wrapper">
+                    <canvas id="chartPatientsMois"></canvas>
+                </div>
+            </div>
+
+            <!-- GRAPHIQUE 2 : Répartition par pathologie (camembert) -->
+            <div class="chart-card small">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <div class="chart-title-icon teal">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h2>Répartition par pathologie</h2>
+                            <p>Top 6 motifs de consultation</p>
+                        </div>
+                    </div>
+                    <div class="chart-actions">
+                        <button class="chart-btn" title="Options">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Canvas Chart.js camembert -->
+                <div class="chart-canvas-wrapper donut-wrapper">
+                    <canvas id="chartPathologies"></canvas>
+                </div>
+                <!-- Légende personnalisée -->
+                <div class="donut-legend" id="donutLegend"></div>
+            </div>
+        </div>
+        <!-- FIN LIGNE 1 -->
+
+        <!-- -----------------------------------------------
+             LIGNE 2 GRAPHIQUES : Barres vaccins + Messagerie
+        ----------------------------------------------- -->
+        <div class="charts-row">
+
+            <!-- GRAPHIQUE 3 : Vaccins effectués vs en retard (barres) -->
+            <div class="chart-card medium">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <div class="chart-title-icon green">
+                            <i class="fa-solid fa-syringe"></i>
+                        </div>
+                        <div>
+                            <h2>Vaccins : effectués vs en retard</h2>
+                            <p>Comparaison mensuelle</p>
+                        </div>
+                    </div>
+                    <!-- Légende inline vaccins -->
+                    <div class="chart-legend-inline">
+                        <span class="legend-dot green"></span> Effectués
+                        <span class="legend-dot red" style="margin-left:12px"></span> En retard
+                    </div>
+                </div>
+                <!-- Canvas Chart.js barres groupées -->
+                <div class="chart-canvas-wrapper">
+                    <canvas id="chartVaccins"></canvas>
+                </div>
+            </div>
+
+            <!-- GRAPHIQUE 4 : Activité messagerie (courbe aire) -->
+            <div class="chart-card medium">
+                <div class="chart-card-header">
+                    <div class="chart-card-title">
+                        <div class="chart-title-icon orange">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <div>
+                            <h2>Activité messagerie</h2>
+                            <p>Messages envoyés & reçus</p>
+                        </div>
+                    </div>
+                    <!-- Légende messagerie -->
+                    <div class="chart-legend-inline">
+                        <span class="legend-dot orange"></span> Reçus
+                        <span class="legend-dot blue" style="margin-left:12px"></span> Envoyés
+                    </div>
+                </div>
+                <!-- Canvas Chart.js aire messagerie -->
+                <div class="chart-canvas-wrapper">
+                    <canvas id="chartMessagerie"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- FIN LIGNE 2 -->
+
+        <!-- -----------------------------------------------
+             TABLEAU RÉCAPITULATIF MENSUEL
+        ----------------------------------------------- -->
+        <section class="recap-section">
+            <div class="recap-header">
+                <h2><i class="fa-solid fa-table-list"></i> Récapitulatif mensuel</h2>
+                <button class="btn-export-table" id="btnExportCSV">
+                    <i class="fa-solid fa-file-csv"></i> Exporter CSV
+                </button>
+            </div>
+
+            <!-- Tableau récapitulatif -->
+            <div class="table-wrapper">
+                <table class="recap-table" id="recapTable">
+                    <thead>
+                        <tr>
+                            <th>Mois</th>                   <!-- Mois concerné -->
+                            <th>Nouveaux patients</th>      <!-- Nb patients ajoutés -->
+                            <th>Consultations</th>          <!-- Nb consultations -->
+                            <th>Vaccins effectués</th>      <!-- Vaccins faits -->
+                            <th>Vaccins en retard</th>      <!-- Vaccins manqués -->
+                            <th>Messages</th>               <!-- Messages échangés -->
+                            <th>Taux de complétion</th>     <!-- % dossiers complets -->
+                        </tr>
+                    </thead>
+                    <tbody id="recapTableBody">
+                        <!-- Rempli dynamiquement par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!-- FIN TABLEAU RECAP -->
+
+    </main>
+    <!-- FIN CONTENU PRINCIPAL -->
+</div>
+<!-- FIN APP-LAYOUT -->
+
+
+<!-- =========================================================
+     TOAST DE NOTIFICATION
+========================================================= -->
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span id="toastMessage">Action effectuée</span>
+</div>
+
+
+<!-- Lien vers le fichier JavaScript -->
+<script src="analyses.js"></script>
+
+</body>
+</html>

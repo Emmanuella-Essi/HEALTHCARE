@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedConnect – Vue d'ensemble</title>
+    <title>Vue d'ensemble</title>
     <!-- Font Awesome 6 (version stable et disponible sur cdnjs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- CSS dédié (chemin corrigé : le fichier PHP est dans /admin/) -->
@@ -42,9 +42,7 @@
           <div class="nav-item" onclick="window.location.href='consultation.php'">
             <span class="nav-icon"><i class="fa-solid fa-video"></i></span> Consultations
           </div>
-          <div class="nav-item" onclick="window.location.href='vaccin.php'">
-            <span class="nav-icon"><i class="fa-solid fa-syringe"></i></span> Suivi vaccinal
-          </div>
+
           <div class="nav-item" onclick="window.location.href='rapport.php'">
             <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Rapports
           </div>
@@ -66,7 +64,8 @@
           </div>
         </div>
       </div>
-    </div><!-- /sidebar -->
+    </div>
+    <!-- /sidebar -->
 
     <!-- ══════════════════════════════════
          CONTENU PRINCIPAL

@@ -123,7 +123,7 @@
                 </div>
             </div>
 
-            <button class="btn-submit" style="margin-top: 20px; width: 100%;">
+            <button class="btn-submit" style="margin-top: 20px; width: 100%;" onclick="inscrire()">
                 S'inscrire
             </button>
 
@@ -137,19 +137,59 @@
     </div>
 
     <script>
-        function switchTab(role, el) {
-            // Masquer tous les formulaires spécifiques
-            var forms = document.querySelectorAll('.tab-form');
-            forms.forEach(f => f.classList.remove('active'));
+   var roleActif = 'patient';
 
-            // Désactiver tous les onglets
-            var tabs = document.querySelectorAll('.login-tab');
-            tabs.forEach(t => t.classList.remove('active'));
+function switchTab(role, el) {
+    roleActif = role;
+    var forms = document.querySelectorAll('.tab-form');
+    forms.forEach(f => f.classList.remove('active'));
+    var tabs = document.querySelectorAll('.login-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    document.getElementById('form-' + role).classList.add('active');
+    el.classList.add('active');
+}
 
-            // Activer le bon formulaire et le bon onglet
-            document.getElementById('form-' + role).classList.add('active');
-            el.classList.add('active');
+function inscrire() {
+
+    // Récupère les champs communs
+    var nom = document.querySelectorAll('input[type="text"]')[0].value;
+    var email = document.querySelector('input[type="email"]').value;
+    var password = document.querySelectorAll('input[type="password"]')[0].value;
+    var tel = document.querySelector('input[type="tel"]').value;
+
+    // Vérifie les champs communs
+    if (nom === '' || email === '' || password === '') {
+        alert('Veuillez remplir : Nom, Email et Mot de passe !');
+        return;
+    }
+
+    // Vérifie les champs spécifiques selon le rôle
+    if (roleActif === 'medecin') {
+        var idMedecin = document.querySelector('#form-medecin input[type="text"]').value;
+        if (idMedecin === '') {
+            alert('Veuillez remplir le numéro d\'ordre médical !');
+            return;
         }
-    </script>
+        window.location.href = '../Medecin/accueil.php';
+
+    } else if (roleActif === 'admin') {
+        var codeAdmin = document.querySelector('#form-admin input[type="password"]').value;
+        if (codeAdmin === '') {
+            alert('Veuillez remplir le code d\'accès admin !');
+            return;
+        }
+        window.location.href = '../Admin/accueil.php';
+
+    } else {
+        // patient par défaut
+        window.location.href = '../Patient/accueil.php';
+    }
+}
+
+   
+</script>
+         
+
+
 </body>
 </html>

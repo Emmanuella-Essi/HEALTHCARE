@@ -1,0 +1,1840 @@
+/* =====================================================
+   VACCINS.CSS — FEUILLE DE STYLE PAGE VACCINS
+   Dashboard Médecin — Module Vaccinations
+   ===================================================== */
+
+/* ---- VARIABLES CSS (palette de couleurs & ombres) ---- */
+:root {
+  /* Couleurs principales du thème médical */
+  --color-primary-dark:       #0A1931;   /* Bleu nuit très foncé */
+  --color-primary:            #1A3D63;   /* Bleu principal */
+  --color-secondary-light:    #B3CFE5;   /* Bleu clair doux */
+  --color-accent:             #4A7FA7;   /* Bleu accent médium */
+  --color-teal-light:         #0A8C74;   /* Vert teal clair */
+  --color-teal:               #047857;   /* Vert teal foncé */
+
+  /* Couleurs d'interface */
+  --color-background-light:   #F6FAFD;   /* Fond de page */
+  --color-white:              #FFFFFF;   /* Blanc pur */
+  --color-text-dark:          #1F2937;   /* Texte principal */
+  --color-text-muted:         #6B7280;   /* Texte secondaire */
+  --color-text-light:         #9CA3AF;   /* Texte clair */
+  --color-border:             #E5EEF6;   /* Bordures subtiles */
+  --color-input-bg:           #F1F7FB;   /* Fond inputs */
+
+  /* Couleurs sémantiques */
+  --color-success:            #047857;   /* Vert succès */
+  --color-success-bg:         #ECFDF5;   /* Fond succès */
+  --color-warning:            #D97706;   /* Orange avertissement */
+  --color-warning-bg:         #FFF7ED;   /* Fond avertissement */
+  --color-danger:             #DC2626;   /* Rouge danger */
+  --color-danger-bg:          #FEF2F2;   /* Fond danger */
+  --color-info:               #2563EB;   /* Bleu info */
+  --color-info-bg:            #EFF6FF;   /* Fond info */
+  --color-purple:             #7C3AED;   /* Violet */
+  --color-purple-bg:          #F5F3FF;   /* Fond violet */
+
+  /* Ombres */
+  --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
+  /* Dimensionnement sidebar */
+  --sidebar-width:  260px;              /* Largeur sidebar ouverte */
+  --topbar-height:  70px;              /* Hauteur de la barre supérieure */
+
+  /* Transitions globales */
+  --transition:     all 0.3s ease;     /* Animation standard */
+
+  /* Bordures arrondies */
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    14px;
+  --radius-xl:    20px;
+}
+
+/* ---- RESET & BASE ---- */
+/* Réinitialisation des marges et paddings par défaut */
+*, *::before, *::after {
+  box-sizing: border-box;    /* Modèle de boîte cohérent */
+  margin: 0;                 /* Suppression des marges par défaut */
+  padding: 0;                /* Suppression des paddings par défaut */
+}
+
+/* Style du corps de page */
+body {
+  font-family: 'Nunito', sans-serif;    /* Police principale */
+  background-color: var(--color-background-light);  /* Fond clair */
+  color: var(--color-text-dark);        /* Couleur texte */
+  display: flex;                        /* Disposition sidebar + main */
+  min-height: 100vh;                    /* Hauteur pleine page */
+  overflow-x: hidden;                  /* Cache le débordement horizontal */
+}
+
+/* Liens sans soulignage */
+a { text-decoration: none; color: inherit; }
+
+/* Images responsives */
+img { max-width: 100%; display: block; }
+
+/* Boutons — reset base */
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+
+/* Listes sans style */
+ul, ol { list-style: none; }
+
+/* =============================================
+   SIDEBAR
+   ============================================= */
+
+/* Conteneur sidebar latérale */
+.sidebar {
+  width: var(--sidebar-width);          /* Largeur fixe */
+  height: 100vh;                        /* Hauteur pleine fenêtre */
+  background: var(--color-primary-dark); /* Fond bleu nuit */
+  position: fixed;                      /* Fixée à gauche */
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;              /* Disposition verticale */
+  z-index: 1000;                       /* Au-dessus du contenu */
+  transition: var(--transition);       /* Animation ouverture/fermeture */
+  overflow-y: auto;                    /* Scroll si contenu long */
+  overflow-x: hidden;                  /* Cache débordement horizontal */
+  box-shadow: var(--shadow-xl);        /* Ombre portée */
+}
+
+/* Masque le scrollbar de la sidebar */
+.sidebar::-webkit-scrollbar { display: none; }
+
+/* En-tête sidebar : logo + bouton fermer */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;      /* Logo à gauche, bouton à droite */
+  padding: 20px 18px;                  /* Espacement interne */
+  border-bottom: 1px solid rgba(255,255,255,0.07); /* Séparateur subtil */
+}
+
+/* Wrapper du logo */
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;                           /* Espace entre icône et texte */
+}
+
+/* Icône logo médecin */
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-teal)); /* Dégradé bleu-vert */
+  border-radius: var(--radius-md);     /* Coins arrondis */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: white;
+  flex-shrink: 0;                      /* Ne se rétrécit pas */
+}
+
+/* Titre du logo */
+.logo-title {
+  display: block;
+  font-family: 'Poppins', sans-serif;  /* Police distincte pour le logo */
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+/* Sous-titre logo */
+.logo-sub {
+  display: block;
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);        /* Blanc semi-transparent */
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Bouton fermer sidebar (visible mobile) */
+.sidebar-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);   /* Fond transparent */
+  color: white;
+  display: none;                       /* Caché sur desktop */
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.sidebar-close:hover {
+  background: rgba(255,255,255,0.2);   /* Survol plus clair */
+}
+
+/* Carte médecin connecté dans la sidebar */
+.doctor-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  margin: 12px 12px 6px;              /* Marges autour de la carte */
+  background: rgba(255,255,255,0.05); /* Fond léger semi-transparent */
+  border-radius: var(--radius-lg);    /* Coins arrondis */
+  border: 1px solid rgba(255,255,255,0.08); /* Bordure subtile */
+}
+
+/* Wrapper avatar médecin */
+.doctor-avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Image avatar */
+.doctor-avatar img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;                 /* Forme circulaire */
+  border: 2px solid var(--color-accent); /* Bordure accent */
+}
+
+/* Point vert "en ligne" */
+.online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  background: #22C55E;                /* Vert vif */
+  border: 2px solid var(--color-primary-dark);
+  border-radius: 50%;
+}
+
+/* Nom du médecin */
+.doctor-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+}
+
+/* Spécialité du médecin */
+.doctor-specialty {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);       /* Blanc atténué */
+  margin-top: 2px;
+}
+
+/* Navigation principale sidebar */
+.sidebar-nav {
+  padding: 10px 12px 20px;
+  flex: 1;                             /* Prend tout l'espace disponible */
+}
+
+/* Label de section navigation (ex: "NAVIGATION") */
+.nav-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.3);        /* Très atténué */
+  letter-spacing: 1.2px;              /* Espacé */
+  padding: 12px 8px 6px;              /* Espacement autour */
+  text-transform: uppercase;
+}
+
+/* Item de navigation */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);    /* Coins arrondis */
+  margin-bottom: 2px;                 /* Espacement entre items */
+  color: rgba(255,255,255,0.6);       /* Couleur inactive */
+  transition: var(--transition);
+  font-size: 13.5px;
+  font-weight: 600;
+  position: relative;                 /* Pour le badge positionné */
+}
+
+/* Survol item navigation */
+.nav-item:hover {
+  background: rgba(255,255,255,0.08); /* Fond léger au survol */
+  color: white;                        /* Texte blanc */
+}
+
+/* Item actif (page courante) */
+.nav-item.active {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-primary)); /* Dégradé accent */
+  color: white;
+  box-shadow: 0 4px 12px rgba(74, 127, 167, 0.4); /* Ombre colorée */
+}
+
+/* Icône de navigation */
+.nav-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);    /* Légèrement arrondi */
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Label texte navigation */
+.nav-label {
+  flex: 1;                             /* Prend l'espace restant */
+}
+
+/* Badge compteur sur item navigation */
+.nav-badge {
+  background: var(--color-accent);    /* Couleur accent */
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;                /* Pilule arrondie */
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Badge orange (avertissement) */
+.nav-badge.warn {
+  background: var(--color-warning);   /* Orange */
+}
+
+/* Item déconnexion */
+.nav-item.logout:hover {
+  background: rgba(220, 38, 38, 0.15); /* Rouge transparent */
+  color: #FCA5A5;                      /* Rouge clair */
+}
+
+/* =============================================
+   CONTENU PRINCIPAL
+   ============================================= */
+
+/* Zone contenu principale (à côté de la sidebar) */
+.main-content {
+  margin-left: var(--sidebar-width);   /* Décalage pour la sidebar */
+  flex: 1;                             /* Prend tout l'espace restant */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============================================
+   TOPBAR
+   ============================================= */
+
+/* Barre supérieure */
+.topbar {
+  height: var(--topbar-height);        /* Hauteur fixe */
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 28px;
+  position: sticky;                    /* Reste en haut au scroll */
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Bouton hamburger menu (mobile) */
+.hamburger {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-background-light);
+  color: var(--color-text-dark);
+  display: none;                       /* Caché sur desktop */
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.hamburger:hover {
+  background: var(--color-border);
+}
+
+/* Wrapper titre page */
+.page-title-wrap {
+  flex: 1;                             /* Prend l'espace restant */
+}
+
+/* Titre de la page */
+.page-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Icône titre page */
+.page-title i {
+  color: var(--color-accent);
+}
+
+/* Fil d'Ariane */
+.breadcrumb {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+/* Lien fil d'Ariane */
+.breadcrumb a {
+  color: var(--color-accent);
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* Chevron fil d'Ariane */
+.breadcrumb i {
+  font-size: 9px;
+  color: var(--color-text-light);
+}
+
+/* Actions côté droit topbar */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Affichage de la date dans la topbar */
+.topbar-date {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  white-space: nowrap;                 /* Pas de retour à la ligne */
+}
+
+/* Bouton générique topbar */
+.topbar-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background: var(--color-background-light);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  position: relative;
+  transition: var(--transition);
+}
+
+.topbar-btn:hover {
+  background: var(--color-secondary-light);
+  color: var(--color-primary);
+}
+
+/* Badge notifications */
+.notif-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--color-danger);    /* Rouge */
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+/* =============================================
+   BOUTONS PRINCIPAUX
+   ============================================= */
+
+/* Bouton principal (bleu) */
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: white;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: var(--transition);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);         /* Légère élévation au survol */
+  box-shadow: var(--shadow-md);
+  opacity: 0.92;
+}
+
+/* Bouton secondaire (contour) */
+.btn-outline {
+  background: white;
+  color: var(--color-accent);
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid var(--color-secondary-light);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  border-color: var(--color-accent);
+  background: var(--color-info-bg);
+}
+
+/* Bouton pleine largeur */
+.full-width { width: 100%; justify-content: center; }
+
+/* =============================================
+   CONTENU PAGE (zone de défilement)
+   ============================================= */
+
+/* Zone scrollable du contenu */
+.page-content {
+  padding: 28px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;                           /* Espace entre sections */
+  overflow-y: auto;
+}
+
+/* =============================================
+   CARTE GÉNÉRIQUE
+   ============================================= */
+
+/* Conteneur blanc avec ombre pour les sections */
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);    /* Très arrondi */
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  padding: 24px;
+}
+
+/* En-tête de section (titre + actions) */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;     /* Titre à gauche, actions à droite */
+  margin-bottom: 20px;
+  flex-wrap: wrap;                    /* Repasse à la ligne si petit écran */
+  gap: 12px;
+}
+
+/* Titre de section */
+.section-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Icône titre section */
+.section-title i {
+  color: var(--color-accent);
+}
+
+/* =============================================
+   SECTION STATISTIQUES
+   ============================================= */
+
+/* Grille des cartes statistiques */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
+  gap: 18px;
+}
+
+/* Carte statistique individuelle */
+.stat-card {
+  background: var(--color-white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: var(--transition);
+  animation: fadeInUp 0.5s ease both;  /* Animation d'entrée */
+}
+
+/* Délais d'animation progressifs pour les cartes */
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.1s;  }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.2s;  }
+
+.stat-card:hover {
+  transform: translateY(-3px);          /* Élévation au survol */
+  box-shadow: var(--shadow-lg);
+}
+
+/* Icône de la carte statistique */
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+  flex-shrink: 0;
+}
+
+/* Couleurs variantes des icônes */
+.bg-blue   { background: linear-gradient(135deg, var(--color-primary),     var(--color-accent));       }
+.bg-green  { background: linear-gradient(135deg, var(--color-teal),        var(--color-teal-light));   }
+.bg-red    { background: linear-gradient(135deg, #DC2626,                  #EF4444);                   }
+.bg-orange { background: linear-gradient(135deg, #D97706,                  #F59E0B);                   }
+
+/* Informations textuelles de la stat */
+.stat-info { flex: 1; min-width: 0; }
+
+/* Label de la statistique */
+.stat-label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+/* Valeur numérique principale */
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--color-primary);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+/* Tendance (hausse/baisse) */
+.stat-trend {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Tendance positive (vert) */
+.stat-trend.up   { color: var(--color-teal); }
+
+/* Tendance négative (rouge) */
+.stat-trend.down { color: var(--color-danger); }
+
+/* =============================================
+   SECTION FILTRES
+   ============================================= */
+
+/* Ligne des filtres : disposition en grille */
+.filters-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr auto; /* Colonnes proportionnelles */
+  gap: 14px;
+  align-items: end;                    /* Aligne en bas */
+}
+
+/* Groupe de filtre individuel */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Label du filtre */
+.filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-label i {
+  color: var(--color-accent);
+  font-size: 11px;
+}
+
+/* Wrapper avec icône intégrée dans l'input */
+.input-icon-wrap {
+  position: relative;
+}
+
+/* Icône intégrée dans le champ */
+.input-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: 13px;
+  pointer-events: none;               /* Pas interactif */
+}
+
+/* Champ de saisie des filtres */
+.filter-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--color-text-dark);
+  background: var(--color-input-bg);
+  transition: var(--transition);
+  outline: none;
+}
+
+/* Input avec icône : padding gauche augmenté */
+.input-icon-wrap .filter-input {
+  padding-left: 34px;
+}
+
+/* Champ actif (focus) */
+.filter-input:focus {
+  border-color: var(--color-accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 127, 167, 0.1); /* Halo d'accent */
+}
+
+/* Select des filtres */
+.filter-select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--color-text-dark);
+  background: var(--color-input-bg);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition);
+  appearance: none;                    /* Cache l'apparence native */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+.filter-select:focus {
+  border-color: var(--color-accent);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(74, 127, 167, 0.1);
+}
+
+/* Groupe plage de dates */
+.date-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Champ date */
+.date-input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Séparateur entre les deux dates */
+.date-sep {
+  color: var(--color-text-muted);
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+/* Groupe bouton appliquer */
+.filter-btn-group {
+  padding-top: 2px;
+}
+
+/* =============================================
+   TABLEAU DES VACCINATIONS
+   ============================================= */
+
+/* Titre + compteur */
+.table-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Compteur résultats */
+.result-count {
+  background: var(--color-background-light);
+  color: var(--color-text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+}
+
+/* Actions du tableau : export */
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Conteneur tableau avec scroll horizontal */
+.table-wrap {
+  overflow-x: auto;                    /* Scroll sur petits écrans */
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+/* Tableau principal */
+.vaccin-table {
+  width: 100%;
+  border-collapse: collapse;          /* Fusionne les bordures */
+  font-size: 13.5px;
+}
+
+/* En-têtes du tableau */
+.vaccin-table thead th {
+  background: var(--color-background-light);
+  padding: 13px 14px;
+  text-align: left;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+}
+
+/* Colonnes triables */
+.sortable {
+  cursor: pointer;
+  user-select: none;                   /* Pas de sélection de texte */
+  transition: var(--transition);
+}
+
+.sortable:hover {
+  color: var(--color-primary);
+  background: var(--color-secondary-light);
+}
+
+/* Lignes du tableau */
+.vaccin-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: var(--transition);
+  animation: fadeInUp 0.3s ease both; /* Animation entrée */
+}
+
+.vaccin-table tbody tr:last-child {
+  border-bottom: none;                 /* Pas de bordure sur la dernière ligne */
+}
+
+.vaccin-table tbody tr:hover {
+  background: var(--color-background-light); /* Survol ligne */
+}
+
+/* Cellule du tableau */
+.vaccin-table tbody td {
+  padding: 13px 14px;
+  vertical-align: middle;
+  color: var(--color-text-dark);
+}
+
+/* Colonne checkbox */
+.col-check { width: 44px; }
+
+/* Colonne patient */
+.col-patient { min-width: 180px; }
+
+/* Colonne vaccin */
+.col-vaccin { min-width: 160px; }
+
+/* Colonne dose */
+.col-dose { width: 90px; }
+
+/* Colonne date */
+.col-date { width: 130px; }
+
+/* Colonne rappel */
+.col-rappel { width: 140px; }
+
+/* Colonne statut */
+.col-statut { width: 140px; }
+
+/* Colonne actions */
+.col-actions { width: 110px; }
+
+/* Wrapper informations patient dans le tableau */
+.patient-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Mini-avatar patient */
+.patient-mini-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary-light);
+  flex-shrink: 0;
+}
+
+/* Nom du patient */
+.patient-cell-name {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--color-primary);
+}
+
+/* Âge du patient */
+.patient-cell-age {
+  font-size: 11.5px;
+  color: var(--color-text-muted);
+  margin-top: 1px;
+}
+
+/* Nom du vaccin dans le tableau */
+.vaccin-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Icône type vaccin */
+.vaccin-icon {
+  width: 26px;
+  height: 26px;
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Badge de numéro de dose */
+.dose-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  background: var(--color-purple-bg);
+  color: var(--color-purple);
+}
+
+/* Date dans le tableau */
+.date-cell {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+/* Sous-texte "il y a X jours" */
+.date-sub {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* Date rappel */
+.rappel-cell {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Rappel bientôt (orange) */
+.rappel-soon { color: var(--color-warning); }
+
+/* Pas de rappel (gris) */
+.rappel-none { color: var(--color-text-light); font-style: italic; }
+
+/* BADGES DE STATUT */
+.badge-statut {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border-radius: 20px;                /* Pilule */
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Statut : Effectué (vert) */
+.badge-fait {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+/* Statut : Planifié (bleu) */
+.badge-planifie {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+/* Statut : En retard (rouge) */
+.badge-retard {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  animation: pulse-badge 2s infinite; /* Pulsation pour attirer l'attention */
+}
+
+/* Statut : Rappel programmé (orange) */
+.badge-rappel {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+/* Animation pulsation badge retard */
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* Cellule des actions du tableau */
+.actions-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Bouton action (voir/modifier/supprimer) */
+.action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: var(--transition);
+}
+
+/* Bouton voir (bleu clair) */
+.btn-view {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.btn-view:hover {
+  background: var(--color-info);
+  color: white;
+}
+
+/* Bouton modifier (vert clair) */
+.btn-edit {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.btn-edit:hover {
+  background: var(--color-success);
+  color: white;
+}
+
+/* Bouton supprimer (rouge clair) */
+.btn-delete {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.btn-delete:hover {
+  background: var(--color-danger);
+  color: white;
+}
+
+/* Ligne de chargement */
+.loading-row td {
+  text-align: center;
+  padding: 40px;
+}
+
+/* Wrapper du spinner et texte de chargement */
+.loading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+/* Spinner de chargement */
+.spinner {
+  width: 22px;
+  height: 22px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Ligne vide (aucun résultat) */
+.empty-row td {
+  text-align: center;
+  padding: 48px 20px;
+  color: var(--color-text-muted);
+}
+
+.empty-icon {
+  font-size: 42px;
+  color: var(--color-border);
+  margin-bottom: 12px;
+}
+
+.empty-text {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.empty-sub {
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* PAGINATION */
+.pagination-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;     /* Info à gauche, boutons à droite */
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Texte informatif pagination */
+.pagination-info {
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* Conteneur boutons pagination */
+.pagination-btns {
+  display: flex;
+  gap: 6px;
+}
+
+/* Bouton de page */
+.page-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: white;
+  border: 1.5px solid var(--color-border);
+  color: var(--color-text-dark);
+  font-size: 13px;
+  font-weight: 600;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: var(--color-info-bg);
+}
+
+/* Bouton de page actif */
+.page-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+/* Bouton désactivé */
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* =============================================
+   SECTION ALERTES
+   ============================================= */
+
+/* Titre alerte rouge */
+.alert-title {
+  color: var(--color-danger) !important;
+}
+
+.alert-title i {
+  color: var(--color-danger) !important;
+}
+
+/* Badge nombre d'alertes */
+.alert-badge {
+  background: var(--color-danger);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+/* Liste des alertes */
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Item d'alerte individuel */
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: var(--color-danger-bg);  /* Fond rouge clair */
+  border: 1px solid rgba(220, 38, 38, 0.15);
+  border-radius: var(--radius-lg);
+  animation: fadeInUp 0.4s ease both;
+  transition: var(--transition);
+}
+
+.alert-item:hover {
+  transform: translateX(4px);          /* Légère translation au survol */
+  box-shadow: var(--shadow-sm);
+}
+
+/* Icône d'alerte */
+.alert-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+/* Contenu textuel de l'alerte */
+.alert-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Texte principal de l'alerte */
+.alert-text {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-danger);
+}
+
+/* Sous-texte (date retard) */
+.alert-sub {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* Bouton action dans l'alerte */
+.alert-action {
+  background: var(--color-danger);
+  color: white;
+  padding: 6px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.alert-action:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+/* =============================================
+   MODAL
+   ============================================= */
+
+/* Fond semi-transparent de la modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;                            /* Couvre toute la fenêtre */
+  background: rgba(10, 25, 49, 0.55); /* Fond sombre semi-transparent */
+  backdrop-filter: blur(4px);          /* Flou derrière la modal */
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;                          /* Masquée par défaut */
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+/* État ouvert de la modal */
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Boîte de dialogue de la modal */
+.modal-box {
+  background: white;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 680px;                    /* Largeur maximale */
+  max-height: 90vh;                   /* Hauteur max : 90% fenêtre */
+  overflow-y: auto;                   /* Scroll si contenu long */
+  transform: scale(0.95) translateY(10px); /* État initial (réduit) */
+  transition: transform 0.3s ease;
+}
+
+/* Animation ouverture modal */
+.modal-backdrop.open .modal-box {
+  transform: scale(1) translateY(0);  /* Taille normale */
+}
+
+/* Modal de détail (plus large) */
+.modal-detail-box { max-width: 540px; }
+
+/* En-tête de la modal */
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--color-background-light), white);
+}
+
+/* Titre de la modal */
+.modal-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-title i {
+  color: var(--color-accent);
+}
+
+/* Bouton fermer modal */
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-background-light);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+/* Corps de la modal */
+.modal-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Ligne de formulaire : 2 colonnes */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;    /* 2 colonnes égales */
+  gap: 16px;
+}
+
+/* Groupe de champ formulaire */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Groupe pleine largeur */
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+/* Label du formulaire */
+.form-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-label i {
+  color: var(--color-accent);
+  font-size: 11px;
+}
+
+/* Indicateur champ requis */
+.required { color: var(--color-danger); }
+
+/* Champ de formulaire */
+.form-control {
+  padding: 10px 13px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: inherit;
+  color: var(--color-text-dark);
+  background: var(--color-input-bg);
+  transition: var(--transition);
+  outline: none;
+  width: 100%;
+}
+
+.form-control:focus {
+  border-color: var(--color-accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(74, 127, 167, 0.1);
+}
+
+/* Select dans le formulaire */
+select.form-control {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+/* Zone de texte multi-lignes */
+.form-control.textarea {
+  resize: vertical;                    /* Redimensionnable verticalement */
+  min-height: 80px;
+}
+
+/* Wrapper toggle rappel automatique */
+.rappel-toggle-wrap {
+  background: var(--color-background-light);
+  border: 1.5px dashed var(--color-secondary-light);
+  border-radius: var(--radius-lg);
+  padding: 14px 18px;
+}
+
+/* Label toggle */
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+/* Cache l'input checkbox natif */
+.toggle-input {
+  display: none;
+}
+
+/* Slider du toggle */
+.toggle-slider {
+  width: 44px;
+  height: 24px;
+  background: var(--color-border);
+  border-radius: 20px;
+  position: relative;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+/* Cercle du toggle */
+.toggle-slider::after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Toggle activé */
+.toggle-input:checked + .toggle-slider {
+  background: var(--color-accent);
+}
+
+/* Cercle déplacé quand activé */
+.toggle-input:checked + .toggle-slider::after {
+  left: 23px;
+}
+
+/* Texte du toggle */
+.toggle-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toggle-text i {
+  color: var(--color-warning);
+}
+
+/* Pied de modal */
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;          /* Boutons alignés à droite */
+  gap: 10px;
+  background: var(--color-background-light);
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+/* =============================================
+   DÉTAIL VACCIN (contenu modal)
+   ============================================= */
+
+/* En-tête du détail */
+.detail-header {
+  text-align: center;
+  padding: 10px 0 16px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 4px;
+}
+
+/* Avatar dans le détail */
+.detail-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--color-secondary-light);
+  margin: 0 auto 10px;
+}
+
+/* Nom dans le détail */
+.detail-patient-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Sous-texte dans le détail */
+.detail-sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* Grille d'informations */
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+/* Item d'information */
+.detail-item {
+  background: var(--color-background-light);
+  border-radius: var(--radius-lg);
+  padding: 12px 14px;
+}
+
+/* Label de l'item */
+.detail-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.detail-label i {
+  color: var(--color-accent);
+}
+
+/* Valeur de l'item */
+.detail-value {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+/* Notes dans le détail */
+.detail-notes {
+  background: var(--color-info-bg);
+  border-left: 3px solid var(--color-info);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 12px 14px;
+  margin-top: 14px;
+}
+
+/* =============================================
+   TOAST NOTIFICATIONS
+   ============================================= */
+
+/* Conteneur des toasts */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;               /* Ne bloque pas les clics */
+}
+
+/* Toast individuel */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-lg);
+  background: white;
+  box-shadow: var(--shadow-xl);
+  border-left: 4px solid;              /* Ligne colorée gauche */
+  min-width: 280px;
+  max-width: 380px;
+  pointer-events: all;
+  animation: slideInToast 0.4s ease, fadeOut 0.4s ease 3s forwards;
+}
+
+/* Variantes de couleur des toasts */
+.toast.success { border-color: var(--color-success); }
+.toast.error   { border-color: var(--color-danger);  }
+.toast.warning { border-color: var(--color-warning); }
+.toast.info    { border-color: var(--color-info);    }
+
+/* Icône du toast */
+.toast-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Couleurs icônes toast */
+.toast.success .toast-icon { color: var(--color-success); }
+.toast.error   .toast-icon { color: var(--color-danger);  }
+.toast.warning .toast-icon { color: var(--color-warning); }
+.toast.info    .toast-icon { color: var(--color-info);    }
+
+/* Texte du toast */
+.toast-msg {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  flex: 1;
+}
+
+/* Animations des toasts */
+@keyframes slideInToast {
+  from { transform: translateX(100px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(20px); }
+}
+
+/* =============================================
+   OVERLAY MOBILE
+   ============================================= */
+
+/* Fond sombre mobile pour fermer la sidebar */
+.sidebar-overlay {
+  display: none;                       /* Caché par défaut */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 999;
+  backdrop-filter: blur(2px);
+}
+
+/* =============================================
+   ANIMATIONS GÉNÉRALES
+   ============================================= */
+
+/* Animation d'entrée : monter + apparaître */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================
+   RESPONSIVE — TABLETTE (≤ 1024px)
+   ============================================= */
+@media (max-width: 1024px) {
+
+  /* Réduction des colonnes stats */
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Réduction filtres */
+  .filters-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
+
+/* =============================================
+   RESPONSIVE — MOBILE (≤ 768px)
+   ============================================= */
+@media (max-width: 768px) {
+
+  /* Sidebar cachée hors écran sur mobile */
+  .sidebar {
+    left: -100%;                       /* Hors écran */
+  }
+
+  /* Sidebar ouverte (classe ajoutée par JS) */
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Contenu prend toute la largeur */
+  .main-content {
+    margin-left: 0;
+  }
+
+  /* Boutons hamburger et fermer visibles */
+  .hamburger,
+  .sidebar-close {
+    display: flex;
+  }
+
+  /* Overlay mobile visible quand sidebar ouverte */
+  .sidebar-overlay.show {
+    display: block;
+  }
+
+  /* Topbar padding réduit */
+  .topbar {
+    padding: 0 16px;
+    gap: 10px;
+  }
+
+  /* Titre page plus petit */
+  .page-title {
+    font-size: 15px;
+  }
+
+  /* Cache la date sur mobile */
+  .topbar-date { display: none; }
+
+  /* Contenu page padding réduit */
+  .page-content {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  /* Stats en 1 colonne */
+  .stats-section {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Filtres en 1 colonne */
+  .filters-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Formulaire modal en 1 colonne */
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  /* Formulaire pleine largeur */
+  .form-group.full-width {
+    grid-column: span 1;
+  }
+
+  /* Modal pleine largeur sur mobile */
+  .modal-box {
+    max-width: 100%;
+  }
+
+  /* Grille détail en 1 colonne */
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Pagination simplifiée */
+  .pagination-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
