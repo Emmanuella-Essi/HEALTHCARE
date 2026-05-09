@@ -50,8 +50,7 @@
                 </div>
             </nav>
 
-            <div class="sidebar-footer">
-onclick="window.location.href='../Accueil/home.php'"
+            <div class="sidebar-footer" onclick="window.location.href='../Accueil/home.php'">
                     <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
                 </div>
                 <div class="sidebar-user">
@@ -67,7 +66,7 @@ onclick="window.location.href='../Accueil/home.php'"
         <!-- MAIN CONTENT -->
         <div class="main-content">
 
-            <div id="a-securite" class="admin-section" style="display:none">
+            <div id="a-securite" class="admin-section">
                 <div class="top-bar">
                     <h2><i class="fa-solid fa-shield-halved" style="color:var(--accent)"></i> Sécurité &amp; Journaux d'accès</h2>
                     <div class="top-bar-actions" style="display:none"></div>

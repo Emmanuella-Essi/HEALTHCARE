@@ -48,8 +48,7 @@
                 </div>
             </nav>
 
-            <div class="sidebar-footer">
-onclick="window.location.href='../Accueil/home.php'"
+            <div class="sidebar-footer" onclick="window.location.href='../Accueil/home.php'">
                     <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
                 </div>
                 <div class="sidebar-user">
@@ -66,7 +65,7 @@ onclick="window.location.href='../Accueil/home.php'"
         <div class="main-content">
 
             <!-- CONSULTATIONS ADMIN -->
-            <div id="a-consultations-admin" class="admin-section" style="display:none">
+            <div id="a-consultations-admin" class="admin-section">
                 <div class="top-bar">
                     <h2>🎥 Suivi des Consultations</h2>
                     <div class="top-bar-actions" style="display:none"></div>
