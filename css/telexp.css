@@ -29,12 +29,13 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  position: relative;
 }
 
 
 body::before {
   content: '';
-  position: fixed;
+  position: relative;
   inset: 0;
   background:
     radial-gradient(ellipse 80% 50% at 20% 10%, rgba(46,124,246,0.12) 0%, transparent 60%),
