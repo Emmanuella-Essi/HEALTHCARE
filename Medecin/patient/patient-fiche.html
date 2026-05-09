@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<!-- ============================================================
+     patient-fiche.html — Fiche détaillée d'un patient
+     Onglets : Infos | Dossier médical | Vaccins | Consultations | Ordonnances | Messages
+     ============================================================ -->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fiche Patient — Dashboard Médecin</title>
+
+    <!-- Police Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Feuille de style globale partagée -->
+    <link rel="stylesheet" href="patient.css" />
+    <link rel="stylesheet" href="../shared/doctor-sidebar.css" />
+    <script src="../shared/doctor-sidebar.js" defer></script>
+
+    <!-- Styles spécifiques à la fiche patient -->
+    <style>
+        /* Lien retour en haut de page */
+        .back-link {
+            display: inline-flex;          /* Icône + texte alignés */
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color 0.2s;
+        }
+        /* Survol du lien retour */
+        .back-link:hover {
+            color: var(--color-accent); /* Bleu au survol */
+        }
+        /* Icône SVG dans le lien retour */
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Grille 2 colonnes pour le contenu de la fiche */
+        .fiche-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 colonnes égales */
+            gap: 20px;
+        }
+        /* Élément qui occupe les 2 colonnes */
+        .fiche-grid .full-width {
+            grid-column: 1 / -1; /* De la colonne 1 à la dernière */
+        }
+
+        /* Indicateur d'alerte médicale dans l'en-tête */
+        .allergy-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #FEE2E2;         /* Fond rouge clair */
+            color: #B91C1C;              /* Texte rouge foncé */
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Zone de saisie de message dans la messagerie */
+        .chat-input-area {
+            display: flex;
+            gap: 10px;
+            padding: 16px 0 0;
+            border-top: 1px solid var(--color-border);
+            margin-top: 16px;
+        }
+        /* Input de message */
+        .chat-input-area input {
+            flex: 1;                       /* Prend tout l'espace */
+            padding: 10px 14px;
+            border: 1.5px solid var(--color-border);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        /* Focus sur l'input de message */
+        .chat-input-area input:focus {
+            border-color: var(--color-accent);
+        }
+
+        /* Bouton d'envoi de message */
+        .chat-send-btn {
+            width: 42px;
+            height: 42px;
+            background: var(--color-teal); /* Fond vert */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+        /* Survol bouton envoi */
+        .chat-send-btn:hover {
+            background: var(--color-teal-light);
+        }
+        /* Icône envoi SVG */
+        .chat-send-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Zone des messages (scrollable) */
+        .messages-zone {
+            max-height: 360px;    /* Hauteur max avant scroll */
+            overflow-y: auto;     /* Scroll vertical */
+            padding-right: 4px;
+        }
+        /* Personnalisation de la scrollbar */
+        .messages-zone::-webkit-scrollbar {
+            width: 4px;
+        }
+        .messages-zone::-webkit-scrollbar-thumb {
+            background: var(--color-border);
+            border-radius: 4px;
+        }
+
+        /* Nom de l'expéditeur au-dessus de la bulle */
+        .message-sender {
+            font-size: 0.72rem;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        /* Timeline verticale pour le dossier médical */
+        .timeline {
+            position: relative;
+            padding-left: 28px; /* Espace pour la ligne verticale */
+        }
+        /* Ligne verticale de la timeline */
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 10px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--color-border); /* Ligne grise */
+        }
+
+        /* Entrée individuelle de la timeline */
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        /* Point coloré sur la timeline */
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -22px;        /* Positionné sur la ligne */
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--color-teal); /* Point vert */
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--color-border);
+        }
+
+        /* Titre d'une entrée timeline */
+        .timeline-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+        }
+        /* Date d'une entrée timeline */
+        .timeline-date {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-bottom: 6px;
+        }
+        /* Contenu texte de l'entrée timeline */
+        .timeline-content {
+            font-size: 0.825rem;
+            color: var(--color-text-dark);
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            line-height: 1.6;
+        }
+
+        /* Carte de vital signs (signes vitaux) */
+        .vital-card {
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            flex: 1;
+        }
+        /* Valeur du signe vital */
+        .vital-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+        /* Unité (bpm, °C, etc.) */
+        .vital-unit {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        /* Label du signe vital */
+        .vital-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            margin-top: 4px;
+        }
+        /* Icône colorée du signe vital */
+        .vital-icon {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =====================================================
+         SIDEBAR — Identique à patients.html
+         ===================================================== -->
+    <aside class="sidebar">
+
+        <!-- Logo -->
+        <div class="sidebar-logo" title="MediDash">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
+                <rect x="10" y="5" width="4" height="14" rx="1"/>
+                <rect x="5" y="10" width="14" height="4" rx="1"/>
+            </svg>
+        </div>
+
+        <!-- Navigation principale -->
+        <nav class="sidebar-nav">
+
+            <!-- Dashboard -->
+            <a href="index.html" class="nav-item" title="Dashboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                </svg>
+            </a>
+
+            <!-- Patients (actif car on vient de la liste patients) -->
+            <a href="patients.html" class="nav-item active" title="Patients">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </a>
+
+            <!-- Consultations -->
+            <a href="#" class="nav-item" title="Consultations">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8"  y1="2" x2="8"  y2="6"/>
+                    <line x1="3"  y1="10" x2="21" y2="10"/>
+                </svg>
+            </a>
+
+            <!-- Vaccins -->
+            <a href="#" class="nav-item" title="Vaccins">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 2l4 4-10 10H8v-4L18 2z"/>
+                    <path d="M8 16l-5 5"/>
+                    <path d="M14 8l-2 2"/>
+                </svg>
+            </a>
+
+            <!-- Messages avec badge -->
+            <a href="#" class="nav-item" title="Messages">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span class="nav-badge"></span>
+            </a>
+
+            <!-- Dossiers -->
+            <a href="#" class="nav-item" title="Dossiers">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                </svg>
+            </a>
+
+        </nav>
+
+        <!-- Bas sidebar -->
+        <div class="sidebar-bottom">
+            <a href="#" class="nav-item" title="Profil" style="margin-bottom:8px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+            </a>
+            <a href="#" class="nav-item" title="Déconnexion" style="color:#EF4444;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                    <polyline points="16,17 21,12 16,7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- =====================================================
+         CONTENU PRINCIPAL
+         ===================================================== -->
+    <main class="main-content">
+
+        <!-- Lien de retour vers la liste des patients -->
+        <a href="patients.html" class="back-link">
+            <!-- Icône flèche gauche -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15,18 9,12 15,6"/>
+            </svg>
+            Retour à la liste des patients
+        </a>
+
+        <!-- ---- EN-TÊTE DE LA FICHE PATIENT ---- -->
+        <div class="patient-header-card">
+
+            <!-- Avatar avec initiales (ou photo) -->
+            <div class="patient-avatar-lg" id="header-avatar">KK</div>
+
+            <!-- Infos principales -->
+            <div style="flex:1;">
+                <!-- Nom complet du patient -->
+                <h2 class="patient-header-name" id="header-nom">Konan Kouassi</h2>
+                <!-- Métadonnées rapides -->
+                <div class="patient-header-meta">
+                    <!-- Âge -->
+                    <div class="meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8"  y1="2" x2="8"  y2="6"/>
+                            <line x1="3"  y1="10" x2="21" y2="10"/>
+                        </svg>
+                        <span id="header-age">34 ans</span>
+                    </div>
+                    <!-- Groupe sanguin -->
+                    <div class="meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2C12 2 5 9.5 5 14a7 7 0 0014 0C19 9.5 12 2 12 2z"/>
+                        </svg>
+                        <span id="header-blood">O+</span>
+                    </div>
+                    <!-- Sexe -->
+                    <div class="meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                        <span id="header-sexe">Masculin</span>
+                    </div>
+                    <!-- Téléphone -->
+                    <div class="meta-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+                        </svg>
+                        <span id="header-tel">+225 07 12 34 56</span>
+                    </div>
+                    <!-- Allergies (chip rouge si présent) -->
+                    <div class="meta-item">
+                        <span class="allergy-chip" id="header-allergies">
+                            ⚠ Pénicilline
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boutons d'actions rapides -->
+            <div class="patient-header-actions">
+                <!-- Bouton créer une ordonnance -->
+                <button class="btn-primary" onclick="switchTab('ordonnances'); openModalOrdonnance();">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <polyline points="14,2 14,8 20,8"/>
+                        <line x1="12" y1="18" x2="12" y2="12"/>
+                        <line x1="9"  y1="15" x2="15" y2="15"/>
+                    </svg>
+                    Créer ordonnance
+                </button>
+                <!-- Bouton ajouter entrée dossier -->
+                <button class="btn-secondary" onclick="switchTab('dossier'); openModalEntree();">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Ajouter entrée
+                </button>
+                <!-- Bouton modifier le patient -->
+                <button class="btn-icon" title="Modifier le patient" onclick="openModalModif()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ---- ONGLETS DE NAVIGATION ---- -->
+        <div class="tabs-bar" role="tablist">
+
+            <!-- Onglet : Infos personnelles -->
+            <button class="tab-btn active" onclick="switchTab('infos')" id="tab-infos">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Infos personnelles
+            </button>
+
+            <!-- Onglet : Dossier médical -->
+            <button class="tab-btn" onclick="switchTab('dossier')" id="tab-dossier">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                </svg>
+                Dossier médical
+            </button>
+
+            <!-- Onglet : Vaccins -->
+            <button class="tab-btn" onclick="switchTab('vaccins')" id="tab-vaccins">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M18 2l4 4-10 10H8v-4L18 2z"/>
+                    <path d="M8 16l-5 5"/>
+                </svg>
+                Vaccins
+            </button>
+
+            <!-- Onglet : Consultations passées -->
+            <button class="tab-btn" onclick="switchTab('consultations')" id="tab-consultations">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <rect x="3" y="4" width="18" height="18" rx="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8"  y1="2" x2="8"  y2="6"/>
+                    <line x1="3"  y1="10" x2="21" y2="10"/>
+                </svg>
+                Consultations
+            </button>
+
+            <!-- Onglet : Ordonnances -->
+            <button class="tab-btn" onclick="switchTab('ordonnances')" id="tab-ordonnances">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                    <polyline points="14,2 14,8 20,8"/>
+                </svg>
+                Ordonnances
+            </button>
+
+            <!-- Onglet : Messages échangés -->
+            <button class="tab-btn" onclick="switchTab('messages')" id="tab-messages">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                Messages
+            </button>
+
+        </div>
+
+        <!-- =====================================================
+             ONGLET 1 : INFORMATIONS PERSONNELLES
+             ===================================================== -->
+        <div class="tab-panel active" id="panel-infos">
+            <div class="fiche-grid">
+
+                <!-- Carte : Informations générales -->
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <h3 class="info-card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Informations générales
+                        </h3>
+                    </div>
+                    <div class="info-grid">
+                        <!-- Chaque info-field : label + valeur -->
+                        <div class="info-field">
+                            <label>Prénom</label>
+                            <span>Konan</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Nom</label>
+                            <span>Kouassi</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Date de naissance</label>
+                            <span>15 mars 1990</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Âge</label>
+                            <span>34 ans</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Sexe</label>
+                            <span>Masculin</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Groupe sanguin</label>
+                            <span><span class="badge badge-blood">O+</span></span>
+                        </div>
+                        <div class="info-field">
+                            <label>ID Patient</label>
+                            <span>#PAT-001</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Date d'inscription</label>
+                            <span>3 janv. 2024</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte : Coordonnées -->
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <h3 class="info-card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
+                            </svg>
+                            Coordonnées
+                        </h3>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-field">
+                            <label>Téléphone</label>
+                            <span>+225 07 12 34 56</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Email</label>
+                            <span>konan.k@email.com</span>
+                        </div>
+                        <div class="info-field" style="grid-column:1/-1;">
+                            <label>Adresse</label>
+                            <span>Cocody, Rue des Jardins, Abidjan</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Contact urgence</label>
+                            <span>Adjoa Kouassi (épouse)</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Tél. urgence</label>
+                            <span>+225 07 98 76 54</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carte : Informations médicales clés -->
+                <div class="info-card full-width">
+                    <div class="info-card-header">
+                        <h3 class="info-card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            Informations médicales clés
+                        </h3>
+                    </div>
+                    <!-- Signes vitaux -->
+                    <p style="font-size:0.8rem;font-weight:600;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">
+                        Signes vitaux récents
+                    </p>
+                    <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;">
+                        <!-- Fréquence cardiaque -->
+                        <div class="vital-card">
+                            <div class="vital-icon">❤️</div>
+                            <div class="vital-value">80 <span class="vital-unit">bpm</span></div>
+                            <div class="vital-label">Fréquence cardiaque</div>
+                        </div>
+                        <!-- Température -->
+                        <div class="vital-card">
+                            <div class="vital-icon">🌡️</div>
+                            <div class="vital-value">36.5 <span class="vital-unit">°C</span></div>
+                            <div class="vital-label">Température</div>
+                        </div>
+                        <!-- Glycémie -->
+                        <div class="vital-card">
+                            <div class="vital-icon">🩸</div>
+                            <div class="vital-value">100 <span class="vital-unit">mg/dl</span></div>
+                            <div class="vital-label">Glycémie</div>
+                        </div>
+                        <!-- Tension artérielle -->
+                        <div class="vital-card">
+                            <div class="vital-icon">💊</div>
+                            <div class="vital-value">120/80 <span class="vital-unit">mmHg</span></div>
+                            <div class="vital-label">Tension artérielle</div>
+                        </div>
+                    </div>
+
+                    <!-- Données anthropométriques et antécédents -->
+                    <div class="info-grid">
+                        <div class="info-field">
+                            <label>Taille</label>
+                            <span>1,78 m</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Poids</label>
+                            <span>65 kg</span>
+                        </div>
+                        <div class="info-field">
+                            <label>IMC</label>
+                            <span>20,5 (Normal)</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Allergies</label>
+                            <span>
+                                <span class="allergy-chip">⚠ Pénicilline</span>
+                            </span>
+                        </div>
+                        <div class="info-field">
+                            <label>Maladies chroniques</label>
+                            <span>Diabète type 2, Hypertension légère</span>
+                        </div>
+                        <div class="info-field">
+                            <label>Antécédents familiaux</label>
+                            <span>Maladies cardiovasculaires</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- =====================================================
+             ONGLET 2 : DOSSIER MÉDICAL
+             ===================================================== -->
+        <div class="tab-panel" id="panel-dossier">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
+                        </svg>
+                        Carnet médical — Historique complet
+                    </h3>
+                    <!-- Bouton d'ajout d'entrée -->
+                    <button class="btn-primary" style="font-size:0.8rem;padding:8px 14px;" onclick="openModalEntree()">
+                        + Nouvelle entrée
+                    </button>
+                </div>
+
+                <!-- Timeline du dossier médical -->
+                <div class="timeline" id="timeline-dossier">
+
+                    <!-- Entrée 1 : la plus récente -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">10 décembre 2024</div>
+                        <div class="timeline-title">Consultation de suivi — Diabète</div>
+                        <div class="timeline-content">
+                            Glycémie à jeun : 1,12 g/L. HbA1c : 7,2%. Patient bien équilibré.
+                            Renouvellement traitement Metformine 500mg matin et soir. Prochain contrôle dans 3 mois.
+                        </div>
+                    </div>
+
+                    <!-- Entrée 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">25 novembre 2024</div>
+                        <div class="timeline-title">Bilan sanguin complet</div>
+                        <div class="timeline-content">
+                            NFS : Hémoglobine 13,8 g/dL, leucocytes 6 500/mm³. Bilan lipidique : LDL 1,2 g/L.
+                            Résultats globalement satisfaisants. Pas d'anomalie notable.
+                        </div>
+                    </div>
+
+                    <!-- Entrée 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">5 octobre 2024</div>
+                        <div class="timeline-title">Consultation urgence — Fièvre</div>
+                        <div class="timeline-content">
+                            Fièvre à 38,9°C depuis 2 jours. Suspicion d'infection virale.
+                            Traitement symptomatique : Paracétamol 1g toutes les 6h. Repos conseillé.
+                            Évolution favorable après 5 jours.
+                        </div>
+                    </div>
+
+                    <!-- Entrée 4 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">15 juin 2024</div>
+                        <div class="timeline-title">Diagnostic initial — Hypertension</div>
+                        <div class="timeline-content">
+                            Pression artérielle mesurée à 145/92 mmHg lors de 3 consultations consécutives.
+                            Diagnostic HTA stade 1. Introduction d'Amlodipine 5mg/j. Conseils hygiéno-diététiques.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             ONGLET 3 : VACCINS
+             ===================================================== -->
+        <div class="tab-panel" id="panel-vaccins">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 2l4 4-10 10H8v-4L18 2z"/>
+                            <path d="M8 16l-5 5"/>
+                        </svg>
+                        Carnet de vaccination
+                    </h3>
+                    <!-- Bouton ajouter un vaccin -->
+                    <button class="btn-primary" style="font-size:0.8rem;padding:8px 14px;" onclick="openModalVaccin()">
+                        + Ajouter vaccin
+                    </button>
+                </div>
+
+                <!-- Liste des vaccins -->
+                <div id="vaccins-list">
+
+                    <!-- Vaccin 1 : effectué -->
+                    <div class="record-row">
+                        <div class="record-icon green">
+                            <!-- Icône seringue -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2l4 4-10 10H8v-4L18 2z"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Vaccin Hépatite B — Rappel</div>
+                            <div class="record-date">15 janv. 2024 · Lot #HB2024A</div>
+                        </div>
+                        <!-- Badge statut du vaccin -->
+                        <span class="badge badge-active">Effectué</span>
+                    </div>
+
+                    <!-- Vaccin 2 : effectué -->
+                    <div class="record-row">
+                        <div class="record-icon green">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2l4 4-10 10H8v-4L18 2z"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Vaccin Tétanos — DTP</div>
+                            <div class="record-date">20 mars 2023 · Lot #DTP2023B</div>
+                        </div>
+                        <span class="badge badge-active">Effectué</span>
+                    </div>
+
+                    <!-- Vaccin 3 : en retard -->
+                    <div class="record-row">
+                        <div class="record-icon orange">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Vaccin Grippe — Saisonnier</div>
+                            <div class="record-date">Prévu : oct. 2024 · En retard</div>
+                        </div>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <span class="badge badge-warning">En retard</span>
+                            <!-- Bouton marquer comme effectué -->
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;" onclick="marquerVaccinEffectue(this)">
+                                Marquer effectué
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Vaccin 4 : programmé -->
+                    <div class="record-row">
+                        <div class="record-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8"  y1="2" x2="8"  y2="6"/>
+                                <line x1="3"  y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Vaccin Fièvre jaune — 1ère dose</div>
+                            <div class="record-date">Programmé : 15 janv. 2025</div>
+                        </div>
+                        <span class="badge badge-inactive">Programmé</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             ONGLET 4 : CONSULTATIONS PASSÉES
+             ===================================================== -->
+        <div class="tab-panel" id="panel-consultations">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8"  y1="2" x2="8"  y2="6"/>
+                            <line x1="3"  y1="10" x2="21" y2="10"/>
+                        </svg>
+                        Historique des consultations
+                    </h3>
+                    <span style="font-size:0.8rem;color:var(--color-text-muted);">4 consultations</span>
+                </div>
+
+                <!-- Liste des consultations -->
+                <div>
+
+                    <!-- Consultation 1 -->
+                    <div class="record-row">
+                        <div class="record-icon teal" style="background:#ECFDF5;color:#047857;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Consultation de suivi — Diabète & HTA</div>
+                            <div class="record-date">10 déc. 2024 · Durée : 25 min</div>
+                        </div>
+                        <div>
+                            <span class="badge badge-active">Terminée</span>
+                            <!-- Bouton voir le résumé de la consultation -->
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;margin-left:8px;">
+                                Voir résumé
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Consultation 2 -->
+                    <div class="record-row">
+                        <div class="record-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Urgence — Fièvre persistante</div>
+                            <div class="record-date">5 oct. 2024 · Durée : 15 min</div>
+                        </div>
+                        <div>
+                            <span class="badge badge-active">Terminée</span>
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;margin-left:8px;">
+                                Voir résumé
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Consultation 3 -->
+                    <div class="record-row">
+                        <div class="record-icon orange">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Bilan sanguin — Suivi lipidique</div>
+                            <div class="record-date">25 nov. 2024 · Durée : 20 min</div>
+                        </div>
+                        <div>
+                            <span class="badge badge-active">Terminée</span>
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;margin-left:8px;">
+                                Voir résumé
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Consultation à venir -->
+                    <div class="record-row">
+                        <div class="record-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8"  y1="2" x2="8"  y2="6"/>
+                                <line x1="3"  y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <div class="record-info">
+                            <div class="record-title">Consultation programmée — Suivi 3 mois</div>
+                            <div class="record-date">15 mars 2025 · 10h00</div>
+                        </div>
+                        <span class="badge badge-inactive">Programmée</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             ONGLET 5 : ORDONNANCES
+             ===================================================== -->
+        <div class="tab-panel" id="panel-ordonnances">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                            <polyline points="14,2 14,8 20,8"/>
+                        </svg>
+                        Ordonnances numériques
+                    </h3>
+                    <!-- Bouton créer nouvelle ordonnance -->
+                    <button class="btn-primary" style="font-size:0.8rem;padding:8px 14px;" onclick="openModalOrdonnance()">
+                        + Créer ordonnance
+                    </button>
+                </div>
+
+                <!-- Liste des ordonnances -->
+                <div id="ordonnances-list">
+
+                    <!-- Ordonnance 1 -->
+                    <div class="prescription-card">
+                        <div style="display:flex;align-items:center;gap:14px;flex:1;">
+                            <!-- Icône médicament -->
+                            <div class="prescription-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <!-- Nom du médicament -->
+                                <div class="prescription-name">Metformine 500mg</div>
+                                <!-- Posologie -->
+                                <div class="prescription-details">2×/jour — matin et soir pendant les repas · 3 mois</div>
+                                <!-- Date de l'ordonnance -->
+                                <div style="font-size:0.72rem;color:var(--color-text-muted);margin-top:4px;">
+                                    📅 10 déc. 2024 · Dr. Diomandé
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Actions sur l'ordonnance -->
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;">Imprimer</button>
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;">Envoyer</button>
+                        </div>
+                    </div>
+
+                    <!-- Ordonnance 2 -->
+                    <div class="prescription-card">
+                        <div style="display:flex;align-items:center;gap:14px;flex:1;">
+                            <div class="prescription-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="prescription-name">Amlodipine 5mg</div>
+                                <div class="prescription-details">1×/jour — matin à jeun · 6 mois</div>
+                                <div style="font-size:0.72rem;color:var(--color-text-muted);margin-top:4px;">
+                                    📅 15 juin 2024 · Dr. Diomandé
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;">Imprimer</button>
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;">Envoyer</button>
+                        </div>
+                    </div>
+
+                    <!-- Ordonnance 3 -->
+                    <div class="prescription-card">
+                        <div style="display:flex;align-items:center;gap:14px;flex:1;">
+                            <div class="prescription-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="prescription-name">Paracétamol 1g</div>
+                                <div class="prescription-details">Toutes les 6h si fièvre — max 4 prises/jour · 5 jours</div>
+                                <div style="font-size:0.72rem;color:var(--color-text-muted);margin-top:4px;">
+                                    📅 5 oct. 2024 · Dr. Diomandé
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;">Imprimer</button>
+                            <button class="btn-secondary" style="font-size:0.75rem;padding:5px 10px;">Envoyer</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- =====================================================
+             ONGLET 6 : MESSAGES ÉCHANGÉS
+             ===================================================== -->
+        <div class="tab-panel" id="panel-messages">
+            <div class="info-card">
+                <div class="info-card-header">
+                    <h3 class="info-card-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                        </svg>
+                        Messagerie — Konan Kouassi
+                    </h3>
+                    <!-- Indicateur statut en ligne -->
+                    <span style="display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--color-teal);">
+                        <span style="width:8px;height:8px;background:var(--color-teal);border-radius:50%;display:inline-block;"></span>
+                        En ligne
+                    </span>
+                </div>
+
+                <!-- Zone des bulles de messages (scrollable) -->
+                <div class="messages-zone" id="messages-zone">
+
+                    <!-- Message du patient (reçu, à gauche) -->
+                    <div style="margin-bottom:16px;">
+                        <div class="message-sender">Konan Kouassi</div>
+                        <div class="message-bubble received">
+                            Bonjour Docteur, je ressens des vertiges depuis ce matin. Est-ce que je devrais m'inquiéter ?
+                            <div class="message-time">08:32</div>
+                        </div>
+                    </div>
+
+                    <!-- Message du médecin (envoyé, à droite) -->
+                    <div style="margin-bottom:16px;">
+                        <div class="message-sender" style="text-align:right;">Dr. Diomandé (vous)</div>
+                        <div class="message-bubble sent">
+                            Bonjour Konan, les vertiges peuvent être liés à votre tension. Avez-vous pris votre Amlodipine ce matin ?
+                            <div class="message-time">08:45</div>
+                        </div>
+                    </div>
+
+                    <!-- Message du patient -->
+                    <div style="margin-bottom:16px;">
+                        <div class="message-sender">Konan Kouassi</div>
+                        <div class="message-bubble received">
+                            Oui Docteur, je l'ai prise avec le petit déjeuner comme d'habitude.
+                            <div class="message-time">08:47</div>
+                        </div>
+                    </div>
+
+                    <!-- Message du médecin -->
+                    <div style="margin-bottom:16px;">
+                        <div class="message-sender" style="text-align:right;">Dr. Diomandé (vous)</div>
+                        <div class="message-bubble sent">
+                            Bien. Mesurez votre tension et reposez-vous. Si les vertiges persistent plus de 2h ou s'aggravent, consultez en urgence. Tenez-moi informé.
+                            <div class="message-time">08:50</div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Barre de saisie de message -->
+                <div class="chat-input-area">
+                    <!-- Input du message -->
+                    <input
+                        type="text"
+                        id="chat-input"
+                        placeholder="Écrivez votre réponse..."
+                        onkeypress="handleChatKeypress(event)"
+                    />
+                    <!-- Bouton envoyer -->
+                    <button class="chat-send-btn" onclick="sendMessage()" title="Envoyer">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22,2 15,22 11,13 2,9 22,2"/>
+                        </svg>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- =====================================================
+         MODAL — Nouvelle ordonnance
+         ===================================================== -->
+    <div class="modal-overlay" id="modal-ordonnance">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">Créer une ordonnance</h2>
+                <button class="modal-close" onclick="closeModalOrdonnance()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="saveOrdonnance(event)">
+                <!-- Médicament -->
+                <div class="form-group">
+                    <label>Médicament *</label>
+                    <input type="text" id="ord-medic" placeholder="ex: Paracétamol 1g" required />
+                </div>
+                <!-- Posologie et durée -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label>Posologie *</label>
+                        <input type="text" id="ord-posologie" placeholder="ex: 2×/jour" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Durée *</label>
+                        <input type="text" id="ord-duree" placeholder="ex: 7 jours" required />
+                    </div>
+                </div>
+                <!-- Notes supplémentaires -->
+                <div class="form-group">
+                    <label>Instructions / Notes</label>
+                    <textarea id="ord-notes" placeholder="ex: À prendre pendant les repas..."></textarea>
+                </div>
+                <!-- Actions -->
+                <div style="display:flex;justify-content:flex-end;gap:10px;">
+                    <button type="button" class="btn-secondary" onclick="closeModalOrdonnance()">Annuler</button>
+                    <button type="submit" class="btn-primary">Créer l'ordonnance</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         MODAL — Nouvelle entrée dossier médical
+         ===================================================== -->
+    <div class="modal-overlay" id="modal-entree">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">Ajouter une entrée médicale</h2>
+                <button class="modal-close" onclick="closeModalEntree()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="saveEntree(event)">
+                <!-- Titre de l'entrée -->
+                <div class="form-group">
+                    <label>Titre de l'entrée *</label>
+                    <input type="text" id="ent-titre" placeholder="ex: Consultation de suivi" required />
+                </div>
+                <!-- Date -->
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" id="ent-date" required />
+                </div>
+                <!-- Description -->
+                <div class="form-group">
+                    <label>Description / Observations *</label>
+                    <textarea id="ent-description" placeholder="Décrivez les observations, résultats, prescriptions..." required></textarea>
+                </div>
+                <!-- Actions -->
+                <div style="display:flex;justify-content:flex-end;gap:10px;">
+                    <button type="button" class="btn-secondary" onclick="closeModalEntree()">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         MODAL — Ajouter un vaccin
+         ===================================================== -->
+    <div class="modal-overlay" id="modal-vaccin">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h2 class="modal-title">Ajouter un vaccin</h2>
+                <button class="modal-close" onclick="closeModalVaccin()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form onsubmit="saveVaccin(event)">
+                <!-- Nom du vaccin -->
+                <div class="form-group">
+                    <label>Nom du vaccin *</label>
+                    <input type="text" id="vac-nom" placeholder="ex: Hépatite B — 1ère dose" required />
+                </div>
+                <!-- Date et statut -->
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                    <div class="form-group">
+                        <label>Date prévue *</label>
+                        <input type="date" id="vac-date" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Statut</label>
+                        <select id="vac-statut">
+                            <option value="Programmé">Programmé</option>
+                            <option value="Effectué">Effectué</option>
+                            <option value="En retard">En retard</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Numéro de lot -->
+                <div class="form-group">
+                    <label>Numéro de lot</label>
+                    <input type="text" id="vac-lot" placeholder="ex: LOT2024A" />
+                </div>
+                <!-- Actions -->
+                <div style="display:flex;justify-content:flex-end;gap:10px;">
+                    <button type="button" class="btn-secondary" onclick="closeModalVaccin()">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Zone d'affichage des notifications toast -->
+    <div id="toast-container"></div>
+
+    <!-- Script JavaScript de la fiche patient -->
+    <script src="patient-fiche.js"></script>
+
+</body>
+</html>

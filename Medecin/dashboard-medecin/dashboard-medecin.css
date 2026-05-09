@@ -1,0 +1,1382 @@
+/* ============================================================
+   DASHBOARD MÉDECIN — CSS Principal
+   Fichier     : dashboard-medecin.css
+   Description : Styles complets du tableau de bord médecin
+   Palette     : Bleu marine + Teal + Blanc cassé
+   ============================================================ */
+
+
+/* ============================================================
+   1. VARIABLES CSS — Palette de couleurs & espacements
+   ============================================================ */
+:root {
+  /* --- Couleurs principales --- */
+  --color-primary-dark:    #0A1931;   /* Bleu très sombre (sidebar) */
+  --color-primary:         #1A3D63;   /* Bleu principal */
+  --color-secondary-light: #B3CFE5;   /* Bleu clair (bordures, fonds doux) */
+  --color-accent:          #4A7FA7;   /* Bleu accent (boutons, liens) */
+  --color-teal-light:      #0A8C74;   /* Vert teal clair */
+  --color-teal:            #047857;   /* Vert teal foncé */
+  --color-bg:              #F6FAFD;   /* Fond général très clair */
+  --color-white:           #FFFFFF;   /* Blanc pur */
+  --color-text-dark:       #1F2937;   /* Texte principal foncé */
+  --color-text-mid:        #4B5563;   /* Texte secondaire */
+  --color-text-light:      #9CA3AF;   /* Texte désactivé/placeholder */
+  --color-border:          #E4EEF7;   /* Bordures légères */
+
+  /* --- Couleurs sémantiques --- */
+  --color-success:   #10B981;   /* Vert succès */
+  --color-warning:   #F59E0B;   /* Orange avertissement */
+  --color-danger:    #EF4444;   /* Rouge danger */
+
+  /* --- Ombres --- */
+  --shadow-sm:  0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:  0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  --shadow-lg:  0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+
+  /* --- Dimensions --- */
+  --sidebar-width: 240px;   /* Largeur sidebar desktop */
+  --topbar-height: 64px;    /* Hauteur de la barre du haut */
+  --radius:     12px;        /* Border-radius standard */
+  --radius-sm:  8px;         /* Border-radius petit */
+  --radius-lg:  16px;        /* Border-radius large */
+}
+
+
+/* ============================================================
+   2. RESET & BASE
+   ============================================================ */
+
+/* Reset universel box-sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Taille de base */
+html { font-size: 15px; }
+
+/* Corps principal : layout flex horizontal */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text-dark);
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Liens sans soulignement par défaut */
+a { text-decoration: none; color: inherit; }
+
+/* Boutons : reset complet */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Listes sans puces */
+ul { list-style: none; }
+
+
+/* ============================================================
+   3. SIDEBAR — Navigation latérale
+   ============================================================ */
+
+/* Conteneur sidebar fixe à gauche */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--color-primary-dark);  /* Bleu très sombre */
+  display: flex;
+  flex-direction: column;
+  padding: 20px 14px;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 200;
+  transition: transform 0.3s ease;  /* Animation ouverture/fermeture mobile */
+  overflow-y: auto;  /* Scroll si contenu dépasse */
+}
+
+/* Scrollbar personnalisée dans la sidebar */
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+/* ---- Logo ---- */
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 8px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 18px;
+}
+
+/* Carré icon logo avec dégradé */
+.logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-teal-light));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(74,127,167,0.4);
+}
+
+/* Texte MediCare */
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Badge "Pro" en coin */
+.logo-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-teal-light), var(--color-teal));
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Profil médecin dans sidebar ---- */
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px;
+  background: rgba(255,255,255,0.05);  /* Fond légèrement transparent */
+  border-radius: var(--radius-sm);
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Avatar circulaire du médecin */
+.doctor-avatar {
+  position: relative;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-teal-light));
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Point vert = en ligne */
+.status-dot {
+  position: absolute;
+  bottom: 1px; right: 1px;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--color-success);
+  border: 2px solid var(--color-primary-dark);
+}
+
+/* Infos textuelles médecin */
+.doctor-info { display: flex; flex-direction: column; overflow: hidden; }
+.doctor-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.doctor-spec { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+
+/* ---- Navigation items ---- */
+.sidebar-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Chaque lien de navigation */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.5);  /* Gris par défaut */
+  font-size: 0.845rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Effet survol */
+.nav-item:hover {
+  background: rgba(255,255,255,0.07);
+  color: rgba(255,255,255,0.85);
+}
+
+/* Item actif (page en cours) */
+.nav-item.active {
+  background: linear-gradient(135deg,
+    rgba(74,127,167,0.3),
+    rgba(10,140,116,0.15));
+  color: #fff;
+  border: 1px solid rgba(179,207,229,0.15);
+}
+
+/* Barre indicatrice gauche sur l'item actif */
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 25%; bottom: 25%;
+  width: 3px;
+  background: var(--color-accent);
+  border-radius: 0 3px 3px 0;
+}
+
+/* Icône dans le menu */
+.nav-icon { flex-shrink: 0; display: flex; align-items: center; }
+.nav-label { flex: 1; }
+
+/* Badge numérique sur les liens (ex: "3 en attente") */
+.nav-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+}
+/* Badge urgent = rouge */
+.nav-badge.urgent {
+  background: rgba(239,68,68,0.25);
+  color: #FCA5A5;
+}
+
+/* Séparateur entre groupes de liens */
+.nav-separator {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 8px 0;
+}
+
+/* ---- Bouton déconnexion ---- */
+.sidebar-logout {
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 12px;
+}
+
+.logout-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.35);
+  font-size: 0.83rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.logout-link:hover {
+  background: rgba(239,68,68,0.12);
+  color: #FCA5A5;
+}
+
+
+/* ============================================================
+   4. CONTENU PRINCIPAL
+   ============================================================ */
+
+/* Décale le contenu vers la droite (espace = sidebar) */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+/* ============================================================
+   5. TOPBAR — Barre de navigation du haut
+   ============================================================ */
+
+.topbar {
+  position: sticky;
+  top: 0; z-index: 100;
+  height: var(--topbar-height);
+  background: rgba(246,250,253,0.94);  /* Fond légèrement transparent */
+  backdrop-filter: blur(14px);          /* Flou derrière */
+  border-bottom: 1px solid var(--color-border);
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Bouton menu (mobile only) */
+.menu-toggle {
+  display: none;  /* Caché sur desktop */
+  width: 38px; height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  align-items: center; justify-content: center;
+  color: var(--color-text-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Titre + date */
+.topbar-title { flex: 1; }
+.topbar-title h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+.topbar-date {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  display: block;
+  margin-top: 1px;
+}
+
+/* Groupe d'actions à droite */
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Barre de recherche */
+.search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 8px 14px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+}
+.search-wrap:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(74,127,167,0.1);
+}
+.search-wrap svg { color: var(--color-text-light); flex-shrink: 0; }
+.search-wrap input {
+  border: none; outline: none;
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--color-text-dark);
+  background: transparent;
+  width: 190px;
+}
+.search-wrap input::placeholder { color: var(--color-text-light); }
+
+/* Bouton icône (alertes, etc.) */
+.icon-btn {
+  position: relative;
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-mid);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s;
+}
+.icon-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+/* Badge rouge sur l'icône bouton */
+.icon-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--color-bg);
+}
+
+/* Avatar topbar */
+.topbar-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s;
+}
+.topbar-avatar:hover { transform: scale(1.06); }
+
+
+/* ============================================================
+   6. PAGE BODY — Contenu scrollable
+   ============================================================ */
+
+.page-body {
+  flex: 1;
+  padding: 26px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+
+/* ============================================================
+   7. BANNIÈRE DE BIENVENUE
+   ============================================================ */
+
+.welcome-banner {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 70%, var(--color-teal-light) 100%);
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  animation: fadeSlide 0.5s ease both;
+}
+
+/* Motif décoratif en arrière-plan */
+.welcome-banner::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+.welcome-banner::after {
+  content: '';
+  position: absolute;
+  right: 80px; bottom: -80px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  pointer-events: none;
+}
+
+/* Texte de bienvenue (côté gauche) */
+.welcome-text { z-index: 1; }
+.welcome-sub {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 4px;
+}
+.welcome-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.welcome-desc {
+  font-size: 0.87rem;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+.welcome-desc strong { color: #fff; font-weight: 700; }
+
+/* Bouton CTA dans la bannière */
+.welcome-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s;
+}
+.welcome-btn:hover {
+  background: rgba(255,255,255,0.28);
+  transform: translateX(3px);
+}
+
+/* Illustration SVG (côté droit) */
+.welcome-illustration {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220px; height: 160px;
+}
+
+/* Cercle de fond derrière l'illustration */
+.illus-circle {
+  position: absolute;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* Icône SVG centrale */
+.illus-icon { position: relative; z-index: 1; }
+
+/* Chips flottantes sur l'illustration */
+.float-chip {
+  position: absolute;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  animation: float 3s ease-in-out infinite;
+}
+/* Chip patients en haut à droite */
+.chip-patients { top: 10px; right: 0; animation-delay: 0s; }
+/* Chip consultations en bas à gauche */
+.chip-consult  { bottom: 10px; left: 0; animation-delay: 1.5s; }
+
+.chip-icon { font-size: 1.1rem; }
+.chip-val {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+.chip-lbl {
+  display: block;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.65);
+}
+
+/* Animation flottement des chips */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+
+/* ============================================================
+   8. KPI CARDS — Indicateurs clés
+   ============================================================ */
+
+/* Grille 4 colonnes pour les KPI */
+.kpi-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Carte KPI individuelle */
+.kpi-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+  /* Animation d'entrée avec délai progressif (géré par nth-child JS) */
+  animation: fadeSlide 0.4s ease both;
+}
+.kpi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Icône colorée dans la carte KPI */
+.kpi-icon {
+  width: 46px; height: 46px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Couleurs d'icônes selon data-color */
+.kpi-card[data-color="blue"]   .kpi-icon { background: rgba(74,127,167,0.1);  color: var(--color-accent); }
+.kpi-card[data-color="teal"]   .kpi-icon { background: rgba(10,140,116,0.1);  color: var(--color-teal-light); }
+.kpi-card[data-color="accent"] .kpi-icon { background: rgba(26,61,99,0.08);   color: var(--color-primary); }
+.kpi-card[data-color="red"]    .kpi-icon { background: rgba(239,68,68,0.1);   color: var(--color-danger); }
+
+/* Infos textuelles du KPI */
+.kpi-info { display: flex; flex-direction: column; }
+.kpi-label {
+  font-size: 0.73rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+/* Valeur principale (animée au chargement) */
+.kpi-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  line-height: 1;
+  margin-bottom: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Badge tendance sous la valeur */
+.kpi-trend {
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  display: inline-block;
+  width: fit-content;
+}
+.kpi-trend.up     { background: rgba(16,185,129,0.1); color: var(--color-success); }
+.kpi-trend.warn   { background: rgba(245,158,11,0.1); color: var(--color-warning); }
+.kpi-trend.danger { background: rgba(239,68,68,0.1);  color: var(--color-danger); }
+
+
+/* ============================================================
+   9. GRILLE PRINCIPALE 3 COLONNES
+   ============================================================ */
+
+/* Layout 3 colonnes asymétriques */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.8fr 1.2fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* Colonne de droite (calendrier + alertes) */
+.grid-col-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ---- Carte générique ---- */
+.grid-card {
+  background: var(--color-white);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  padding: 20px;
+  animation: fadeSlide 0.45s ease both;
+}
+
+/* En-tête d'une carte */
+.card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+.card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+.card-subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  margin-top: 2px;
+}
+/* Lien "Voir tous" dans l'en-tête */
+.card-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.card-link:hover { color: var(--color-primary); }
+
+
+/* ============================================================
+   10. GRAPHIQUE ACTIVITÉ
+   ============================================================ */
+
+/* Sélecteur période */
+.period-select {
+  padding: 5px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--color-text-mid);
+  background: var(--color-bg);
+  outline: none;
+  cursor: pointer;
+}
+
+/* Zone canvas du graphique */
+.chart-wrap {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.chart-wrap canvas { width: 100% !important; }
+
+/* Légende graphique */
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--color-text-mid);
+}
+.legend-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+
+/* ============================================================
+   11. LISTE PATIENTS RÉCENTS
+   ============================================================ */
+
+.patient-list { display: flex; flex-direction: column; gap: 10px; }
+
+/* Item patient individuel */
+.patient-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.patient-item:hover {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+/* Avatar patient */
+.pat-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* Infos patient */
+.pat-info { flex: 1; overflow: hidden; }
+.pat-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pat-detail {
+  font-size: 0.72rem;
+  color: var(--color-text-light);
+  margin-top: 1px;
+}
+
+/* Badge état de santé */
+.pat-status {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.pat-status.stable  { background: rgba(16,185,129,0.1);  color: var(--color-success); }
+.pat-status.suivi   { background: rgba(74,127,167,0.1);  color: var(--color-accent); }
+.pat-status.risque  { background: rgba(245,158,11,0.1);  color: var(--color-warning); }
+.pat-status.urgent  { background: rgba(239,68,68,0.1);   color: var(--color-danger); }
+
+
+/* ============================================================
+   12. MINI CALENDRIER
+   ============================================================ */
+
+.calendar-card { padding: 18px; }
+
+/* Navigation mois */
+.cal-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+}
+.cal-nav button {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+.cal-nav button:hover { background: var(--color-secondary-light); }
+
+/* Grille jours du calendrier */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+/* Cellule du calendrier */
+.cal-day {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--color-text-mid);
+  font-weight: 400;
+}
+/* Entêtes jours de semaine */
+.cal-day.header {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  cursor: default;
+}
+.cal-day:not(.header):hover {
+  background: var(--color-bg);
+  color: var(--color-primary);
+}
+/* Jour aujourd'hui = surligné */
+.cal-day.today {
+  background: var(--color-primary);
+  color: #fff !important;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+/* Jour avec rendez-vous = point indicateur */
+.cal-day.has-rdv::after {
+  content: '';
+  display: block;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  position: absolute;
+  bottom: 3px;
+}
+.cal-day.has-rdv { position: relative; }
+
+/* Jours hors mois courant */
+.cal-day.other-month { color: var(--color-border); }
+
+/* Rendez-vous du jour -->  */
+.today-rdv {
+  border-top: 1px solid var(--color-border);
+  padding-top: 12px;
+}
+.rdv-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.rdv-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 0.78rem;
+  color: var(--color-text-mid);
+}
+/* Point couleur avant chaque RDV */
+.rdv-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.rdv-dot.blue   { background: var(--color-accent); }
+.rdv-dot.teal   { background: var(--color-teal-light); }
+.rdv-dot.orange { background: var(--color-warning); }
+
+
+/* ============================================================
+   13. PANNEAU D'ALERTES
+   ============================================================ */
+
+.alerts-card { padding: 18px; }
+
+/* Badge nombre d'alertes */
+.alerts-count {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: rgba(239,68,68,0.1);
+  color: var(--color-danger);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.alerts-list { display: flex; flex-direction: column; gap: 8px; }
+
+/* Item alerte individuelle */
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 9px 11px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.alert-item:hover { background: var(--color-bg); }
+.alert-item.danger  { border-color: var(--color-danger);  background: rgba(239,68,68,0.04); }
+.alert-item.warning { border-color: var(--color-warning); background: rgba(245,158,11,0.04); }
+.alert-item.info    { border-color: var(--color-accent);  background: rgba(74,127,167,0.04); }
+
+.alert-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+.alert-text {
+  font-size: 0.78rem;
+  color: var(--color-text-dark);
+  line-height: 1.5;
+}
+.alert-time {
+  font-size: 0.68rem;
+  color: var(--color-text-light);
+  margin-top: 2px;
+  display: block;
+}
+
+
+/* ============================================================
+   14. TABLEAU CONSULTATIONS EN ATTENTE
+   ============================================================ */
+
+.consult-section { }
+
+/* Wrap scrollable pour le tableau */
+.consult-table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+}
+
+/* Tableau HTML */
+.consult-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+}
+
+/* En-têtes du tableau */
+.consult-table thead th {
+  background: var(--color-bg);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+/* Lignes du tableau */
+.consult-table tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.15s;
+}
+.consult-table tbody tr:hover { background: var(--color-bg); }
+.consult-table tbody tr:last-child { border-bottom: none; }
+
+/* Cellules */
+.consult-table td {
+  padding: 12px 14px;
+  vertical-align: middle;
+  color: var(--color-text-dark);
+}
+
+/* Nom patient dans le tableau */
+.tbl-patient {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.tbl-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.tbl-name { font-weight: 600; font-size: 0.84rem; }
+
+/* Badge statut dans le tableau */
+.tbl-badge {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+.tbl-badge.attente  { background: rgba(245,158,11,0.12); color: var(--color-warning); }
+.tbl-badge.acceptee { background: rgba(16,185,129,0.12); color: var(--color-success); }
+.tbl-badge.refusee  { background: rgba(239,68,68,0.12);  color: var(--color-danger); }
+
+/* Boutons d'action dans le tableau */
+.tbl-actions { display: flex; gap: 6px; }
+.tbl-btn {
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.tbl-btn.accept {
+  background: rgba(16,185,129,0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(16,185,129,0.2);
+}
+.tbl-btn.accept:hover { background: var(--color-success); color: #fff; }
+.tbl-btn.refuse {
+  background: rgba(239,68,68,0.08);
+  color: var(--color-danger);
+  border: 1px solid rgba(239,68,68,0.15);
+}
+.tbl-btn.refuse:hover { background: var(--color-danger); color: #fff; }
+.tbl-btn.view {
+  background: rgba(74,127,167,0.08);
+  color: var(--color-accent);
+  border: 1px solid rgba(74,127,167,0.15);
+}
+.tbl-btn.view:hover { background: var(--color-accent); color: #fff; }
+
+
+/* ============================================================
+   15. GRILLE DU BAS : Santé + Messages + Vaccins
+   ============================================================ */
+
+/* 3 colonnes égales */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* ---- Donut santé ---- */
+.donut-wrap {
+  position: relative;
+  width: 160px; height: 160px;
+  margin: 8px auto 16px;
+}
+.donut-wrap canvas { display: block; }
+
+/* Texte centré dans le donut */
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.donut-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  line-height: 1;
+}
+.donut-lbl { font-size: 0.7rem; color: var(--color-text-light); margin-top: 2px; }
+
+/* Légende donut */
+.donut-legend { display: flex; flex-direction: column; gap: 7px; }
+.dleg-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--color-text-mid);
+}
+.dleg-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ---- Messages récents ---- */
+.messages-list { display: flex; flex-direction: column; gap: 2px; }
+
+/* Item message */
+.msg-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.msg-item:hover { background: var(--color-bg); }
+
+.msg-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.msg-body { flex: 1; overflow: hidden; }
+.msg-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+.msg-preview {
+  font-size: 0.73rem;
+  color: var(--color-text-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+.msg-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.msg-time { font-size: 0.68rem; color: var(--color-text-light); }
+
+/* Badge messages non lus */
+.msg-unread {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---- Vaccins en retard ---- */
+.vaccines-list { display: flex; flex-direction: column; gap: 8px; }
+
+/* Item vaccin en retard */
+.vacc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 11px;
+  background: var(--color-bg);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.vacc-item:hover {
+  border-color: var(--color-danger);
+  background: rgba(239,68,68,0.02);
+}
+
+/* Icône alerte vaccin */
+.vacc-icon { font-size: 1rem; flex-shrink: 0; }
+.vacc-info { flex: 1; overflow: hidden; }
+.vacc-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+.vacc-patient {
+  font-size: 0.71rem;
+  color: var(--color-text-light);
+  margin-top: 1px;
+}
+
+/* Badge retard en jours */
+.vacc-retard {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(239,68,68,0.1);
+  color: var(--color-danger);
+  white-space: nowrap;
+}
+
+
+/* ============================================================
+   16. TOAST DE NOTIFICATION
+   ============================================================ */
+
+.toast {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  background: var(--color-primary-dark);
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 9px;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast svg { color: #4ADE80; flex-shrink: 0; }
+
+
+/* ============================================================
+   17. OVERLAY SIDEBAR (mobile)
+   ============================================================ */
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+}
+.sidebar-overlay.show { display: block; }
+
+
+/* ============================================================
+   18. ANIMATIONS
+   ============================================================ */
+
+/* Animation entrée générale (du bas vers le haut) */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Délais d'animation progressifs pour les KPI */
+.kpi-card:nth-child(1) { animation-delay: 0.1s; }
+.kpi-card:nth-child(2) { animation-delay: 0.18s; }
+.kpi-card:nth-child(3) { animation-delay: 0.26s; }
+.kpi-card:nth-child(4) { animation-delay: 0.34s; }
+
+/* Délais pour la grille principale */
+.activity-card { animation-delay: 0.2s; }
+.patients-card { animation-delay: 0.28s; }
+.calendar-card { animation-delay: 0.36s; }
+.alerts-card   { animation-delay: 0.42s; }
+
+
+/* ============================================================
+   19. RESPONSIVE — Tablette (≤ 1200px)
+   ============================================================ */
+@media (max-width: 1200px) {
+  /* 2 colonnes pour la grille principale */
+  .main-grid {
+    grid-template-columns: 1.5fr 1fr;
+  }
+  /* Colonne de droite passe en bas */
+  .grid-col-right {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  /* 3 KPI sur 2 lignes */
+  .kpi-section { grid-template-columns: repeat(2, 1fr); }
+
+  /* Grille du bas : 2 colonnes */
+  .bottom-grid { grid-template-columns: 1fr 1fr; }
+  /* Santé prend toute la largeur */
+  .health-card { grid-column: 1 / -1; }
+}
+
+
+/* ============================================================
+   20. RESPONSIVE — Mobile (≤ 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  /* Sidebar cachée par défaut sur mobile */
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  /* Classe open = sidebar visible */
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  /* Contenu prend toute la largeur */
+  .main-content { margin-left: 0; }
+
+  /* Bouton hamburger visible */
+  .menu-toggle { display: flex; }
+
+  /* Padding réduit */
+  .page-body { padding: 18px 16px 30px; }
+  .topbar { padding: 0 16px; }
+
+  /* Illustration cachée sur mobile */
+  .welcome-illustration { display: none; }
+  .welcome-banner { padding: 24px 22px; }
+  .welcome-title { font-size: 1.4rem; }
+
+  /* 1 colonne pour tout */
+  .kpi-section, .main-grid,
+  .bottom-grid, .grid-col-right { grid-template-columns: 1fr; }
+
+  /* Barre de recherche plus courte */
+  .search-wrap input { width: 120px; }
+}
+
+
+/* ============================================================
+   21. RESPONSIVE — Petits mobiles (≤ 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  /* KPI 2 colonnes sur petit écran */
+  .kpi-section { grid-template-columns: 1fr 1fr; }
+  .kpi-value { font-size: 1.6rem; }
+
+  /* Cacher la barre de recherche sur très petit écran */
+  .search-wrap { display: none; }
+}
