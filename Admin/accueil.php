@@ -6,8 +6,9 @@
     <title>Vue d'ensemble</title>
     <!-- Font Awesome 6 (version stable et disponible sur cdnjs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- CSS dédié (chemin corrigé : le fichier PHP est dans /admin/) -->
+    <!-- CSS dédié Admin et style de dashboard Patient -->
     <link rel="stylesheet" href="../css/admin_accueil.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
 
@@ -18,49 +19,122 @@
          SIDEBAR
     ══════════════════════════════════ -->
     <div class="sidebar">
-      <div class="sidebar-logo">
-        <div class="logo">Health<span>Care</span></div>
-        <div class="sidebar-role">Administration</div>
+      <!-- Logo -->
+      <div class="sb-logo">
+        <div class="logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1de9b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div class="logo-text">Health<span>Care</span></div>
       </div>
 
-      <nav class="sidebar-nav">
-        <div class="nav-section">
-          <div class="nav-section-title">Supervision</div>
-          <div class="nav-item active" onclick="window.location.href='accueil.php'">
-            <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Vue d'ensemble
-          </div>
-          <div class="nav-item" onclick="window.location.href='utilisateur.php'">
-            <span class="nav-icon"><i class="fa-solid fa-users"></i></span> Utilisateurs
-          </div>
-          <div class="nav-item" onclick="window.location.href='medecin.php'">
-            <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Médecins
-          </div>
-        </div>
+      <nav class="sb-nav">
+        <div class="section-label">Supervision</div>
 
-        <div class="nav-section">
-          <div class="nav-section-title">Système</div>
-          <div class="nav-item" onclick="window.location.href='consultation.php'">
-            <span class="nav-icon"><i class="fa-solid fa-video"></i></span> Consultations
+        <a href="accueil.php" class="nav-item active">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+              <polyline points="9 21 9 12 15 12 15 21"/>
+            </svg>
           </div>
+<<<<<<< HEAD
+          <span class="ni-label">Tableau de bord</span>
+        </a>
+
+        <a href="utilisateur.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <span class="ni-label">Utilisateurs</span>
+        </a>
+
+        <a href="medecin.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+              <path d="M6.8 20.34a6.97 6.97 0 0 1 10.4 0"/>
+              <path d="M16 11.5v4.5"/>
+              <path d="M8 11.5v4.5"/>
+            </svg>
+=======
 
           <div class="nav-item" onclick="window.location.href='rapport.php'">
             <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Rapports
+>>>>>>> 0039b5e5382c251a6c6406b0fcff242ecd726a0d
           </div>
-          <div class="nav-item" onclick="window.location.href='securite.php'">
-            <span class="nav-icon"><i class="fa-solid fa-shield-halved"></i></span> Sécurité &amp; Logs
+          <span class="ni-label">Médecins</span>
+        </a>
+
+        <div class="section-label">Système</div>
+
+        <a href="consultation.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2"/>
+            </svg>
           </div>
-        </div>
+          <span class="ni-label">Consultations</span>
+        </a>
+
+        <a href="vaccin.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2l-7 7"/>
+              <path d="M16 2l7 7"/>
+              <path d="M18 12l-6 6"/>
+              <path d="M12 12l6 6"/>
+              <path d="M4 11v3"/>
+            </svg>
+          </div>
+          <span class="ni-label">Suivi vaccinal</span>
+        </a>
+
+        <a href="rapport.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+              <path d="M9 7h6"/>
+              <path d="M9 11h6"/>
+              <path d="M9 15h4"/>
+            </svg>
+          </div>
+          <span class="ni-label">Rapports</span>
+        </a>
+
+        <a href="securite.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l8 4v6c0 5.5-3.8 10.74-8 12-4.2-1.26-8-6.5-8-12V6l8-4z"/>
+              <path d="M8.5 12.5l3 3 4.5-4.5"/>
+            </svg>
+          </div>
+          <span class="ni-label">Sécurité &amp; Logs</span>
+        </a>
       </nav>
 
-      <div class="sidebar-footer">
-        <div class="back-btn" onclick="window.location.href='../index.php'">
-          <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
+      <div class="sb-footer">
+        <div class="deconnect-btn" onclick="window.location.href='../index.php'">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span class="deconnect-label">Déconnexion</span>
         </div>
-        <div class="sidebar-user">
-          <div class="avatar avatar-purple">AD</div>
-          <div class="sidebar-user-info">
-            <div class="name">Admin Système</div>
-            <div class="role">Super Administrateur</div>
+
+        <div class="sb-user">
+          <div class="avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name">Admin Système</div>
+            <div class="user-role">Super Administrateur</div>
           </div>
         </div>
       </div>

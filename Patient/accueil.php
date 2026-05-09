@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+<?php
+header('Location: dashboard.php');
+exit();
+?>
+=======
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -533,4 +539,10 @@
 </script>
 
 </body>
+<<<<<<< HEAD
 </html>
+>>>>>>> e25acc184000af7b472b37e31288af39fec1882a
+
+=======
+</html>
+>>>>>>> 0039b5e5382c251a6c6406b0fcff242ecd726a0d

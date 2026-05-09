@@ -1,4 +1,4 @@
-(function () {
+q(function () {
   const pages = [
     {
       key: "dashboard-medecin",
@@ -103,7 +103,8 @@
     return `
       <div class="sidebar-logo">
         <div class="logo-icon">${svg('<path d="M12 2v20M2 12h20" />')}</div>
-        <span class="logo-text">MediCare</span>
+<span class="logo-text">HealthCare</span>
+HealthCare</span>
         <span class="logo-badge">Pro</span>
       </div>
 

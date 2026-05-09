@@ -8,7 +8,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/profil.css" />
   <link rel="stylesheet" href="../css/dashboard.css">
+<<<<<<< HEAD
+=======
 
+>>>>>>> e25acc184000af7b472b37e31288af39fec1882a
 </head>
 <body>
 
