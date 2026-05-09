@@ -410,3 +410,10 @@ function showToast(message, type) {
         setTimeout(function () { toast.remove(); }, 400); // Supprime du DOM après le fondu
     }, 3000);
 }
+
+// Créer une ordonnance depuis patient-fiche.js
+fetch('traitement_dossier.php?action=creer_ordonnance', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ patient_id: 1, medicament: 'Paracétamol 1g', ... })
+});
