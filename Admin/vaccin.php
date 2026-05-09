@@ -7,6 +7,7 @@
   <title>Suivi vaccinal - Admin</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../css/admin_accueil.css">
+  <link rel="stylesheet" href="../css/admin_shared.css">
 </head>
 <body>
 <div class="page" id="admin-vaccins">
@@ -59,6 +60,36 @@
         </div>
 
         <div class="content-area">
+          <div class="admin-welcome">
+            <div>
+              <span class="welcome-kicker">Prévention et suivi</span>
+              <h1>Suivi vaccinal global</h1>
+              <p>Surveillez la couverture vaccinale, les rappels en attente, les certificats à valider et les activités récentes du carnet vaccinal.</p>
+            </div>
+            <div class="welcome-actions">
+              <a href="rapport.php" class="welcome-btn primary"><i class="fa-solid fa-chart-line"></i> Rapports</a>
+              <a href="utilisateur.php" class="welcome-btn"><i class="fa-solid fa-users"></i> Patients</a>
+            </div>
+          </div>
+
+          <div class="admin-context-grid">
+            <div class="context-card">
+              <i class="fa-solid fa-clock"></i>
+              <strong>Rappels</strong>
+              <span>Identifier les rappels en retard et prioriser les patients à contacter.</span>
+            </div>
+            <div class="context-card">
+              <i class="fa-solid fa-file-circle-check"></i>
+              <strong>Certificats</strong>
+              <span>Contrôler les certificats déposés avant validation administrative.</span>
+            </div>
+            <div class="context-card">
+              <i class="fa-solid fa-syringe"></i>
+              <strong>Couverture</strong>
+              <span>Suivre les vaccins administrés et les tendances mensuelles de prévention.</span>
+            </div>
+          </div>
+
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon"><i class="fa-solid fa-syringe" style="color:#0ea5e9"></i></div>

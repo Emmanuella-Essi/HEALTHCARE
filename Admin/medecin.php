@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <!-- CSS dédié -->
     <link rel="stylesheet" href="../css/admin_medecin.css">
+    <link rel="stylesheet" href="../css/admin_shared.css">
 </head>
 <body>
 
@@ -64,7 +65,7 @@
           </div>
         </div>
       </div>
-    </div><!-- /sidebar -->
+    <!-- /sidebar -->
 
     <!-- ══════════════════════════════════
          CONTENU PRINCIPAL
@@ -84,6 +85,36 @@
 
         <!-- Contenu -->
         <div class="content-area">
+          <div class="admin-welcome">
+            <div>
+              <span class="welcome-kicker">Réseau médical</span>
+              <h1>Médecins et praticiens</h1>
+              <p>Validez les nouveaux médecins, suivez leur spécialité, leur activité mensuelle, leur charge patient et leur statut de disponibilité.</p>
+            </div>
+            <div class="welcome-actions">
+              <a href="utilisateur.php" class="welcome-btn primary"><i class="fa-solid fa-users"></i> Comptes</a>
+              <a href="consultation.php" class="welcome-btn"><i class="fa-solid fa-video"></i> Consultations</a>
+            </div>
+          </div>
+
+          <div class="admin-context-grid">
+            <div class="context-card">
+              <i class="fa-solid fa-id-card"></i>
+              <strong>Validation</strong>
+              <span>Contrôler numéro d'ordre, spécialité, établissement et ville avant activation du profil.</span>
+            </div>
+            <div class="context-card">
+              <i class="fa-solid fa-chart-simple"></i>
+              <strong>Activité</strong>
+              <span>Comparer patients suivis, consultations mensuelles et disponibilité pour équilibrer la charge.</span>
+            </div>
+            <div class="context-card">
+              <i class="fa-solid fa-star"></i>
+              <strong>Qualité</strong>
+              <span>Surveiller notes, retours patients et médecins sans activité récente.</span>
+            </div>
+          </div>
+
           <div class="card">
             <div class="card-header">
               <span class="card-title"><i class="fa-solid fa-stethoscope"></i> Liste des médecins</span>

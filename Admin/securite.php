@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../css/admin_accueil.css">
     <link rel="stylesheet" href="../css/admin_securite.css">
+    <link rel="stylesheet" href="../css/admin_shared.css">
 </head>
 <body>
 
@@ -62,7 +63,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /sidebar -->
+        <!-- /sidebar -->
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
@@ -74,6 +75,36 @@
                 </div>
 
                 <div class="content-area">
+                    <div class="admin-welcome">
+                        <div>
+                            <span class="welcome-kicker">Protection de la plateforme</span>
+                            <h1>Sécurité et journaux d'accès</h1>
+                            <p>Contrôlez les connexions, accès aux dossiers, tentatives bloquées, sauvegardes et signaux de conformité de l'application.</p>
+                        </div>
+                        <div class="welcome-actions">
+                            <a href="rapport.php" class="welcome-btn primary"><i class="fa-solid fa-chart-line"></i> Rapports</a>
+                            <a href="utilisateur.php" class="welcome-btn"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+                        </div>
+                    </div>
+
+                    <div class="admin-context-grid">
+                        <div class="context-card">
+                            <i class="fa-solid fa-lock"></i>
+                            <strong>Contrôles clés</strong>
+                            <span>Chiffrement, sauvegardes, tentatives bloquées, sessions admin et accès aux dossiers sensibles.</span>
+                        </div>
+                        <div class="context-card">
+                            <i class="fa-solid fa-user-shield"></i>
+                            <strong>Rôles</strong>
+                            <span>Vérifier que patients, médecins et admins gardent seulement les accès nécessaires.</span>
+                        </div>
+                        <div class="context-card">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            <strong>Audit</strong>
+                            <span>Les journaux doivent permettre de retrouver qui a fait quoi, quand et depuis quelle adresse IP.</span>
+                        </div>
+                    </div>
+
                     <div class="grid-2 mb-24">
                         <div class="card">
                             <div class="card-header">

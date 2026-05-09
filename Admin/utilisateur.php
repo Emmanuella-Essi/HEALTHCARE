@@ -8,7 +8,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../css/admin_accueil.css">
-<link rel="stylesheet" href="../css/admin_utlisateur.css">
+    <link rel="stylesheet" href="../css/admin_utlisateur.css">
+    <link rel="stylesheet" href="../css/admin_shared.css">
 </head>
 <body>
 
@@ -63,7 +64,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /sidebar -->
+        <!-- /sidebar -->
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
@@ -84,6 +85,36 @@
                 </div>
 
                 <div class="content-area">
+                    <div class="admin-welcome">
+                        <div>
+                            <span class="welcome-kicker">Gestion des accès</span>
+                            <h1>Utilisateurs de la plateforme</h1>
+                            <p>Supervisez les patients, médecins et administrateurs, vérifiez les comptes en attente et gardez une trace claire des accès au système.</p>
+                        </div>
+                        <div class="welcome-actions">
+                            <a href="medecin.php" class="welcome-btn primary"><i class="fa-solid fa-user-doctor"></i> Médecins</a>
+                            <a href="securite.php" class="welcome-btn"><i class="fa-solid fa-shield-halved"></i> Logs</a>
+                        </div>
+                    </div>
+
+                    <div class="admin-context-grid">
+                        <div class="context-card">
+                            <i class="fa-solid fa-user-check"></i>
+                            <strong>À vérifier</strong>
+                            <span>Profils incomplets, comptes inactifs, doublons d'adresse email et nouveaux inscrits sans activité.</span>
+                        </div>
+                        <div class="context-card">
+                            <i class="fa-solid fa-key"></i>
+                            <strong>Droits d'accès</strong>
+                            <span>Un utilisateur doit avoir un seul rôle principal : patient, médecin ou admin. Toute élévation doit être tracée.</span>
+                        </div>
+                        <div class="context-card">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <strong>Suivi</strong>
+                            <span>La dernière connexion aide à repérer les comptes dormants et les accès inhabituels.</span>
+                        </div>
+                    </div>
+
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon"><i class="fa-solid fa-hospital-user" style="color:#0ea5e9"></i></div>

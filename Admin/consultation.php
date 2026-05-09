@@ -7,6 +7,7 @@
     <title>Consultation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link rel="stylesheet" href="../css/admin_consultation.css">
+    <link rel="stylesheet" href="../css/admin_shared.css">
 </head>
 <body>
 
@@ -60,7 +61,7 @@
                     </div>
                 </div>
             </div>
-        </div><!-- /sidebar -->
+        <!-- /sidebar -->
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
@@ -73,6 +74,36 @@
                 </div>
 
                 <div class="content-area">
+                    <div class="admin-welcome">
+                        <div>
+                            <span class="welcome-kicker">Supervision médicale</span>
+                            <h1>Consultations et téléconsultations</h1>
+                            <p>Suivez les sessions en cours, les consultations terminées, les médecins connectés et les incidents éventuels pendant les rendez-vous.</p>
+                        </div>
+                        <div class="welcome-actions">
+                            <a href="rapport.php" class="welcome-btn primary"><i class="fa-solid fa-chart-line"></i> Rapports</a>
+                            <a href="securite.php" class="welcome-btn"><i class="fa-solid fa-shield-halved"></i> Sécurité</a>
+                        </div>
+                    </div>
+
+                    <div class="admin-context-grid">
+                        <div class="context-card">
+                            <i class="fa-solid fa-video"></i>
+                            <strong>Temps réel</strong>
+                            <span>Contrôler les sessions en cours, leur durée, le médecin responsable et le statut de fin.</span>
+                        </div>
+                        <div class="context-card">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <strong>Incidents</strong>
+                            <span>Repérer les appels interrompus, retards, problèmes de connexion ou sessions non clôturées.</span>
+                        </div>
+                        <div class="context-card">
+                            <i class="fa-solid fa-file-medical"></i>
+                            <strong>Traçabilité</strong>
+                            <span>Chaque consultation doit être liée à un patient, un médecin, un horaire et un statut clair.</span>
+                        </div>
+                    </div>
+
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon">🎥</div>
@@ -311,5 +342,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
 

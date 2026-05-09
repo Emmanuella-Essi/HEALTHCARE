@@ -131,7 +131,6 @@
           </div>
         </div>
       </div>
-    </div>
     <!-- /sidebar -->
 
     <!-- ══════════════════════════════════
@@ -156,6 +155,18 @@
 
         <!-- Contenu -->
         <div class="content-area">
+
+          <div class="admin-welcome">
+            <div>
+              <span class="welcome-kicker">Centre de contrôle HealthCare</span>
+              <h1>Bienvenue <?= htmlspecialchars($adminPrenom, ENT_QUOTES, 'UTF-8') ?></h1>
+              <p>Cette page regroupe les informations essentielles pour superviser la plateforme, les utilisateurs, les médecins, les consultations, les vaccins, les rapports et la sécurité.</p>
+            </div>
+            <div class="welcome-actions">
+              <a href="utilisateur.php" class="welcome-btn primary"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+              <a href="securite.php" class="welcome-btn"><i class="fa-solid fa-shield-halved"></i> Sécurité</a>
+            </div>
+          </div>
 
           <!-- ── KPI Cards ── -->
           <div class="stats-grid">

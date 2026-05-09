@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- CSS dédié -->
   <link rel="stylesheet" href="../css/admin_rapport.css">
+  <link rel="stylesheet" href="../css/admin_shared.css">
   <!-- Chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" defer></script>
 </head>
@@ -66,7 +67,7 @@
           </div>
         </div>
       </div>
-    </div><!-- /sidebar -->
+    <!-- /sidebar -->
 
     <!-- ══════════════════════════════════
          CONTENU PRINCIPAL
@@ -83,6 +84,36 @@
       <button class="btn-primary" id="exportBtn">
         📥 Exporter PDF
       </button>
+    </div>
+
+    <div class="admin-welcome">
+      <div>
+        <span class="welcome-kicker">Analyse et pilotage</span>
+        <h1>Rapports de performance</h1>
+        <p>Centralisez les indicateurs clés: consultations, vaccinations, téléconsultations, satisfaction et tendances mensuelles pour décider rapidement.</p>
+      </div>
+      <div class="welcome-actions">
+        <a href="consultation.php" class="welcome-btn primary"><i class="fa-solid fa-video"></i> Consultations</a>
+        <a href="vaccin.php" class="welcome-btn"><i class="fa-solid fa-syringe"></i> Vaccins</a>
+      </div>
+    </div>
+
+    <div class="admin-context-grid">
+      <div class="context-card">
+        <i class="fa-solid fa-chart-column"></i>
+        <strong>Indicateurs</strong>
+        <span>Comparer les volumes mensuels, les tendances de téléconsultation et la vaccination.</span>
+      </div>
+      <div class="context-card">
+        <i class="fa-solid fa-file-export"></i>
+        <strong>Exports</strong>
+        <span>Préparer les synthèses à transmettre à la direction ou aux équipes médicales.</span>
+      </div>
+      <div class="context-card">
+        <i class="fa-solid fa-circle-info"></i>
+        <strong>Décisions</strong>
+        <span>Identifier les pics d'activité, les zones de surcharge et les actions prioritaires.</span>
+      </div>
     </div>
 
     <!-- ── STAT CARDS ── -->
