@@ -462,7 +462,7 @@ $medecin = [
     'nom'       => 'Kouamé',
     'prenom'    => 'Didier',
     'specialite'=> 'Médecin Généraliste',
-    'email'     => 'dr.kouame@medicare.ci'
+    'email'     => 'dr.kouame@healthcare.ci'
 ];
 
 $stats = [

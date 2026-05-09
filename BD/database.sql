@@ -7,6 +7,7 @@ CREATE DATABASE IF NOT EXISTS healthcare CHARACTER SET utf8mb4 COLLATE utf8mb4_u
 USE healthcare;
 
 SET NAMES utf8mb4;
+
 SET time_zone = '+00:00';
 
 -- ─── UTILISATEURS ────────────────────────────────────────────
