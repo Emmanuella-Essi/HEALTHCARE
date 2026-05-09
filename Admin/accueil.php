@@ -4,19 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedConnect – Vue d'ensemble</title>
-    <!-- Font Awesome 6 (version stable et disponible sur cdnjs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <!-- CSS dédié (chemin corrigé : le fichier PHP est dans /admin/) -->
     <link rel="stylesheet" href="../css/admin_accueil.css">
 </head>
 <body>
-
 <div class="page" id="admin-dashboard">
   <div class="app-layout">
 
-    <!-- ══════════════════════════════════
-         SIDEBAR
-    ══════════════════════════════════ -->
+    <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="sidebar-logo">
         <div class="logo">Health<span>Care</span></div>
@@ -55,9 +50,12 @@
       </nav>
 
       <div class="sidebar-footer">
-        <div class="back-btn" onclick="window.location.href='../index.php'">
-          <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
+
+        <!-- ✅ DÉCONNEXION → redirige vers home.php -->
+        <div class="back-btn" onclick="window.location.href='../Accueil/home.php'">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion
         </div>
+
         <div class="sidebar-user">
           <div class="avatar avatar-purple">AD</div>
           <div class="sidebar-user-info">
@@ -65,12 +63,12 @@
             <div class="role">Super Administrateur</div>
           </div>
         </div>
-      </div>
-    </div><!-- /sidebar -->
 
-    <!-- ══════════════════════════════════
-         CONTENU PRINCIPAL
-    ══════════════════════════════════ -->
+      </div>
+    </div>
+    <!-- /sidebar -->
+
+    <!-- CONTENU PRINCIPAL -->
     <div class="main-content">
       <div id="a-accueil" class="admin-section">
 
@@ -91,7 +89,7 @@
         <!-- Contenu -->
         <div class="content-area">
 
-          <!-- ── KPI Cards ── -->
+          <!-- KPI Cards -->
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon"><i class="fa-solid fa-hospital-user" style="color:#0ea5e9"></i></div>
@@ -119,7 +117,7 @@
             </div>
           </div>
 
-          <!-- ── Graphique + Statut système ── -->
+          <!-- Graphique + Statut système -->
           <div class="grid-2 mb-24">
 
             <!-- Consultations mensuelles -->
@@ -147,7 +145,6 @@
               </div>
               <div class="card-body">
                 <div style="display:flex;flex-direction:column;gap:0">
-
                   <div class="status-row">
                     <div>
                       <div class="status-name">API Auth</div>
@@ -155,7 +152,6 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
-
                   <div class="status-row">
                     <div>
                       <div class="status-name">API Consultation</div>
@@ -163,7 +159,6 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
-
                   <div class="status-row">
                     <div>
                       <div class="status-name">API Vaccination</div>
@@ -171,7 +166,6 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
-
                   <div class="status-row">
                     <div>
                       <div class="status-name">Base de données</div>
@@ -179,7 +173,6 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
-
                   <div class="status-row">
                     <div>
                       <div class="status-name">Serveur backup</div>
@@ -187,13 +180,13 @@
                     </div>
                     <span class="badge badge-orange"><i class="fa-solid fa-triangle-exclamation" style="font-size:.7rem"></i> Latence +120 ms</span>
                   </div>
-
                 </div>
               </div>
             </div>
-          </div><!-- /grid-2 -->
 
-          <!-- ── Activité récente + Alertes ── -->
+          </div>
+
+          <!-- Activité récente + Alertes -->
           <div class="grid-2">
 
             <!-- Activité récente -->
@@ -248,7 +241,6 @@
                 <span class="card-title"><i class="fa-solid fa-bell"></i> Alertes système</span>
               </div>
               <div class="card-body">
-
                 <div class="appt-card" style="border-color:rgba(245,158,11,0.3);background:rgba(255,237,213,0.4)">
                   <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;font-size:1.1rem"></i>
                   <div class="appt-info">
@@ -257,7 +249,6 @@
                   </div>
                   <span class="badge badge-orange">Mineur</span>
                 </div>
-
                 <div class="appt-card" style="background:rgba(219,234,254,0.4);border-color:rgba(59,130,246,0.25)">
                   <i class="fa-solid fa-circle-info" style="color:#3b82f6;font-size:1.1rem"></i>
                   <div class="appt-info">
@@ -268,17 +259,29 @@
                     Planifier
                   </button>
                 </div>
-
               </div>
             </div>
 
-          </div><!-- /grid-2 -->
-        </div><!-- /content-area -->
-      </div><!-- /a-accueil -->
-    </div><!-- /main-content -->
+          </div>
 
-  </div><!-- /app-layout -->
-</div><!-- /page -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Date du jour -->
+<script>
+  // Affiche la date dans le top bar si l'élément existe
+  const topDate = document.getElementById('topDate');
+  if (topDate) {
+    const now = new Date();
+    topDate.textContent = now.toLocaleDateString('fr-FR', {
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+    });
+  }
+</script>
 
 </body>
 </html>
