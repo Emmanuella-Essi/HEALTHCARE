@@ -8,11 +8,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/ordonnances.css" />
   <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    body {
+      background: #F6FAFD;
+    }
+    .main {
+      width: calc(100% - var(--sb-w-collapsed));
+      height: 100vh;
+      margin-left: var(--sb-w-collapsed);
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: margin-left .28s cubic-bezier(0.4, 0, 0.2, 1), width .28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar:hover + .main {
+      width: calc(100% - var(--sb-w-expanded));
+      margin-left: var(--sb-w-expanded);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246, 250, 253, 0.94);
+      backdrop-filter: blur(14px);
+    }
+    @media (max-width: 900px) {
+      .main,
+      .sidebar:hover + .main {
+        width: calc(100% - var(--sb-w-collapsed));
+        margin-left: var(--sb-w-collapsed);
+        padding: 0 16px 40px;
+      }
+    }
+  </style>
 </head>
 <body>
 
   <!-- SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
    
     <!-- Logo -->
     <div class="sb-logo">
@@ -113,14 +145,14 @@
    
     <!-- Footer -->
     <div class="sb-footer">
-onclick="window.location.href='../Accueil/home.php'"
+      <a class="deconnect-btn" href="../Accueil/home.php">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
           <polyline points="16 17 21 12 16 7"/>
           <line x1="21" y1="12" x2="9" y2="12"/>
         </svg>
         <span class="deconnect-label">Déconnexion</span>
-      </div>
+      </a>
    
       <div class="sb-user">
         <div class="avatar">KD</div>
@@ -276,6 +308,6 @@ onclick="window.location.href='../Accueil/home.php'"
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
-  <script src="js/ordonnances.js"></script>
+  <script src="../js/ordonnances.js"></script>
 </body>
 </html>

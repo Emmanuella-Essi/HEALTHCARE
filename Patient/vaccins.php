@@ -9,6 +9,40 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/vaccins.css" />
   <link rel="stylesheet" href="../css/dashboard.css" />
+  <style>
+    body {
+      background: #F6FAFD;
+    }
+    .main-content {
+      width: calc(100% - var(--sb-w-collapsed));
+      height: 100vh;
+      margin-left: var(--sb-w-collapsed);
+      max-width: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: margin-left .28s cubic-bezier(0.4, 0, 0.2, 1), width .28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar:hover + .main-content {
+      width: calc(100% - var(--sb-w-expanded));
+      margin-left: var(--sb-w-expanded);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(246, 250, 253, 0.94);
+      backdrop-filter: blur(14px);
+      padding-top: .25rem;
+    }
+    @media (max-width: 768px) {
+      .main-content,
+      .sidebar:hover + .main-content {
+        width: calc(100% - var(--sb-w-collapsed));
+        margin-left: var(--sb-w-collapsed);
+        padding: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -52,7 +86,7 @@
     </a>
  
 
-    <div class="nav-item" onclick="Suivant('rdv', this)">
+    <a href="rdv.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="4" width="18" height="18" rx="2"/>
@@ -62,13 +96,13 @@
         </svg>
       </div>
       <span class="ni-label">Rendez-vous</span>
-    </div>
+    </a>
 
     
 
     <div class="section-label">Santé</div>
 
-    <a href="vaccins.php" class="nav-item">
+    <a href="vaccins.php" class="nav-item active">
         <div class="ni-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="16" y2="8"/>
@@ -79,7 +113,7 @@
         </div>
         <span class="ni-label">Vaccins</span>
       </a>
-    <a href="dossier.php" class="nav-item active">
+    <a href="dossier.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
@@ -102,7 +136,7 @@
 
     <div class="section-label">Compte</div>
 
-    <div class="nav-item" onclick="Suivant('profil', this)">
+    <a href="profil.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/>
@@ -110,11 +144,11 @@
         </svg>
       </div>
       <span class="ni-label">Mon profil</span>
-    </div>
+    </a>
   </nav>
 
   <div class="sb-footer">
-onclick="window.location.href='../Accueil/home.php'"
+    <a class="deconnect-btn" href="../Accueil/home.php">
 
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -122,7 +156,7 @@ onclick="window.location.href='../Accueil/home.php'"
         <line x1="21" y1="12" x2="9" y2="12"/>
       </svg>
       <span class="deconnect-label">Déconnexion</span>
-    </div>
+    </a>
 
     <div class="sb-user">
       <div class="avatar">MD</div>
@@ -133,20 +167,6 @@ onclick="window.location.href='../Accueil/home.php'"
     </div>
   </div>
 </aside>
- 
-  <!-- Logo -->
-  <div class="sb-logo">
-    <div class="logo-icon">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1de9b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-      </svg>
-    </div>
-    <div class="logo-text">Health<span>Care</span></div>
-  </div>
- 
-
- 
- 
 
 <!-- ═══════════════ MAIN ═══════════════ -->
 <main class="main-content">
@@ -302,6 +322,6 @@ onclick="window.location.href='../Accueil/home.php'"
 <!-- TOAST -->
 <div class="toast hidden" id="toast"></div>
 
-<script src="js/vaccins.js"></script>
+<script src="../js/vaccins.js"></script>
 </body>
 </html>

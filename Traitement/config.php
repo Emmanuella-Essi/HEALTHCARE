@@ -81,12 +81,19 @@ function jsonError(int $code, string $msg): void {
 function redirect(string $url, string $msg = '', string $type = 'success'): void {
     startSession();
     if ($msg) {
-        $_SESSION['flash_msg']  = $msg;
+        // Compatibilité avec les pages UI (ex: Accueil/inscription.php)
+        $_SESSION['flash_msg'] = $msg;
         $_SESSION['flash_type'] = $type; // 'success' | 'error' | 'info'
+
+        // Alias attendu par Accueil/inscription.php et Accueil/index.php
+        $_SESSION['flash_message'] = $msg;
+        $_SESSION['flashType'] = $type;
+        $_SESSION['flash_type_ui'] = $type;
     }
     header("Location: $url");
     exit;
 }
+
 
 // ---- Récupérer et effacer le message flash ----
 function getFlash(): array {

@@ -168,14 +168,22 @@ function updateStats() {
 
 function animateCount(id, target) {
   const el = document.getElementById(id);
+  if (!el) return;
   let start = 0;
+  if (target <= 0) {
+    el.textContent = "0";
+    return;
+  }
+  if (target === 1) {
+    el.textContent = "1";
+    return;
+  }
   const step = () => {
     start++;
     el.textContent = start;
     if (start < target) requestAnimationFrame(step);
   };
-  if (target > 0) requestAnimationFrame(step);
-  else el.textContent = "0";
+  requestAnimationFrame(step);
 }
 
 /* ─────────────────────────────────────────
@@ -183,7 +191,8 @@ function animateCount(id, target) {
 ───────────────────────────────────────── */
 function bindEvents() {
   // Recherche
-  document.getElementById("searchInput").addEventListener("input", e => {
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) searchInput.addEventListener("input", e => {
     searchQuery = e.target.value;
     renderVaccins();
   });
@@ -199,28 +208,28 @@ function bindEvents() {
   });
 
   // Ouvrir modal ajout
-  document.getElementById("btnAjouter").addEventListener("click", openAddModal);
+  document.getElementById("btnAjouter")?.addEventListener("click", openAddModal);
 
   // Fermer modals
-  document.getElementById("modalClose").addEventListener("click", closeModal);
-  document.getElementById("btnAnnuler").addEventListener("click", closeModal);
-  document.getElementById("modalOverlay").addEventListener("click", e => {
+  document.getElementById("modalClose")?.addEventListener("click", closeModal);
+  document.getElementById("btnAnnuler")?.addEventListener("click", closeModal);
+  document.getElementById("modalOverlay")?.addEventListener("click", e => {
     if (e.target === e.currentTarget) closeModal();
   });
 
   // Submit formulaire
-  document.getElementById("vaccineForm").addEventListener("submit", handleFormSubmit);
+  document.getElementById("vaccineForm")?.addEventListener("submit", handleFormSubmit);
 
   // Modal suppression
-  document.getElementById("deleteClose").addEventListener("click", closeDeleteModal);
-  document.getElementById("deleteCancelBtn").addEventListener("click", closeDeleteModal);
-  document.getElementById("deleteConfirmBtn").addEventListener("click", confirmDelete);
-  document.getElementById("deleteOverlay").addEventListener("click", e => {
+  document.getElementById("deleteClose")?.addEventListener("click", closeDeleteModal);
+  document.getElementById("deleteCancelBtn")?.addEventListener("click", closeDeleteModal);
+  document.getElementById("deleteConfirmBtn")?.addEventListener("click", confirmDelete);
+  document.getElementById("deleteOverlay")?.addEventListener("click", e => {
     if (e.target === e.currentTarget) closeDeleteModal();
   });
 
   // Sidebar mobile
-  document.getElementById("menuToggle").addEventListener("click", () => {
+  document.getElementById("menuToggle")?.addEventListener("click", () => {
     document.querySelector(".sidebar").classList.toggle("open");
   });
 }

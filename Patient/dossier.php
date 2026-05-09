@@ -7,7 +7,39 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link rel="stylesheet" href="../css/dossier.css">
   <link rel="stylesheet" href="../css/dashboard.css">
-   
+  <style>
+    body {
+      background: #F6FAFD;
+    }
+    .main-content {
+      width: calc(100% - var(--sb-w-collapsed));
+      height: 100vh;
+      margin-left: var(--sb-w-collapsed);
+      overflow-y: auto;
+      overflow-x: hidden;
+      transition: margin-left .28s cubic-bezier(0.4, 0, 0.2, 1), width .28s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .sidebar:hover + .main-content {
+      width: calc(100% - var(--sb-w-expanded));
+      margin-left: var(--sb-w-expanded);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .page-body {
+      min-height: calc(100vh - 72px);
+      padding-bottom: 42px;
+    }
+    @media (max-width: 720px) {
+      .main-content,
+      .sidebar:hover + .main-content {
+        width: calc(100% - var(--sb-w-collapsed));
+        margin-left: var(--sb-w-collapsed);
+      }
+    }
+  </style>
 
   <!-- Fonts (cohérence avec le dashboard) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -114,7 +146,7 @@
   </nav>
 
   <div class="sb-footer">
-onclick="window.location.href='../Accueil/home.php'"
+    <a class="deconnect-btn" href="../Accueil/home.php">
 
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -122,7 +154,7 @@ onclick="window.location.href='../Accueil/home.php'"
         <line x1="21" y1="12" x2="9" y2="12"/>
       </svg>
       <span class="deconnect-label">Déconnexion</span>
-    </div>
+    </a>
 
     <div class="sb-user">
       <div class="avatar">MD</div>

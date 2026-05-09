@@ -9,6 +9,61 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../css/telexp.css">
   <link rel="stylesheet" href="../css/dashboard.css">
+  <style>
+    body {
+      display: block;
+      height: auto;
+      min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background: var(--navy);
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      overflow: hidden;
+      background: rgba(10, 18, 35, 0.95);
+      border-right: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .sidebar:hover {
+      width: var(--sidebar-w);
+    }
+    .sidebar .logo-text,
+    .sidebar .section-label,
+    .sidebar .ni-label,
+    .sidebar .ni-badge,
+    .sidebar .deconnect-label,
+    .sidebar .user-info {
+      opacity: 1;
+    }
+    .sidebar .sb-nav {
+      overflow-y: auto;
+    }
+    .page-wrapper {
+      width: calc(100% - var(--sidebar-w));
+      min-height: 100vh;
+      height: auto;
+      margin-left: var(--sidebar-w);
+      overflow: visible;
+    }
+    .main {
+      padding-bottom: 42px;
+    }
+    @media (max-width: 980px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .page-wrapper {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -108,14 +163,14 @@
   </nav>
 
   <div class="sb-footer">
-onclick="window.location.href='../Accueil/home.php'"
+    <a class="deconnect-btn" href="../Accueil/home.php">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
         <polyline points="16 17 21 12 16 7"/>
         <line x1="21" y1="12" x2="9" y2="12"/>
       </svg>
       <span class="deconnect-label">Déconnexion</span>
-    </div>
+    </a>
     <div class="sb-user">
       <div class="avatar">KD</div>
       <div class="user-info">
