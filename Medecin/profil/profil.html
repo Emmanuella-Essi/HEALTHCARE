@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- ============================================================
+       PROFIL MÉDECIN — MediCare Pro
+       Fichier     : profil.html
+       Description : Page de gestion du profil du médecin
+                     Infos personnelles + photo + mot de passe
+       ============================================================ -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Profil — MediCare Pro</title>
+
+  <!-- Polices Google : Playfair Display (titres) + DM Sans (corps) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,500&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Feuille de style dédiée au profil -->
+  <link rel="stylesheet" href="profil.css" />
+  <link rel="stylesheet" href="../shared/doctor-sidebar.css" />
+  <script src="../shared/doctor-sidebar.js" defer></script>
+</head>
+<body>
+
+  <!-- ============================================================
+       SIDEBAR — Navigation latérale fixe
+       Partagée avec toutes les pages du dashboard
+       ============================================================ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Logo + badge "Pro" -->
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <!-- Icône croix médicale SVG inline -->
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path d="M12 2v20M2 12h20"/>
+        </svg>
+      </div>
+      <span class="logo-text">MediCare</span>
+      <span class="logo-badge">Pro</span>
+    </div><!-- fin sidebar-logo -->
+
+    <!-- Mini-profil condensé dans la sidebar -->
+    <div class="sidebar-profile">
+      <!-- Avatar avec initiales + point de statut en ligne -->
+      <div class="doctor-avatar">
+        <span>DK</span>
+        <span class="status-dot"></span><!-- Point vert = connecté -->
+      </div>
+      <div class="doctor-info">
+        <span class="doctor-name">Dr. Kouamé</span>
+        <span class="doctor-spec">Médecin Généraliste</span>
+      </div>
+    </div><!-- fin sidebar-profile -->
+
+    <!-- Menu de navigation principal -->
+    <nav class="sidebar-nav">
+
+      <!-- Dashboard -->
+      <a href="dashboard-medecin.html" class="nav-item" title="Tableau de bord">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </span>
+        <span class="nav-label">Tableau de Bord</span>
+      </a>
+
+      <!-- Patients avec badge total -->
+      <a href="patients.html" class="nav-item" title="Mes patients">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </span>
+        <span class="nav-label">Patients</span>
+        <span class="nav-badge">48</span><!-- Badge nombre de patients -->
+      </a>
+
+      <!-- Consultations avec badge urgent -->
+      <a href="consultations.html" class="nav-item" title="Consultations">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </span>
+        <span class="nav-label">Consultations</span>
+        <span class="nav-badge urgent">3</span><!-- Rouge = urgent -->
+      </a>
+
+      <!-- Messagerie avec badge messages non lus -->
+      <a href="messagerie.html" class="nav-item" title="Messagerie">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+        </span>
+        <span class="nav-label">Messagerie</span>
+        <span class="nav-badge urgent">7</span>
+      </a>
+
+      <!-- Vaccins -->
+      <a href="vaccins.html" class="nav-item" title="Vaccins">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M20 7l-8-4-8 4m16 0v10l-8 4m0 0L4 17V7m8 10V7"/>
+          </svg>
+        </span>
+        <span class="nav-label">Vaccins</span>
+      </a>
+
+      <!-- Séparateur entre groupes de liens -->
+      <div class="nav-separator"></div>
+
+      <!-- Profil — LIEN ACTIF sur cette page -->
+      <a href="profil.html" class="nav-item active" title="Mon profil">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </span>
+        <span class="nav-label">Mon Profil</span>
+      </a>
+
+    </nav><!-- fin sidebar-nav -->
+
+    <!-- Bouton de déconnexion en bas de sidebar -->
+    <div class="sidebar-logout">
+      <a href="login.php" class="logout-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16,17 21,12 16,7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>Déconnexion</span>
+      </a>
+    </div>
+
+  </aside><!-- fin sidebar -->
+
+
+  <!-- ============================================================
+       CONTENU PRINCIPAL
+       ============================================================ -->
+  <main class="main-content" id="mainContent">
+
+    <!-- ---- TOPBAR ---- -->
+    <header class="topbar">
+
+      <!-- Bouton hamburger (visible uniquement sur mobile) -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Titre page + fil d'Ariane -->
+      <div class="topbar-title">
+        <h1>Mon Profil</h1>
+        <!-- Breadcrumb pour la navigation -->
+        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+          <a href="dashboard-medecin.html">Dashboard</a>
+          <span class="bc-sep">›</span>
+          <span>Mon Profil</span>
+        </nav>
+      </div>
+
+      <!-- Actions topbar à droite -->
+      <div class="topbar-actions">
+        <!-- Bouton notifications -->
+        <button class="icon-btn" aria-label="Notifications">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <!-- Badge rouge = nb alertes -->
+          <span class="icon-badge">5</span>
+        </button>
+        <!-- Avatar médecin topbar -->
+        <div class="topbar-avatar" title="Mon profil">DK</div>
+      </div>
+
+    </header><!-- fin topbar -->
+
+
+    <!-- ============================================================
+         CORPS DE LA PAGE — Layout 2 colonnes
+         Colonne gauche : carte identité
+         Colonne droite : formulaires (infos + mdp)
+         ============================================================ -->
+    <div class="page-body">
+
+      <!-- ============================================================
+           COLONNE GAUCHE — Carte identité du médecin
+           ============================================================ -->
+      <aside class="profile-sidebar">
+
+        <!-- ---- Carte principale identité ---- -->
+        <div class="identity-card">
+
+          <!-- Zone photo de profil avec bouton upload -->
+          <div class="photo-zone">
+            <!-- Cercle de fond décoratif derrière l'avatar -->
+            <div class="photo-bg-ring"></div>
+
+            <!-- Avatar principal : initiales ou photo uploadée -->
+            <div class="photo-avatar" id="photoAvatar">
+              <!-- Initiales par défaut (remplacées par l'image si uploadée) -->
+              <span id="photoInitials">DK</span>
+              <!-- Image si uploadée (cachée par défaut) -->
+              <img id="photoImg" src="" alt="Photo de profil" style="display:none;" />
+            </div>
+
+            <!-- Bouton stylo pour changer la photo -->
+            <button class="photo-edit-btn" id="photoEditBtn"
+                    aria-label="Changer la photo de profil"
+                    title="Changer la photo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2.5">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+
+            <!-- Input file caché : déclenché par le bouton stylo -->
+            <input type="file" id="photoInput" accept="image/*"
+                   style="display:none;" aria-label="Choisir une photo" />
+          </div><!-- fin photo-zone -->
+
+          <!-- Nom complet du médecin -->
+          <h2 class="identity-name" id="displayName">Dr. Kouamé Didier</h2>
+
+          <!-- Spécialité médicale -->
+          <p class="identity-spec" id="displaySpec">Médecin Généraliste</p>
+
+          <!-- Badge statut en ligne -->
+          <div class="identity-status">
+            <span class="status-dot-lg"></span>
+            <span>En ligne</span>
+          </div>
+
+          <!-- Ligne de séparation -->
+          <div class="identity-divider"></div>
+
+          <!-- Statistiques rapides du médecin -->
+          <div class="identity-stats">
+
+            <!-- Stat : nombre de patients -->
+            <div class="id-stat">
+              <span class="id-stat-val">48</span>
+              <span class="id-stat-lbl">Patients</span>
+            </div>
+
+            <!-- Séparateur vertical -->
+            <div class="id-stat-sep"></div>
+
+            <!-- Stat : années d'expérience -->
+            <div class="id-stat">
+              <span class="id-stat-val">12</span>
+              <span class="id-stat-lbl">Années exp.</span>
+            </div>
+
+            <!-- Séparateur vertical -->
+            <div class="id-stat-sep"></div>
+
+            <!-- Stat : consultations ce mois -->
+            <div class="id-stat">
+              <span class="id-stat-val">94</span>
+              <span class="id-stat-lbl">Consultations</span>
+            </div>
+
+          </div><!-- fin identity-stats -->
+
+        </div><!-- fin identity-card -->
+
+        <!-- ---- Carte informations rapides (lecture seule) ---- -->
+        <div class="quick-info-card">
+          <h3 class="qinfo-title">Informations rapides</h3>
+
+          <!-- Ligne : email -->
+          <div class="qinfo-item">
+            <span class="qinfo-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <!-- Valeur mise à jour par JS depuis le formulaire -->
+            <span class="qinfo-val" id="qEmail">dr.kouame@medicare.ci</span>
+          </div>
+
+          <!-- Ligne : téléphone -->
+          <div class="qinfo-item">
+            <span class="qinfo-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07
+                         19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67
+                         A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81
+                         a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27
+                         a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7
+                         A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
+            <span class="qinfo-val" id="qTel">+225 07 12 34 56 78</span>
+          </div>
+
+          <!-- Ligne : hôpital / établissement -->
+          <div class="qinfo-item">
+            <span class="qinfo-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9,22 9,12 15,12 15,22"/>
+              </svg>
+            </span>
+            <span class="qinfo-val" id="qHopital">CHU de Treichville</span>
+          </div>
+
+          <!-- Ligne : localisation / ville -->
+          <div class="qinfo-item">
+            <span class="qinfo-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </span>
+            <span class="qinfo-val" id="qVille">Abidjan, Côte d'Ivoire</span>
+          </div>
+
+          <!-- Ligne : numéro d'ordre médical -->
+          <div class="qinfo-item">
+            <span class="qinfo-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </span>
+            <span class="qinfo-val" id="qOrdre">N° Ordre : CI-MED-4892</span>
+          </div>
+
+        </div><!-- fin quick-info-card -->
+
+      </aside><!-- fin profile-sidebar (colonne gauche) -->
+
+
+      <!-- ============================================================
+           COLONNE DROITE — Onglets : Infos perso + Mot de passe
+           ============================================================ -->
+      <div class="profile-main">
+
+        <!-- Onglets de navigation entre les sections -->
+        <div class="tabs-bar" role="tablist" aria-label="Sections du profil">
+
+          <!-- Onglet 1 : Informations personnelles -->
+          <button
+            class="tab-btn active"
+            id="tab-infos"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-infos"
+            data-tab="infos"
+          >
+            <!-- Icône utilisateur -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Informations Personnelles
+          </button>
+
+          <!-- Onglet 2 : Informations professionnelles -->
+          <button
+            class="tab-btn"
+            id="tab-pro"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-pro"
+            data-tab="pro"
+          >
+            <!-- Icône porte-documents / professionnel -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2"/>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/>
+              <line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+            Informations Professionnelles
+          </button>
+
+          <!-- Onglet 3 : Sécurité / Mot de passe -->
+          <button
+            class="tab-btn"
+            id="tab-mdp"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-mdp"
+            data-tab="mdp"
+          >
+            <!-- Icône cadenas -->
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Sécurité
+          </button>
+
+        </div><!-- fin tabs-bar -->
+
+
+        <!-- ============================================================
+             PANNEAU 1 : INFORMATIONS PERSONNELLES
+             ============================================================ -->
+        <div
+          class="tab-panel active"
+          id="panel-infos"
+          role="tabpanel"
+          aria-labelledby="tab-infos"
+        >
+          <!-- En-tête de section -->
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Informations Personnelles</h2>
+              <p class="panel-subtitle">Modifiez vos données personnelles et de contact</p>
+            </div>
+            <!-- Bouton éditer / annuler pour ce panneau -->
+            <button class="btn-edit-toggle" id="btnEditInfos" data-panel="infos">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Modifier
+            </button>
+          </div><!-- fin panel-header -->
+
+          <!-- Formulaire informations personnelles -->
+          <form class="profile-form" id="formInfos" novalidate>
+
+            <!-- Ligne 1 : Prénom + Nom -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="infPrenom">Prénom</label>
+                <input
+                  type="text"
+                  id="infPrenom"
+                  name="prenom"
+                  value="Didier"
+                  placeholder="Votre prénom"
+                  disabled <!-- Désactivé par défaut, activé en mode édition -->
+                  autocomplete="given-name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="infNom">Nom</label>
+                <input
+                  type="text"
+                  id="infNom"
+                  name="nom"
+                  value="Kouamé"
+                  placeholder="Votre nom"
+                  disabled
+                  autocomplete="family-name"
+                />
+              </div>
+            </div><!-- fin form-row -->
+
+            <!-- Ligne 2 : Email + Téléphone -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="infEmail">Adresse Email</label>
+                <div class="input-with-icon">
+                  <!-- Icône email dans l'input -->
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  <input
+                    type="email"
+                    id="infEmail"
+                    name="email"
+                    value="dr.kouame@medicare.ci"
+                    placeholder="votre@email.com"
+                    disabled
+                    autocomplete="email"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="infTel">Téléphone</label>
+                <div class="input-with-icon">
+                  <!-- Icône téléphone -->
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07
+                             19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67
+                             A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81
+                             a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27
+                             a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7
+                             A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  <input
+                    type="tel"
+                    id="infTel"
+                    name="telephone"
+                    value="+225 07 12 34 56 78"
+                    placeholder="+225 XX XX XX XX XX"
+                    disabled
+                    autocomplete="tel"
+                  />
+                </div>
+              </div>
+            </div><!-- fin form-row -->
+
+            <!-- Ligne 3 : Date de naissance + Sexe -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="infNaissance">Date de naissance</label>
+                <input
+                  type="date"
+                  id="infNaissance"
+                  name="naissance"
+                  value="1983-07-15"
+                  disabled
+                />
+              </div>
+              <div class="form-group">
+                <label for="infSexe">Sexe</label>
+                <select id="infSexe" name="sexe" disabled>
+                  <option value="M" selected>Masculin</option>
+                  <option value="F">Féminin</option>
+                </select>
+              </div>
+            </div><!-- fin form-row -->
+
+            <!-- Ligne 4 : Adresse -->
+            <div class="form-group">
+              <label for="infAdresse">Adresse complète</label>
+              <input
+                type="text"
+                id="infAdresse"
+                name="adresse"
+                value="Cocody Riviera 3, Abidjan, Côte d'Ivoire"
+                placeholder="Votre adresse"
+                disabled
+                autocomplete="street-address"
+              />
+            </div>
+
+            <!-- Ligne 5 : Bio / Présentation courte -->
+            <div class="form-group">
+              <label for="infBio">
+                Biographie courte
+                <!-- Compteur de caractères -->
+                <span class="char-count" id="bioCount">0 / 300</span>
+              </label>
+              <textarea
+                id="infBio"
+                name="bio"
+                rows="4"
+                maxlength="300"
+                placeholder="Décrivez votre parcours et vos compétences..."
+                disabled
+              >Médecin généraliste diplômé de l'Université Félix Houphouët-Boigny d'Abidjan. Spécialisé dans le suivi des maladies chroniques et la médecine préventive. Plus de 12 ans d'expérience au CHU de Treichville.</textarea>
+            </div>
+
+            <!-- Boutons d'action du formulaire (cachés en mode lecture) -->
+            <div class="form-actions" id="actionsInfos" style="display:none;">
+              <button type="button" class="btn-cancel-form" id="btnCancelInfos">
+                Annuler
+              </button>
+              <button type="submit" class="btn-save-form">
+                <!-- Icône check -->
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20,6 9,17 4,12"/>
+                </svg>
+                Enregistrer les modifications
+              </button>
+            </div>
+
+          </form><!-- fin formInfos -->
+
+        </div><!-- fin panel-infos -->
+
+
+        <!-- ============================================================
+             PANNEAU 2 : INFORMATIONS PROFESSIONNELLES
+             ============================================================ -->
+        <div
+          class="tab-panel"
+          id="panel-pro"
+          role="tabpanel"
+          aria-labelledby="tab-pro"
+          hidden <!-- Caché par défaut -->
+        >
+          <!-- En-tête -->
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Informations Professionnelles</h2>
+              <p class="panel-subtitle">Gérez vos informations médicales et de pratique</p>
+            </div>
+            <button class="btn-edit-toggle" id="btnEditPro" data-panel="pro">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Modifier
+            </button>
+          </div>
+
+          <!-- Formulaire professionnel -->
+          <form class="profile-form" id="formPro" novalidate>
+
+            <!-- Ligne : Spécialité + Numéro d'ordre -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="proSpec">Spécialité médicale</label>
+                <select id="proSpec" name="specialite" disabled>
+                  <option value="generaliste" selected>Médecin Généraliste</option>
+                  <option value="cardiologue">Cardiologue</option>
+                  <option value="pediatre">Pédiatre</option>
+                  <option value="dermatologue">Dermatologue</option>
+                  <option value="gynécologue">Gynécologue</option>
+                  <option value="neurologue">Neurologue</option>
+                  <option value="orl">ORL</option>
+                  <option value="ophtalmologue">Ophtalmologue</option>
+                  <option value="psychiatre">Psychiatre</option>
+                  <option value="chirurgien">Chirurgien</option>
+                  <option value="urgentiste">Urgentiste</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="proOrdre">N° Ordre National</label>
+                <input
+                  type="text"
+                  id="proOrdre"
+                  name="ordre"
+                  value="CI-MED-4892"
+                  placeholder="Ex: CI-MED-XXXX"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <!-- Ligne : Hôpital / Établissement + Département -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="proHopital">Établissement / Hôpital</label>
+                <div class="input-with-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9,22 9,12 15,12 15,22"/>
+                  </svg>
+                  <input
+                    type="text"
+                    id="proHopital"
+                    name="hopital"
+                    value="CHU de Treichville"
+                    placeholder="Nom de l'établissement"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="proDept">Département / Service</label>
+                <input
+                  type="text"
+                  id="proDept"
+                  name="departement"
+                  value="Service de Médecine Interne"
+                  placeholder="Ex: Médecine interne"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <!-- Ligne : Années d'expérience + Ville d'exercice -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="proExp">Années d'expérience</label>
+                <input
+                  type="number"
+                  id="proExp"
+                  name="experience"
+                  value="12"
+                  min="0" max="60"
+                  placeholder="Ex: 12"
+                  disabled
+                />
+              </div>
+              <div class="form-group">
+                <label for="proVille">Ville d'exercice</label>
+                <input
+                  type="text"
+                  id="proVille"
+                  name="ville"
+                  value="Abidjan"
+                  placeholder="Ville"
+                  disabled
+                />
+              </div>
+            </div>
+
+            <!-- Ligne : Langues parlées (tags) -->
+            <div class="form-group">
+              <label for="proLangues">Langues parlées</label>
+              <input
+                type="text"
+                id="proLangues"
+                name="langues"
+                value="Français, Dioula, Anglais"
+                placeholder="Ex: Français, Anglais (séparées par virgule)"
+                disabled
+              />
+              <!-- Affichage en tags (mis à jour par JS) -->
+              <div class="tags-display" id="languesTags"></div>
+            </div>
+
+            <!-- Jours de consultation (cases à cocher) -->
+            <div class="form-group">
+              <label>Jours de consultation</label>
+              <div class="days-grid">
+                <!-- Chaque case = un jour de la semaine -->
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="lun" checked disabled />
+                  <span>Lun</span>
+                </label>
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="mar" checked disabled />
+                  <span>Mar</span>
+                </label>
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="mer" checked disabled />
+                  <span>Mer</span>
+                </label>
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="jeu" checked disabled />
+                  <span>Jeu</span>
+                </label>
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="ven" checked disabled />
+                  <span>Ven</span>
+                </label>
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="sam" disabled />
+                  <span>Sam</span>
+                </label>
+                <label class="day-check">
+                  <input type="checkbox" name="jours" value="dim" disabled />
+                  <span>Dim</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Boutons du formulaire professionnel -->
+            <div class="form-actions" id="actionsPro" style="display:none;">
+              <button type="button" class="btn-cancel-form" id="btnCancelPro">
+                Annuler
+              </button>
+              <button type="submit" class="btn-save-form">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20,6 9,17 4,12"/>
+                </svg>
+                Enregistrer les modifications
+              </button>
+            </div>
+
+          </form><!-- fin formPro -->
+
+        </div><!-- fin panel-pro -->
+
+
+        <!-- ============================================================
+             PANNEAU 3 : SÉCURITÉ — CHANGEMENT DE MOT DE PASSE
+             ============================================================ -->
+        <div
+          class="tab-panel"
+          id="panel-mdp"
+          role="tabpanel"
+          aria-labelledby="tab-mdp"
+          hidden
+        >
+          <!-- En-tête -->
+          <div class="panel-header">
+            <div>
+              <h2 class="panel-title">Sécurité & Mot de Passe</h2>
+              <p class="panel-subtitle">Modifiez votre mot de passe pour sécuriser votre compte</p>
+            </div>
+            <!-- Indicateur de force du mot de passe -->
+            <div class="strength-badge" id="strengthBadge" style="display:none;">
+              <span id="strengthLabel">Force : —</span>
+            </div>
+          </div>
+
+          <!-- Bannière info sécurité -->
+          <div class="security-banner">
+            <!-- Icône bouclier -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <div>
+              <strong>Conseils de sécurité :</strong>
+              Utilisez au moins 8 caractères avec majuscules, chiffres et symboles.
+              Ne réutilisez pas d'anciens mots de passe.
+            </div>
+          </div>
+
+          <!-- Formulaire changement de mot de passe -->
+          <form class="profile-form" id="formMdp" novalidate>
+
+            <!-- Champ 1 : Mot de passe actuel -->
+            <div class="form-group">
+              <label for="mdpActuel">
+                Mot de passe actuel
+                <span class="req">*</span>
+              </label>
+              <div class="password-wrap">
+                <!-- Input mot de passe (type="password" par défaut) -->
+                <input
+                  type="password"
+                  id="mdpActuel"
+                  name="mdp_actuel"
+                  placeholder="Entrez votre mot de passe actuel"
+                  autocomplete="current-password"
+                />
+                <!-- Bouton œil pour afficher/masquer -->
+                <button type="button" class="toggle-pass" data-target="mdpActuel"
+                        aria-label="Afficher/masquer le mot de passe">
+                  <!-- Icône œil ouvert (affiché quand password masqué) -->
+                  <svg class="eye-show" width="16" height="16" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <!-- Icône œil barré (affiché quand password visible) -->
+                  <svg class="eye-hide" width="16" height="16" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2"
+                       style="display:none;">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8
+                             a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4
+                             c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07
+                             a3 3 0 1 1-4.24-4.24"/>
+                    <line x1="1" y1="1" x2="23" y2="23"/>
+                  </svg>
+                </button>
+              </div>
+              <!-- Message d'erreur affiché par JS si champ vide -->
+              <span class="field-error" id="errActuel"></span>
+            </div>
+
+            <!-- Ligne de séparation entre sections -->
+            <div class="form-divider">
+              <span>Nouveau mot de passe</span>
+            </div>
+
+            <!-- Champ 2 : Nouveau mot de passe -->
+            <div class="form-group">
+              <label for="mdpNouveau">
+                Nouveau mot de passe
+                <span class="req">*</span>
+              </label>
+              <div class="password-wrap">
+                <input
+                  type="password"
+                  id="mdpNouveau"
+                  name="mdp_nouveau"
+                  placeholder="Choisissez un mot de passe fort"
+                  autocomplete="new-password"
+                />
+                <button type="button" class="toggle-pass" data-target="mdpNouveau"
+                        aria-label="Afficher/masquer">
+                  <svg class="eye-show" width="16" height="16" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <svg class="eye-hide" width="16" height="16" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2"
+                       style="display:none;">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8
+                             a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4
+                             c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07
+                             a3 3 0 1 1-4.24-4.24"/>
+                    <line x1="1" y1="1" x2="23" y2="23"/>
+                  </svg>
+                </button>
+              </div>
+              <!-- Barre de force du mot de passe (mise à jour par JS) -->
+              <div class="strength-bar-wrap" id="strengthBarWrap" style="display:none;">
+                <div class="strength-bar" id="strengthBar">
+                  <!-- 4 segments colorés selon la force -->
+                  <div class="seg"></div>
+                  <div class="seg"></div>
+                  <div class="seg"></div>
+                  <div class="seg"></div>
+                </div>
+                <!-- Texte décrivant la force (Faible / Moyen / Fort / Très fort) -->
+                <span class="strength-text" id="strengthText">Faible</span>
+              </div>
+              <!-- Critères visuels du mot de passe (cochés par JS) -->
+              <ul class="pwd-criteria" id="pwdCriteria">
+                <li class="crit" data-rule="length">
+                  <!-- Icône check : grisé → vert quand critère rempli -->
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20,6 9,17 4,12"/>
+                  </svg>
+                  Minimum 8 caractères
+                </li>
+                <li class="crit" data-rule="upper">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20,6 9,17 4,12"/>
+                  </svg>
+                  Au moins 1 majuscule
+                </li>
+                <li class="crit" data-rule="number">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20,6 9,17 4,12"/>
+                  </svg>
+                  Au moins 1 chiffre
+                </li>
+                <li class="crit" data-rule="special">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="2.5">
+                    <polyline points="20,6 9,17 4,12"/>
+                  </svg>
+                  Au moins 1 caractère spécial (!@#$...)
+                </li>
+              </ul>
+              <span class="field-error" id="errNouveau"></span>
+            </div>
+
+            <!-- Champ 3 : Confirmer le nouveau mot de passe -->
+            <div class="form-group">
+              <label for="mdpConfirm">
+                Confirmer le nouveau mot de passe
+                <span class="req">*</span>
+              </label>
+              <div class="password-wrap">
+                <input
+                  type="password"
+                  id="mdpConfirm"
+                  name="mdp_confirm"
+                  placeholder="Répétez le nouveau mot de passe"
+                  autocomplete="new-password"
+                />
+                <button type="button" class="toggle-pass" data-target="mdpConfirm"
+                        aria-label="Afficher/masquer">
+                  <svg class="eye-show" width="16" height="16" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                  <svg class="eye-hide" width="16" height="16" viewBox="0 0 24 24"
+                       fill="none" stroke="currentColor" stroke-width="2"
+                       style="display:none;">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8
+                             a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4
+                             c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07
+                             a3 3 0 1 1-4.24-4.24"/>
+                    <line x1="1" y1="1" x2="23" y2="23"/>
+                  </svg>
+                </button>
+              </div>
+              <!-- Indicateur de correspondance (✓ ou ✗) -->
+              <div class="match-indicator" id="matchIndicator" style="display:none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5">
+                  <polyline points="20,6 9,17 4,12"/>
+                </svg>
+                <span id="matchText">Les mots de passe correspondent</span>
+              </div>
+              <span class="field-error" id="errConfirm"></span>
+            </div>
+
+            <!-- Boutons du formulaire mot de passe -->
+            <div class="form-actions" style="margin-top:8px;">
+              <button type="button" class="btn-cancel-form" id="btnResetMdp">
+                <!-- Icône réinitialiser -->
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2">
+                  <polyline points="1,4 1,10 7,10"/>
+                  <path d="M3.51 15a9 9 0 1 0 .49-3.51"/>
+                </svg>
+                Réinitialiser
+              </button>
+              <button type="submit" class="btn-save-form btn-danger" id="btnSaveMdp">
+                <!-- Icône cadenas -->
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2.5">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                Mettre à jour le mot de passe
+              </button>
+            </div>
+
+          </form><!-- fin formMdp -->
+
+          <!-- Historique de sécurité (dernières connexions) -->
+          <div class="security-log">
+            <h3 class="slog-title">Dernières connexions</h3>
+            <ul class="slog-list">
+              <li class="slog-item slog-current">
+                <span class="slog-dot"></span>
+                <div class="slog-info">
+                  <span class="slog-device">Chrome — Abidjan, CI</span>
+                  <span class="slog-time">Aujourd'hui à 08:45 · Session active</span>
+                </div>
+                <span class="slog-badge current">Actuelle</span>
+              </li>
+              <li class="slog-item">
+                <span class="slog-dot old"></span>
+                <div class="slog-info">
+                  <span class="slog-device">Safari — iPhone 14</span>
+                  <span class="slog-time">Hier à 19:12 · Abidjan, CI</span>
+                </div>
+              </li>
+              <li class="slog-item">
+                <span class="slog-dot old"></span>
+                <div class="slog-info">
+                  <span class="slog-device">Chrome — MacBook Pro</span>
+                  <span class="slog-time">02 Mai 2025 à 14:33 · Abidjan, CI</span>
+                </div>
+              </li>
+            </ul>
+          </div><!-- fin security-log -->
+
+        </div><!-- fin panel-mdp -->
+
+      </div><!-- fin profile-main (colonne droite) -->
+
+    </div><!-- fin page-body -->
+  </main><!-- fin main-content -->
+
+  <!-- ============================================================
+       TOAST — Notification en bas à droite
+       ============================================================ -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <!-- Icône dynamique (changée par JS selon le type) -->
+    <span class="toast-icon" id="toastIcon">✅</span>
+    <span id="toastMsg">Modifications enregistrées</span>
+  </div>
+
+  <!-- Overlay sombre (ferme la sidebar mobile au clic) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Script JavaScript dédié à cette page -->
+  <script src="profil.js"></script>
+
+</body>
+</html>

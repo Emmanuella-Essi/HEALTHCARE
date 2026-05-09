@@ -1,11 +1,11 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Healthcare - Connexion</title>
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         .tab-form {
             display: none;
@@ -22,33 +22,34 @@
 </head>
 <body>
 
-
+    <!-- BOUTON RETOUR -->
     <a href="home.php" class="btn-retour">&#8592; Retour</a>
 
     <div class="login-page">
         <div class="login-box">
 
-  
+            <!-- TITRE -->
             <div class="logo">Healthcare</div>
             <p class="login-subtitle">Votre plateforme de santé numérique</p>
 
+            <!-- ONGLETS -->
             <div class="login-tabs">
                 <div class="login-tab active" onclick="switchTab('patient', this)">Patient</div>
                 <div class="login-tab" onclick="switchTab('medecin', this)">Médecin</div>
                 <div class="login-tab" onclick="switchTab('admin', this)">Admin</div>
             </div>
 
-
+            <!-- FORMULAIRE PATIENT -->
             <div id="form-patient" class="tab-form active">
                 <div class="form-group">
                     <label class="form-label">Adresse e-mail</label>
-                    <input class="form-input" type="email" placeholder="nom&prenom@gmail.com">
+                    <input class="form-input" type="email" placeholder="nom@gmail.com">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Mot de passe</label>
-                    <input class="form-input" type="password" >
+                    <input class="form-input" type="password" placeholder="••••••••">
                 </div>
-                <button class="btn-submit">Se connecter</button>
+                <button class="btn-submit" onclick="seConnecter()">Se connecter</button>
                 <p style="text-align:center; margin-top:16px; font-size:0.85rem;">
                     <span class="lien-compte"
                           onclick="window.location.href='Patient/inscription.php'">
@@ -57,20 +58,21 @@
                 </p>
             </div>
 
+            <!-- FORMULAIRE MÉDECIN -->
             <div id="form-medecin" class="tab-form">
                 <div class="form-group">
                     <label class="form-label">Adresse e-mail</label>
-                    <input class="form-input" type="email" placeholder="nom&prenom@gmail.com">
+                    <input class="form-input" type="email" placeholder="nom@gmail.com">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Id medecin</label>
-                    <input class="form-input" type="text"">
+                    <label class="form-label">Id médecin</label>
+                    <input class="form-input" type="text" placeholder="Ex: CM-12345">
                 </div>
                 <div class="form-group">
                     <label class="form-label">Mot de passe</label>
                     <input class="form-input" type="password" placeholder="••••••••">
                 </div>
-                <button class="btn-submit">Se connecter</button>
+                <button class="btn-submit" onclick="seConnecter()">Se connecter</button>
                 <p style="text-align:center; margin-top:16px; font-size:0.85rem;">
                     <span class="lien-compte"
                           onclick="window.location.href='Medecin/inscription.php'"
@@ -79,6 +81,7 @@
                 </p>
             </div>
 
+            <!-- FORMULAIRE ADMIN -->
             <div id="form-admin" class="tab-form">
                 <div class="form-group">
                     <label class="form-label">Identifiant admin</label>
@@ -86,37 +89,73 @@
                 </div>
                 <div class="form-group">
                     <label class="form-label">Mot de passe</label>
-                    <input class="form-input" type="password">
+                    <input class="form-input" type="password" placeholder="••••••••">
                 </div>
-                <button class="btn-submit">Se connecter</button>
+                <button class="btn-submit" onclick="seConnecter()">Se connecter</button>
             </div>
 
         </div>
     </div>
-
-  
     <script>
-        function switchTab(role, el) {
+var roleActif = 'patient';
 
-            var forms = document.querySelectorAll('.tab-form');
-            for (var i = 0; i < forms.length; i++) {
-                forms[i].classList.remove('active');
-            }
+function switchTab(role, el) {
+    roleActif = role;
+    var forms = document.querySelectorAll('.tab-form');
+    forms.forEach(f => f.classList.remove('active'));
+    var tabs = document.querySelectorAll('.login-tab');
+    tabs.forEach(t => t.classList.remove('active'));
+    document.getElementById('form-' + role).classList.add('active');
+    el.classList.add('active');
+}
 
-            var tabs = document.querySelectorAll('.login-tab');
-            for (var j = 0; j < tabs.length; j++) {
-                tabs[j].classList.remove('active');
-            }
+function seConnecter() {
 
+    // ============ PATIENT ============
+    if (roleActif === 'patient') {
+        var email = document.querySelector('#form-patient input[type="email"]').value;
+        var password = document.querySelector('#form-patient input[type="password"]').value;
 
-            document.getElementById('form-' + role).classList.add('active');
-
-            el.classList.add('active');
+        // Vérifie que les champs ne sont pas vides
+        if (email === '' || password === '') {
+            alert('Veuillez remplir tous les champs !');
+            return; // ← stop, on ne redirige pas
         }
-    </script>
+
+        window.location.href = '../Patient/accueil.php';
+
+    // ============ MÉDECIN ============
+    } else if (roleActif === 'medecin') {
+        var email = document.querySelector('#form-medecin input[type="email"]').value;
+        var idMedecin = document.querySelector('#form-medecin input[type="text"]').value;
+        var password = document.querySelector('#form-medecin input[type="password"]').value;
+
+        if (email === '' || idMedecin === '' || password === '') {
+            alert('Veuillez remplir tous les champs !');
+            return;
+        }
+
+        window.location.href = '../Medecin/accueil.php';
+
+    // ============ ADMIN ============
+    } else if (roleActif === 'admin') {
+        var identifiant = document.querySelector('#form-admin input[type="text"]').value;
+        var password = document.querySelector('#form-admin input[type="password"]').value;
+
+        if (identifiant === '' || password === '') {
+            alert('Veuillez remplir tous les champs !');
+            return;
+        }
+
+        window.location.href = '../Admin/accueil.php';
+    }
+}
+</script>
 
 </body>
 </html>
+
+
 
 
 

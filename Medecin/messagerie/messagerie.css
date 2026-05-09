@@ -1,0 +1,1151 @@
+/* ============================================================
+   messagerie.css — Styles de la page Télé-expertise / Messagerie
+   Inspiré du design de l'image (layout 2 colonnes : liste + chat)
+   ============================================================ */
+
+/* --- Import de la police DM Sans depuis Google Fonts --- */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+/* ============================================================
+   VARIABLES CSS GLOBALES — Palette médicale bleue/verte
+   ============================================================ */
+:root {
+    --color-primary-dark:    #0A1931;       /* Bleu très foncé (sidebar) */
+    --color-primary:         #1A3D63;       /* Bleu principal */
+    --color-secondary-light: #B3CFE5;       /* Bleu clair doux */
+    --color-accent:          #4A7FA7;       /* Bleu accent interactif */
+    --color-teal-light:      #0A8C74;       /* Vert clair */
+    --color-teal:            #047857;       /* Vert principal */
+    --color-bg-light:        #F6FAFD;       /* Fond global très léger */
+    --color-white:           #FFFFFF;       /* Blanc pur */
+    --color-text-dark:       #1F2937;       /* Texte principal foncé */
+    --color-text-muted:      #6B7280;       /* Texte secondaire gris */
+    --color-border:          #E5EDF5;       /* Bordure légère bleue */
+    --color-unread-bg:       #EFF6FF;       /* Fond légèrement bleu pour non lu */
+
+    /* Ombres portées */
+    --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Dimensions fixes */
+    --sidebar-width:  72px;   /* Largeur de la sidebar icônes */
+    --conv-list-w:   300px;   /* Largeur du panneau liste des conversations */
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+/* Modèle de boîte uniforme sur tous les éléments */
+*, *::before, *::after {
+    box-sizing: border-box;  /* Inclut padding et bordure dans la largeur */
+    margin:  0;              /* Supprime les marges par défaut */
+    padding: 0;              /* Supprime le padding par défaut */
+}
+
+/* Corps de la page */
+body {
+    font-family: 'DM Sans', 'Segoe UI', sans-serif; /* Police principale */
+    background-color: var(--color-bg-light);         /* Fond bleu très clair */
+    color: var(--color-text-dark);                   /* Couleur texte globale */
+    display: flex;                                   /* Flex pour sidebar + contenu */
+    min-height: 100vh;                               /* Hauteur minimale plein écran */
+    overflow: hidden;                                /* Empêche le scroll de la page */
+}
+
+/* ============================================================
+   SIDEBAR — Barre de navigation verticale gauche (identique aux autres pages)
+   ============================================================ */
+
+/* Conteneur principal de la sidebar */
+.sidebar {
+    width: var(--sidebar-width);        /* Largeur fixe 72px */
+    min-height: 100vh;                  /* Toute la hauteur de la fenêtre */
+    background: var(--color-primary);   /* Fond bleu foncé */
+    display: flex;
+    flex-direction: column;             /* Empilement vertical */
+    align-items: center;                /* Centré horizontalement */
+    padding: 20px 0;
+    position: fixed;                    /* Fixée en position — ne défile pas */
+    left: 0;
+    top: 0;
+    z-index: 100;                       /* Au-dessus du contenu */
+}
+
+/* Logo en haut de la sidebar */
+.sidebar-logo {
+    width: 44px;
+    height: 44px;
+    background: var(--color-teal);      /* Fond vert */
+    border-radius: 12px;                /* Coins arrondis */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 32px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+}
+
+/* Animation légère au survol du logo */
+.sidebar-logo:hover { transform: scale(1.05); }
+
+/* Icône SVG dans le logo */
+.sidebar-logo svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-white);           /* Icône blanche */
+}
+
+/* Zone des liens de navigation */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;                           /* Petit espacement entre les liens */
+    width: 100%;
+    padding: 0 12px;
+    flex: 1;                            /* Prend tout l'espace disponible */
+}
+
+/* Lien de navigation individuel */
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    color: var(--color-secondary-light); /* Icône bleutée inactive */
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    position: relative;                  /* Pour le badge de notification */
+    cursor: pointer;
+}
+
+/* Lien actif (page courante) */
+.nav-item.active {
+    background: var(--color-teal);       /* Fond vert pour l'actif */
+    color: var(--color-white);
+}
+
+/* Survol des liens inactifs */
+.nav-item:hover:not(.active) {
+    background: rgba(255,255,255,0.1);   /* Fond semi-transparent blanc */
+    color: var(--color-white);
+}
+
+/* Icône SVG dans les liens */
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* Point rouge de notification */
+.nav-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    background: #EF4444;                 /* Rouge */
+    border-radius: 50%;
+    border: 1.5px solid var(--color-primary); /* Bordure pour lisibilité */
+}
+
+/* Section basse de la sidebar (profil + déconnexion) */
+.sidebar-bottom {
+    padding: 0 12px;
+    width: 100%;
+}
+
+/* ============================================================
+   CONTENU PRINCIPAL — Zone à droite de la sidebar
+   ============================================================ */
+
+/* Wrapper principal */
+.main-wrapper {
+    margin-left: var(--sidebar-width);  /* Décalage de la largeur sidebar */
+    flex: 1;                            /* Prend tout l'espace restant */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;                      /* Hauteur de la fenêtre exactement */
+    overflow: hidden;                   /* Bloque le scroll ici */
+}
+
+/* ============================================================
+   TOPBAR — Barre supérieure avec titre et infos médecin
+   ============================================================ */
+
+/* Barre du haut */
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;     /* Titre gauche, actions droite */
+    padding: 16px 28px;
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;                     /* Ne rétrécit pas */
+    box-shadow: var(--shadow-sm);
+}
+
+/* Titre de la page dans la topbar */
+.topbar-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: -0.02em;
+}
+
+/* Zone droite de la topbar (boutons + profil) */
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Bouton icône dans la topbar */
+.topbar-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+    position: relative;                 /* Pour le badge */
+}
+
+/* Survol du bouton topbar */
+.topbar-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+/* Badge de notification sur la cloche */
+.notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    background: #EF4444;                /* Rouge */
+    border-radius: 50%;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-white); /* Bord blanc pour isoler */
+}
+
+/* Chip du médecin (avatar + nom) */
+.doctor-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-bg-light);
+    border: 1.5px solid var(--color-border);
+    border-radius: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+/* Survol du chip médecin */
+.doctor-chip:hover { border-color: var(--color-accent); }
+
+/* Avatar du médecin dans le chip */
+.doctor-chip-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-teal);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Nom du médecin dans le chip */
+.doctor-chip-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+/* ============================================================
+   LAYOUT MESSAGERIE — 2 colonnes : liste + chat
+   ============================================================ */
+
+/* Conteneur principal de la messagerie */
+.msg-layout {
+    display: flex;
+    flex: 1;                            /* Prend toute la hauteur restante */
+    overflow: hidden;                   /* Empêche le débordement */
+    background: var(--color-bg-light);
+    padding: 20px;
+    gap: 16px;
+}
+
+/* ============================================================
+   COLONNE GAUCHE — Liste des conversations
+   ============================================================ */
+
+/* Panneau liste conversations */
+.conv-panel {
+    width: var(--conv-list-w);          /* Largeur fixe 300px */
+    flex-shrink: 0;                     /* Ne rétrécit jamais */
+    background: var(--color-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;                   /* Coins arrondis respectés */
+}
+
+/* En-tête du panneau conversations */
+.conv-header {
+    padding: 16px 16px 12px;
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+}
+
+/* Titre "Conversations" */
+.conv-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    margin-bottom: 12px;
+}
+
+/* Barre de recherche dans la liste des conversations */
+.conv-search {
+    position: relative;                 /* Pour l'icône positionnée */
+}
+
+/* Icône loupe dans la recherche */
+.conv-search svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    color: var(--color-text-muted);
+    pointer-events: none;               /* Non cliquable */
+}
+
+/* Input de recherche dans les conversations */
+.conv-search input {
+    width: 100%;
+    padding: 8px 12px 8px 32px;        /* Espace pour l'icône à gauche */
+    border: 1.5px solid var(--color-border);
+    border-radius: 9px;
+    font-size: 0.82rem;
+    color: var(--color-text-dark);
+    background: var(--color-bg-light);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+/* Focus sur la recherche */
+.conv-search input:focus {
+    border-color: var(--color-accent);
+    background: var(--color-white);
+}
+
+/* Liste scrollable des conversations */
+.conv-list {
+    flex: 1;                            /* Prend l'espace restant */
+    overflow-y: auto;                   /* Scroll vertical uniquement */
+}
+
+/* Personnalisation de la scrollbar */
+.conv-list::-webkit-scrollbar { width: 4px; }
+.conv-list::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+/* Élément individuel d'une conversation */
+.conv-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.15s;
+    position: relative;
+}
+
+/* Supprime la bordure du dernier item */
+.conv-item:last-child { border-bottom: none; }
+
+/* Survol d'un item conversation */
+.conv-item:hover { background: var(--color-bg-light); }
+
+/* Item de conversation actif (ouvert) */
+.conv-item.active {
+    background: #EFF8F4;                /* Fond vert très clair */
+    border-right: 3px solid var(--color-teal); /* Barre verte à droite */
+}
+
+/* Barre de notification colorée sur le bord gauche */
+.conv-item.unread::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--color-accent);    /* Bleu pour non lu */
+    border-radius: 0 2px 2px 0;
+}
+
+/* Conteneur de l'avatar avec indicateur en ligne */
+.conv-avatar-wrap {
+    position: relative;                 /* Pour le point "en ligne" */
+    flex-shrink: 0;
+}
+
+/* Avatar circulaire du patient */
+.conv-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--color-secondary-light); /* Fond bleu clair si pas d'image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+/* Point vert "en ligne" sur l'avatar */
+.online-dot {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 11px;
+    height: 11px;
+    background: #22C55E;               /* Vert vif */
+    border-radius: 50%;
+    border: 2px solid var(--color-white); /* Bordure blanche */
+}
+
+/* Informations textuelles de la conversation */
+.conv-info {
+    flex: 1;
+    min-width: 0;                       /* Permet le troncage du texte */
+}
+
+/* Ligne supérieure : nom + heure */
+.conv-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3px;
+}
+
+/* Nom du patient */
+.conv-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;            /* Troncage avec "..." */
+    max-width: 140px;
+}
+
+/* Heure du dernier message */
+.conv-time {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+    margin-left: 6px;
+}
+
+/* Aperçu du dernier message */
+.conv-preview {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;            /* Troncage avec "..." */
+}
+
+/* Aperçu coloré si message spécial (ex: demande de consultation) */
+.conv-preview.highlight {
+    color: var(--color-teal);           /* Texte vert pour mise en valeur */
+    font-weight: 600;
+}
+
+/* Badge compteur de messages non lus */
+.unread-count {
+    min-width: 20px;
+    height: 20px;
+    background: var(--color-accent);    /* Fond bleu accent */
+    color: white;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    flex-shrink: 0;
+}
+
+/* Badge rouge pour message urgent */
+.unread-count.urgent {
+    background: #EF4444;               /* Rouge pour urgence */
+}
+
+/* ============================================================
+   COLONNE DROITE — Interface de chat
+   ============================================================ */
+
+/* Panneau de chat */
+.chat-panel {
+    flex: 1;                            /* Prend tout l'espace restant */
+    background: var(--color-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;                       /* Empêche le dépassement */
+}
+
+/* --- État vide : aucune conversation sélectionnée --- */
+.chat-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    gap: 12px;
+}
+
+/* Icône dans l'état vide */
+.chat-empty svg {
+    width: 56px;
+    height: 56px;
+    opacity: 0.3;
+}
+
+/* Texte de l'état vide */
+.chat-empty p {
+    font-size: 0.875rem;
+    text-align: center;
+}
+
+/* ============================================================
+   EN-TÊTE DU CHAT — Infos du patient + actions
+   ============================================================ */
+
+/* Barre supérieure du chat */
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-white);
+    flex-shrink: 0;                     /* Ne rétrécit jamais */
+}
+
+/* Avatar du patient dans le header chat */
+.chat-header-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--color-secondary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    position: relative;                 /* Pour le point en ligne */
+}
+
+/* Point vert "en ligne" dans le header */
+.chat-header-avatar .online-dot {
+    width: 10px;
+    height: 10px;
+}
+
+/* Informations texte du patient dans le header */
+.chat-header-info { flex: 1; }
+
+/* Nom du patient dans le header */
+.chat-header-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+/* Statut en ligne / hors ligne sous le nom */
+.chat-header-status {
+    font-size: 0.75rem;
+    margin-top: 1px;
+}
+
+/* Texte vert pour "En ligne" */
+.chat-header-status.online { color: #22C55E; }
+
+/* Texte gris pour "Hors ligne" */
+.chat-header-status.offline { color: var(--color-text-muted); }
+
+/* Lien "Voir dossier patient" dans le header */
+.chat-header-link {
+    font-size: 0.78rem;
+    color: var(--color-teal);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--color-teal);
+    transition: all 0.2s;
+}
+
+/* Survol du lien dossier */
+.chat-header-link:hover {
+    background: var(--color-teal);
+    color: white;
+}
+
+/* Boutons d'actions dans le header (appel, fermer) */
+.chat-header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Bouton icône dans le header */
+.chat-action-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+}
+
+/* Survol des boutons d'action header */
+.chat-action-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+/* Icônes dans les boutons action */
+.chat-action-btn svg { width: 16px; height: 16px; }
+
+/* ============================================================
+   ZONE DES MESSAGES — Corps du chat
+   ============================================================ */
+
+/* Zone scrollable des messages */
+.chat-messages {
+    flex: 1;                            /* Prend tout l'espace disponible */
+    overflow-y: auto;                   /* Scroll vertical */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: var(--color-bg-light);  /* Fond légèrement bleu */
+}
+
+/* Personnalisation scrollbar */
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+/* ---- Séparateur de date (ex: "Aujourd'hui", "Hier") ---- */
+.date-separator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0;
+}
+
+/* Ligne horizontale à gauche/droite du séparateur */
+.date-separator::before,
+.date-separator::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
+}
+
+/* Texte de la date */
+.date-separator span {
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    font-weight: 500;
+    white-space: nowrap;
+    background: var(--color-bg-light);  /* Masque la ligne derrière */
+    padding: 0 8px;
+}
+
+/* ---- Groupe de messages (avatar + bulles) ---- */
+.msg-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    align-items: flex-end;              /* Aligne en bas */
+}
+
+/* Groupe de messages du médecin (à droite) */
+.msg-group.sent {
+    flex-direction: row-reverse;        /* Miroir horizontal */
+}
+
+/* Avatar du groupe de messages */
+.msg-group-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--color-secondary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    align-self: flex-end;              /* Reste en bas du groupe */
+}
+
+/* Avatar du médecin (messages envoyés) */
+.msg-group.sent .msg-group-avatar {
+    background: var(--color-teal);
+    color: white;
+}
+
+/* Zone des bulles de messages */
+.msg-bubbles {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    max-width: 65%;                     /* Largeur max des bulles */
+}
+
+/* Alignement à droite pour les messages envoyés */
+.msg-group.sent .msg-bubbles {
+    align-items: flex-end;
+}
+
+/* Bulle de message individuelle */
+.msg-bubble {
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    word-break: break-word;
+    position: relative;
+    max-width: 100%;
+}
+
+/* Bulle reçue (patient, à gauche) */
+.msg-bubble.received {
+    background: var(--color-white);     /* Fond blanc */
+    color: var(--color-text-dark);
+    border: 1px solid var(--color-border);
+    border-bottom-left-radius: 4px;     /* Coin coupé en bas gauche */
+    box-shadow: var(--shadow-sm);
+}
+
+/* Bulle envoyée (médecin, à droite) */
+.msg-bubble.sent {
+    background: var(--color-teal);      /* Fond vert teal */
+    color: white;
+    border-bottom-right-radius: 4px;    /* Coin coupé en bas droite */
+    box-shadow: var(--shadow-sm);
+}
+
+/* Heure affichée en petit sous chaque bulle */
+.msg-time {
+    font-size: 0.68rem;
+    opacity: 0.65;
+    margin-top: 4px;
+    display: block;
+}
+
+/* Heure à droite pour les messages envoyés */
+.msg-group.sent .msg-time {
+    text-align: right;
+    color: rgba(255,255,255,0.75);
+}
+
+/* Heure à gauche pour les messages reçus */
+.msg-group.received .msg-time {
+    text-align: left;
+    color: var(--color-text-muted);
+}
+
+/* Indicateur "Lu ✓✓" sous les messages envoyés */
+.msg-read-receipt {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.7);
+    text-align: right;
+    margin-top: 2px;
+}
+
+/* ---- Indicateur "en train d'écrire..." ---- */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 0 8px;
+    opacity: 0;                         /* Invisible par défaut */
+    transition: opacity 0.3s;
+}
+
+/* Visible quand actif */
+.typing-indicator.visible { opacity: 1; }
+
+/* Bulle de l'indicateur de frappe */
+.typing-bubble {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    padding: 10px 14px;
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Points animés de l'indicateur de frappe */
+.typing-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--color-text-muted);
+    border-radius: 50%;
+    animation: typingBounce 1.2s infinite ease-in-out; /* Animation rebond */
+}
+
+/* Décalage de l'animation pour chaque point */
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+/* Keyframes de l'animation rebond des points */
+@keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); }  /* Position basse */
+    30%           { transform: translateY(-6px); } /* Position haute */
+}
+
+/* ============================================================
+   BARRE DE SAISIE — Zone d'envoi de message
+   ============================================================ */
+
+/* Conteneur de la barre de saisie */
+.chat-input-bar {
+    padding: 14px 20px;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-white);
+    flex-shrink: 0;                     /* Ne rétrécit jamais */
+}
+
+/* Wrapper de l'input et des boutons */
+.chat-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-bg-light);  /* Fond légèrement bleu */
+    border: 1.5px solid var(--color-border);
+    border-radius: 14px;
+    padding: 8px 8px 8px 16px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Focus sur le wrapper (quand l'input est actif) */
+.chat-input-wrapper:focus-within {
+    border-color: var(--color-accent);  /* Bordure bleue */
+    box-shadow: 0 0 0 3px rgba(74,127,167,0.1); /* Halo bleu doux */
+    background: var(--color-white);
+}
+
+/* Bouton d'attachement de fichier */
+.attach-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+/* Survol du bouton d'attachement */
+.attach-btn:hover { color: var(--color-accent); }
+.attach-btn svg { width: 18px; height: 18px; }
+
+/* Input de saisie du message */
+.chat-input {
+    flex: 1;                            /* Prend tout l'espace */
+    border: none;
+    background: transparent;
+    font-size: 0.875rem;
+    color: var(--color-text-dark);
+    outline: none;
+    resize: none;                       /* Non redimensionnable */
+    max-height: 100px;                  /* Hauteur max avant scroll */
+    min-height: 22px;
+    line-height: 1.5;
+    font-family: inherit;               /* Même police que le reste */
+}
+
+/* Placeholder de l'input */
+.chat-input::placeholder { color: var(--color-text-muted); }
+
+/* Bouton d'envoi */
+.send-btn {
+    width: 38px;
+    height: 38px;
+    background: var(--color-teal);      /* Fond vert */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    flex-shrink: 0;
+}
+
+/* Survol du bouton envoyer */
+.send-btn:hover {
+    background: var(--color-teal-light);
+    transform: scale(1.05);
+}
+
+/* Bouton désactivé quand le champ est vide */
+.send-btn:disabled {
+    background: var(--color-border);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Icône SVG dans le bouton envoyer */
+.send-btn svg { width: 17px; height: 17px; }
+
+/* Texte sous la barre "Appuyez sur Entrée pour envoyer" */
+.input-hint {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-top: 6px;
+    text-align: center;
+}
+
+/* ============================================================
+   PANNEAU INFOS PATIENT (colonne droite optionnelle)
+   ============================================================ */
+
+/* Panneau d'infos patient — caché par défaut */
+.patient-info-panel {
+    width: 0;                           /* Largeur 0 = masqué */
+    overflow: hidden;
+    transition: width 0.3s ease;        /* Animation d'ouverture */
+    background: var(--color-white);
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+}
+
+/* Panneau visible quand ouvert */
+.patient-info-panel.open {
+    width: 240px;                       /* Largeur déployée */
+}
+
+/* Contenu interne du panneau */
+.info-panel-content {
+    width: 240px;                       /* Fixe pour que le contenu ne rétrécisse pas */
+    padding: 20px;
+}
+
+/* En-tête du panneau avec avatar */
+.info-panel-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+/* Grand avatar dans le panneau infos */
+.info-panel-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--color-secondary-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+/* Nom dans le panneau */
+.info-panel-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+}
+
+/* Statut en ligne */
+.info-panel-status {
+    font-size: 0.75rem;
+    color: #22C55E;
+    margin-top: 3px;
+}
+
+/* Ligne d'info individuelle */
+.info-panel-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: var(--color-text-dark);
+    margin-bottom: 10px;
+}
+
+/* Icône dans la ligne d'info */
+.info-panel-row svg {
+    width: 15px;
+    height: 15px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+}
+
+/* Lien vers la fiche dans le panneau */
+.info-panel-link {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    padding: 9px;
+    background: var(--color-teal);
+    color: white;
+    border-radius: 9px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+/* Survol du lien fiche */
+.info-panel-link:hover { background: var(--color-teal-light); }
+
+/* ============================================================
+   NOTIFICATION TOAST
+   ============================================================ */
+
+/* Conteneur des toasts en bas à droite */
+#toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Toast individuel */
+.toast {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px 18px;
+    box-shadow: var(--shadow-lg);
+    font-size: 0.875rem;
+    color: var(--color-text-dark);
+    min-width: 260px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideInToast 0.3s ease;
+}
+
+/* Variantes de toasts */
+.toast.success { border-left: 4px solid var(--color-teal); }
+.toast.error   { border-left: 4px solid #EF4444; }
+.toast.info    { border-left: 4px solid var(--color-accent); }
+
+/* Animation d'entrée du toast */
+@keyframes slideInToast {
+    from { transform: translateX(80px); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* Animation d'entrée d'un message reçu */
+@keyframes msgSlideIn {
+    from { transform: translateY(8px); opacity: 0; }
+    to   { transform: translateY(0);   opacity: 1; }
+}
+
+/* Applique l'animation à chaque groupe de messages */
+.msg-group { animation: msgSlideIn 0.2s ease; }
+
+/* ============================================================
+   RESPONSIVE — Adaption mobile < 768px
+   ============================================================ */
+@media (max-width: 768px) {
+    /* Sur mobile : cache la liste conversations par défaut */
+    .conv-panel {
+        display: none;
+        position: fixed;
+        left: var(--sidebar-width);
+        top: 0;
+        bottom: 0;
+        z-index: 50;
+        border-radius: 0;
+    }
+
+    /* Affiche la liste quand ouverte */
+    .conv-panel.mobile-open { display: flex; }
+
+    /* Le chat prend toute la largeur */
+    .chat-panel { border-radius: 12px; }
+
+    /* Réduit le padding sur mobile */
+    .msg-layout { padding: 12px; }
+}

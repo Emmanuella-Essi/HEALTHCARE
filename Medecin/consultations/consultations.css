@@ -1,0 +1,1287 @@
+/* ============================================================
+   consultations.css — Dashboard Médecin : Page Consultations
+   Couleurs conformes à la charte graphique MediCare Pro
+   ============================================================ */
+
+/* ---- VARIABLES DE COULEURS (Charte graphique) ---- */
+:root {
+    --color-primary-dark:       #0A1931;     /* Bleu très foncé : fond sidebar */
+    --color-primary:            #1A3D63;     /* Bleu principal */
+    --color-secondary-light:    #B3CFE5;     /* Bleu clair : accents doux */
+    --color-accent:             #4A7FA7;     /* Bleu accent : boutons, liens */
+    --color-teal-light:         #0A8C74;     /* Vert teal clair */
+    --color-teal:               #047857;     /* Vert teal foncé : succès */
+    --color-background-light:   #F6FAFD;     /* Fond principal app */
+    --color-white:              #FFFFFF;     /* Blanc pur */
+    --color-text-dark:          #1F2937;     /* Texte principal sombre */
+    --color-text-medium:        #4B5563;     /* Texte secondaire */
+    --color-text-light:         #9CA3AF;     /* Texte discret */
+    --color-border:             #E5EDF5;     /* Bordures légères */
+    --color-orange:             #F59E0B;     /* Orange : en attente */
+    --color-red:                #EF4444;     /* Rouge : annulé / urgent */
+    --color-green:              #10B981;     /* Vert : confirmé / terminé */
+
+    /* Ombres */
+    --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    /* Espacements */
+    --sidebar-width: 260px;
+    --border-radius: 12px;
+    --border-radius-sm: 8px;
+
+    /* Transitions */
+    --transition: 0.25s ease;
+}
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+/* Suppression des marges/padding par défaut sur tous les éléments */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Taille inclut padding et border */
+}
+
+/* Police et couleurs de base pour tout le document */
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--color-background-light);
+    color: var(--color-text-dark);
+    line-height: 1.5;
+    font-size: 15px;
+}
+
+/* Suppression de la décoration des liens */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Boutons sans style navigateur */
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+}
+
+/* Inputs sans style navigateur */
+input, select, textarea {
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+/* ============================================================
+   LAYOUT PRINCIPAL : SIDEBAR + CONTENU
+   ============================================================ */
+/* Flexbox horizontal : sidebar à gauche, contenu à droite */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+/* Barre latérale fixe de 260px */
+.sidebar {
+    width: var(--sidebar-width);       /* Largeur fixe */
+    background: var(--color-primary-dark); /* Fond bleu très foncé */
+    display: flex;
+    flex-direction: column;
+    position: fixed;                    /* Fixée au scroll */
+    top: 0;
+    left: 0;
+    height: 100vh;                      /* Hauteur totale écran */
+    z-index: 100;
+    transition: transform var(--transition); /* Animation ouverture mobile */
+    overflow-y: auto;                   /* Scroll si contenu dépasse */
+}
+
+/* ---- Logo / En-tête sidebar ---- */
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08); /* Séparateur subtil */
+}
+
+/* Cercle icône stéthoscope */
+.logo-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--color-accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-white);
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Texte logo "MediCare" */
+.logo-title {
+    display: block;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-white);
+    letter-spacing: 0.3px;
+}
+
+/* Sous-texte "Pro" */
+.logo-subtitle {
+    display: block;
+    font-size: 11px;
+    color: var(--color-secondary-light);
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* ---- Profil médecin sidebar ---- */
+.sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Conteneur avatar avec point de statut */
+.profile-avatar {
+    position: relative;
+    flex-shrink: 0;
+}
+
+/* Image avatar ronde */
+.profile-avatar img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent);
+    object-fit: cover;
+}
+
+/* Point vert "en ligne" */
+.status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary-dark);
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+}
+
+/* Couleur verte pour statut online */
+.status-dot.online {
+    background: var(--color-green);
+}
+
+/* Nom du médecin */
+.profile-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-white);
+}
+
+/* Spécialité */
+.profile-role {
+    font-size: 12px;
+    color: var(--color-secondary-light);
+    margin-top: 2px;
+}
+
+/* ---- Navigation sidebar ---- */
+.sidebar-nav {
+    padding: 16px 16px;
+    flex: 1;
+}
+
+/* Étiquette de section (NAVIGATION, COMPTE) */
+.nav-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: rgba(179,207,229,0.5);
+    padding: 0 8px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+/* Item de navigation */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: var(--border-radius-sm);
+    color: rgba(179,207,229,0.8);      /* Couleur texte par défaut */
+    font-size: 14px;
+    font-weight: 500;
+    transition: all var(--transition);
+    margin-bottom: 2px;
+    position: relative;
+}
+
+/* Survol item nav */
+.nav-item:hover {
+    background: rgba(74,127,167,0.25);
+    color: var(--color-white);
+}
+
+/* Item actif (page courante) */
+.nav-item.active {
+    background: var(--color-accent);   /* Fond bleu accent */
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+}
+
+/* Icône nav */
+.nav-icon {
+    width: 20px;
+    text-align: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+/* Label nav */
+.nav-label {
+    flex: 1;
+}
+
+/* Badge compteur (notifications) */
+.nav-badge {
+    background: rgba(255,255,255,0.2);
+    color: var(--color-white);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 20px;
+    min-width: 22px;
+    text-align: center;
+}
+
+/* Badge alerte (rouge/orange) */
+.nav-badge.alert {
+    background: var(--color-orange);
+    animation: pulse 2s infinite; /* Pulsation pour attirer l'attention */
+}
+
+/* Animation pulsation badge */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Item déconnexion : couleur rouge au hover */
+.nav-item.logout:hover {
+    background: rgba(239,68,68,0.2);
+    color: #FCA5A5;
+}
+
+/* ============================================================
+   CONTENU PRINCIPAL
+   ============================================================ */
+/* Zone de contenu décalée à droite de la sidebar */
+.main-content {
+    margin-left: var(--sidebar-width);  /* Espace pour la sidebar */
+    flex: 1;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* ============================================================
+   TOPBAR (En-tête de page)
+   ============================================================ */
+.topbar {
+    background: var(--color-white);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    position: sticky;             /* Reste en haut au scroll */
+    top: 0;
+    z-index: 50;
+}
+
+/* Bouton toggle sidebar (masqué sur desktop) */
+.sidebar-toggle {
+    font-size: 18px;
+    color: var(--color-text-medium);
+    padding: 8px;
+    border-radius: 8px;
+    display: none;                /* Visible seulement sur mobile */
+    transition: background var(--transition);
+}
+
+.sidebar-toggle:hover {
+    background: var(--color-background-light);
+}
+
+/* Titre et sous-titre page */
+.topbar-title {
+    flex: 1;
+}
+
+.topbar-title h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.topbar-title p {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-top: 2px;
+}
+
+/* Actions à droite du topbar */
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Bouton principal bleu */
+.btn-primary {
+    background: var(--color-accent);
+    color: var(--color-white);
+    padding: 10px 20px;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    background: var(--color-primary); /* Plus foncé au hover */
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Bouton secondaire (gris) */
+.btn-secondary {
+    background: var(--color-background-light);
+    color: var(--color-text-medium);
+    padding: 10px 20px;
+    border-radius: var(--border-radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+}
+
+.btn-secondary:hover {
+    background: var(--color-border);
+}
+
+/* Bouton cloche notifications */
+.notif-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-background-light);
+    color: var(--color-text-medium);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+}
+
+.notif-btn:hover {
+    background: var(--color-secondary-light);
+    color: var(--color-primary);
+}
+
+/* Point rouge sur la cloche */
+.notif-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-red);
+    border-radius: 50%;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: 1.5px solid var(--color-white);
+}
+
+/* ============================================================
+   STATISTIQUES (CARTES EN LIGNE)
+   ============================================================ */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
+    gap: 20px;
+    padding: 28px 32px 0;
+}
+
+/* Carte stat individuelle */
+.stat-card {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--color-border);
+    transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Icône stat avec fond coloré */
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* Couleurs icônes stat */
+.stat-icon.teal  { background: rgba(10,140,116,0.12);  color: var(--color-teal-light); }
+.stat-icon.orange{ background: rgba(245,158,11,0.12);  color: var(--color-orange); }
+.stat-icon.green { background: rgba(16,185,129,0.12);  color: var(--color-green); }
+.stat-icon.blue  { background: rgba(74,127,167,0.12);  color: var(--color-accent); }
+
+/* Étiquette stat */
+.stat-label {
+    font-size: 12px;
+    color: var(--color-text-light);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Valeur chiffrée stat */
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.2;
+}
+
+/* Texte sous la valeur */
+.stat-sub {
+    font-size: 12px;
+    color: var(--color-text-light);
+}
+
+/* ============================================================
+   FILTRES ET RECHERCHE
+   ============================================================ */
+.filters-section {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px 32px 0;
+    flex-wrap: wrap;                 /* Retour à la ligne sur petit écran */
+}
+
+/* Barre de recherche */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 0 16px;
+    height: 42px;
+    min-width: 280px;
+    transition: border var(--transition);
+}
+
+.search-box:focus-within {
+    border-color: var(--color-accent); /* Bordure bleue au focus */
+    box-shadow: 0 0 0 3px rgba(74,127,167,0.15);
+}
+
+/* Icône loupe */
+.search-box i {
+    color: var(--color-text-light);
+    font-size: 14px;
+}
+
+/* Input texte recherche */
+.search-box input {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 14px;
+    color: var(--color-text-dark);
+}
+
+.search-box input::placeholder {
+    color: var(--color-text-light);
+}
+
+/* Conteneur onglets filtre statut */
+.filter-tabs {
+    display: flex;
+    gap: 4px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 4px;
+}
+
+/* Onglet filtre */
+.filter-tab {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-medium);
+    transition: all var(--transition);
+    white-space: nowrap;
+}
+
+.filter-tab:hover {
+    background: var(--color-background-light);
+    color: var(--color-primary);
+}
+
+/* Onglet actif */
+.filter-tab.active {
+    background: var(--color-accent);
+    color: var(--color-white);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Zone filtre par date */
+.date-filter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;             /* Poussé à droite */
+}
+
+/* Input date stylisé */
+.date-input {
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 9px 14px;
+    font-size: 13px;
+    color: var(--color-text-dark);
+    height: 42px;
+    transition: border var(--transition);
+}
+
+.date-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(74,127,167,0.15);
+}
+
+/* Bouton reset (X) */
+.btn-reset {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-background-light);
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    border: 1px solid var(--color-border);
+    transition: all var(--transition);
+}
+
+.btn-reset:hover {
+    background: rgba(239,68,68,0.1);
+    color: var(--color-red);
+    border-color: var(--color-red);
+}
+
+/* ============================================================
+   TABLEAU CONSULTATIONS
+   ============================================================ */
+.table-section {
+    margin: 24px 32px;
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+/* En-tête du tableau (titre + compteur) */
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.table-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+/* Compteur résultats */
+.results-count {
+    font-size: 13px;
+    color: var(--color-text-light);
+    background: var(--color-background-light);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+}
+
+/* Wrapper scrollable horizontalement */
+.table-wrapper {
+    overflow-x: auto;
+}
+
+/* Tableau complet */
+.consultations-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* En-têtes colonnes */
+.consultations-table thead tr {
+    background: var(--color-background-light);
+}
+
+.consultations-table th {
+    padding: 13px 16px;
+    text-align: left;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+/* Cellules données */
+.consultations-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 14px;
+    color: var(--color-text-dark);
+    vertical-align: middle;
+}
+
+/* Suppression bordure dernière ligne */
+.consultations-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Hover ligne tableau */
+.consultations-table tbody tr:hover {
+    background: rgba(74,127,167,0.03);
+    cursor: pointer;
+}
+
+/* ---- Cellule Patient : avatar + nom ---- */
+.patient-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Avatar initial patient */
+.patient-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--color-secondary-light);
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Nom patient */
+.patient-name {
+    font-weight: 600;
+    color: var(--color-primary);
+    font-size: 14px;
+}
+
+/* Age patient */
+.patient-age {
+    font-size: 12px;
+    color: var(--color-text-light);
+    margin-top: 1px;
+}
+
+/* ---- Date & Heure ---- */
+.date-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.date-main {
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+.date-time {
+    font-size: 12px;
+    color: var(--color-accent);
+    font-weight: 500;
+}
+
+/* ---- Type consultation ---- */
+.type-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Présentiel : teal */
+.type-badge.presentiel {
+    background: rgba(4,120,87,0.1);
+    color: var(--color-teal);
+}
+
+/* Téléconsultation : bleu */
+.type-badge.teleconsultation {
+    background: rgba(74,127,167,0.1);
+    color: var(--color-accent);
+}
+
+/* ---- Badges statut ---- */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Point de statut coloré */
+.status-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+/* Couleurs selon statut */
+.status-badge.en_attente {
+    background: rgba(245,158,11,0.12);
+    color: #B45309;
+}
+
+.status-badge.confirme {
+    background: rgba(16,185,129,0.12);
+    color: var(--color-teal);
+}
+
+.status-badge.termine {
+    background: rgba(74,127,167,0.12);
+    color: var(--color-accent);
+}
+
+.status-badge.annule {
+    background: rgba(239,68,68,0.1);
+    color: var(--color-red);
+}
+
+/* ---- Actions de ligne ---- */
+.actions-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Bouton action générique */
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: all var(--transition);
+    border: 1px solid transparent;
+}
+
+/* Voir détail (bleu) */
+.action-btn.view {
+    background: rgba(74,127,167,0.1);
+    color: var(--color-accent);
+}
+.action-btn.view:hover {
+    background: var(--color-accent);
+    color: var(--color-white);
+}
+
+/* Accepter (vert) */
+.action-btn.accept {
+    background: rgba(16,185,129,0.1);
+    color: var(--color-teal);
+}
+.action-btn.accept:hover {
+    background: var(--color-teal);
+    color: var(--color-white);
+}
+
+/* Refuser (rouge) */
+.action-btn.refuse {
+    background: rgba(239,68,68,0.1);
+    color: var(--color-red);
+}
+.action-btn.refuse:hover {
+    background: var(--color-red);
+    color: var(--color-white);
+}
+
+/* Notes (orange) */
+.action-btn.notes {
+    background: rgba(245,158,11,0.1);
+    color: var(--color-orange);
+}
+.action-btn.notes:hover {
+    background: var(--color-orange);
+    color: var(--color-white);
+}
+
+/* Tooltip sur hover bouton action */
+.action-btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-text-dark);
+    color: var(--color-white);
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* ---- État vide ---- */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--color-text-light);
+}
+
+.empty-state i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+    display: block;
+}
+
+.empty-state p {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-text-medium);
+}
+
+.empty-state span {
+    font-size: 13px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+/* Fond semi-transparent derrière le modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;                        /* Couvre tout l'écran */
+    background: rgba(10,25,49,0.55);  /* Fond bleu foncé semi-transparent */
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;    /* Apparition douce */
+}
+
+/* Animation fondu entrée */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Boîte centrale modal */
+.modal-box {
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.25s ease; /* Montée depuis le bas */
+}
+
+/* Animation montée modal */
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+}
+
+/* En-tête modal */
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-header h3 i {
+    color: var(--color-accent);
+}
+
+/* Bouton fermeture modal */
+.modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-light);
+    font-size: 15px;
+    transition: all var(--transition);
+}
+
+.modal-close:hover {
+    background: rgba(239,68,68,0.1);
+    color: var(--color-red);
+}
+
+/* Corps modal */
+.modal-body {
+    padding: 24px;
+}
+
+/* Pied modal (boutons) */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--color-border);
+}
+
+/* ---- Contenu détail consultation ---- */
+/* Grille infos patient dans le modal */
+.detail-patient {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--color-background-light);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 20px;
+    border: 1px solid var(--color-border);
+}
+
+.detail-patient .patient-avatar {
+    width: 52px;
+    height: 52px;
+    font-size: 18px;
+}
+
+.detail-patient-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.detail-patient-info {
+    font-size: 13px;
+    color: var(--color-text-light);
+    margin-top: 3px;
+}
+
+/* Grille des détails consultation */
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* Champ détail individuel */
+.detail-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detail-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-dark);
+}
+
+/* Motif sur toute la largeur */
+.detail-field.full {
+    grid-column: 1 / -1;
+}
+
+/* Label patient dans modal notes */
+.modal-patient-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 16px;
+    padding: 10px 14px;
+    background: rgba(74,127,167,0.08);
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--color-accent);
+}
+
+/* ---- Formulaire ---- */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 colonnes */
+    gap: 16px;
+}
+
+/* Groupe champ : label + input */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Occupe les 2 colonnes */
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+/* Label */
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-dark);
+}
+
+/* Astérisque champ obligatoire */
+.required {
+    color: var(--color-red);
+}
+
+/* Contrôle de formulaire (input, select, textarea) */
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background: var(--color-background-light);
+    color: var(--color-text-dark);
+    font-size: 14px;
+    transition: all var(--transition);
+    resize: vertical;              /* Textarea redimensionnable verticalement */
+}
+
+.form-control:focus {
+    border-color: var(--color-accent);
+    background: var(--color-white);
+    box-shadow: 0 0 0 3px rgba(74,127,167,0.12);
+}
+
+.form-control::placeholder {
+    color: var(--color-text-light);
+}
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+/* Notification flottante en bas de l'écran */
+.toast {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    padding: 14px 20px;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    z-index: 500;
+    transform: translateY(100px);   /* Caché en bas par défaut */
+    opacity: 0;
+    transition: all 0.3s ease;     /* Animation entrée/sortie */
+    pointer-events: none;
+}
+
+/* Icône dans le toast */
+.toast-icon {
+    color: var(--color-green);
+    font-size: 16px;
+}
+
+/* Classe active : toast visible */
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLETTE & MOBILE
+   ============================================================ */
+@media (max-width: 1024px) {
+    /* Réduction 3 colonnes stats */
+    .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    /* Cache la sidebar sur mobile */
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    /* Montre la sidebar quand classe 'open' ajoutée par JS */
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    /* Le contenu prend toute la largeur */
+    .main-content {
+        margin-left: 0;
+    }
+
+    /* Affiche le bouton toggle sidebar */
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    /* Padding réduit */
+    .topbar {
+        padding: 16px 20px;
+    }
+
+    .stats-row,
+    .filters-section,
+    .table-section {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .table-section {
+        margin: 16px 20px;
+    }
+
+    /* Cache le texte bouton "Nouvelle consultation" */
+    .btn-primary span {
+        display: none;
+    }
+
+    /* Filtres en colonne */
+    .filters-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* Recherche pleine largeur */
+    .search-box {
+        min-width: auto;
+    }
+
+    /* Date filter pleine largeur */
+    .date-filter {
+        margin-left: 0;
+    }
+
+    /* Modal pleine largeur */
+    .modal-box {
+        max-height: 95vh;
+    }
+
+    /* Grille formulaire 1 colonne */
+    .form-grid,
+    .detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-field.full,
+    .form-group.full {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Stats en 1 colonne */
+    .stats-row {
+        grid-template-columns: 1fr;
+    }
+
+    /* Cache colonnes moins importantes */
+    .consultations-table th:nth-child(3),
+    .consultations-table td:nth-child(3) {
+        display: none;
+    }
+}
