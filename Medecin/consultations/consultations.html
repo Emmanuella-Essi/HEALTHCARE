@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <!-- Encodage et responsive -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultations — Dashboard Médecin</title>
+
+    <!-- Lien vers la feuille de style principale -->
+    <link rel="stylesheet" href="consultations.css">
+    <link rel="stylesheet" href="../shared/doctor-sidebar.css">
+    <script src="../shared/doctor-sidebar.js" defer></script>
+
+    <!-- Icônes Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Police Google Fonts : Outfit (moderne médical) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============================================================
+     STRUCTURE PRINCIPALE : SIDEBAR + CONTENU
+     ============================================================ -->
+<div class="app-layout">
+
+    <!-- ===== SIDEBAR NAVIGATION ===== -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Logo / Identité -->
+        <div class="sidebar-logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-stethoscope"></i>
+            </div>
+            <div class="logo-text">
+<span class="logo-title">HealthCare</span>
+                <span class="logo-subtitle">Pro</span>
+            </div>
+        </div>
+
+        <!-- Profil médecin dans la sidebar -->
+        <div class="sidebar-profile">
+            <div class="profile-avatar">
+                <img src="https://ui-avatars.com/api/?name=Dr+Martin&background=4A7FA7&color=fff&size=80" alt="Dr. Martin">
+                <span class="status-dot online"></span>
+            </div>
+            <div class="profile-info">
+                <p class="profile-name">Dr. Martin</p>
+                <p class="profile-role">Médecin Généraliste</p>
+            </div>
+        </div>
+
+        <!-- Menu de navigation principal -->
+        <nav class="sidebar-nav">
+            <p class="nav-section-label">NAVIGATION</p>
+
+            <!-- Lien Dashboard -->
+            <a href="dashboard.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-house-medical"></i></span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+
+            <!-- Lien Patients -->
+            <a href="patients.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-users"></i></span>
+                <span class="nav-label">Patients</span>
+                <span class="nav-badge">124</span>
+            </a>
+
+            <!-- Lien Consultations — actif -->
+            <a href="consultations.html" class="nav-item active">
+                <span class="nav-icon"><i class="fa-solid fa-calendar-check"></i></span>
+                <span class="nav-label">Consultations</span>
+                <span class="nav-badge alert">5</span>
+            </a>
+
+            <!-- Lien Vaccins -->
+            <a href="vaccins.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-syringe"></i></span>
+                <span class="nav-label">Vaccins</span>
+            </a>
+
+            <!-- Lien Messages -->
+            <a href="messages.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-comments"></i></span>
+                <span class="nav-label">Messages</span>
+                <span class="nav-badge">3</span>
+            </a>
+
+            <!-- Lien Ordonnances -->
+            <a href="ordonnances.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-file-medical"></i></span>
+                <span class="nav-label">Ordonnances</span>
+            </a>
+
+            <!-- Lien Agenda -->
+            <a href="agenda.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                <span class="nav-label">Agenda</span>
+            </a>
+
+            <p class="nav-section-label" style="margin-top:20px">COMPTE</p>
+
+            <!-- Lien Profil -->
+            <a href="profil.html" class="nav-item">
+                <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span>
+                <span class="nav-label">Profil</span>
+            </a>
+
+            <!-- Lien Déconnexion -->
+            <a href="../Accueil/home.php" class="nav-item logout">
+                <span class="nav-icon"><i class="fa-solid fa-right-from-bracket"></i></span>
+                <span class="nav-label">Déconnexion</span>
+            </a>
+        </nav>
+    </aside>
+    <!-- FIN SIDEBAR -->
+
+    <!-- ===== ZONE CONTENU PRINCIPAL ===== -->
+    <main class="main-content">
+
+        <!-- ---- HEADER TOP ---- -->
+        <header class="topbar">
+            <!-- Bouton toggle sidebar (mobile) -->
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Titre de la page -->
+            <div class="topbar-title">
+                <h1>Gestion des Consultations</h1>
+                <p>Suivez, acceptez et gérez toutes vos consultations</p>
+            </div>
+
+            <!-- Actions rapides topbar -->
+            <div class="topbar-actions">
+                <!-- Bouton Nouvelle Consultation -->
+                <button class="btn-primary" id="btnNouvelleConsult">
+                    <i class="fa-solid fa-plus"></i>
+                    Nouvelle consultation
+                </button>
+
+                <!-- Cloche notifications -->
+                <button class="notif-btn" id="notifBtn">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notif-dot"></span>
+                </button>
+            </div>
+        </header>
+        <!-- FIN HEADER TOP -->
+
+        <!-- ---- STATISTIQUES CONSULTATIONS ---- -->
+        <section class="stats-row">
+
+            <!-- Stat : Total aujourd'hui -->
+            <div class="stat-card">
+                <div class="stat-icon teal">
+                    <i class="fa-solid fa-calendar-day"></i>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Aujourd'hui</p>
+                    <p class="stat-value" id="statAujourdhui">8</p>
+                    <p class="stat-sub">consultations</p>
+                </div>
+            </div>
+
+            <!-- Stat : En attente -->
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">En attente</p>
+                    <p class="stat-value" id="statAttente">5</p>
+                    <p class="stat-sub">à traiter</p>
+                </div>
+            </div>
+
+            <!-- Stat : Acceptées -->
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Acceptées</p>
+                    <p class="stat-value" id="statAcceptees">3</p>
+                    <p class="stat-sub">confirmées</p>
+                </div>
+            </div>
+
+            <!-- Stat : Ce mois -->
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <p class="stat-label">Ce mois</p>
+                    <p class="stat-value" id="statMois">47</p>
+                    <p class="stat-sub">total</p>
+                </div>
+            </div>
+        </section>
+        <!-- FIN STATS -->
+
+        <!-- ---- FILTRES ET RECHERCHE ---- -->
+        <section class="filters-section">
+
+            <!-- Barre de recherche -->
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="Rechercher un patient, motif...">
+            </div>
+
+            <!-- Filtres par statut -->
+            <div class="filter-tabs" id="filterTabs">
+                <button class="filter-tab active" data-filter="tous">Tous</button>
+                <button class="filter-tab" data-filter="en_attente">En attente</button>
+                <button class="filter-tab" data-filter="confirme">Confirmées</button>
+                <button class="filter-tab" data-filter="termine">Terminées</button>
+                <button class="filter-tab" data-filter="annule">Annulées</button>
+            </div>
+
+            <!-- Filtre par date -->
+            <div class="date-filter">
+                <input type="date" id="dateFilter" class="date-input">
+                <!-- Bouton reset filtre date -->
+                <button class="btn-reset" id="resetDate" title="Réinitialiser">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </section>
+        <!-- FIN FILTRES -->
+
+        <!-- ---- TABLEAU DES CONSULTATIONS ---- -->
+        <section class="table-section">
+            <div class="table-header">
+                <h2>Liste des consultations</h2>
+                <!-- Compteur résultats -->
+                <span class="results-count" id="resultsCount">12 consultations</span>
+            </div>
+
+            <!-- Tableau scrollable -->
+            <div class="table-wrapper">
+                <table class="consultations-table" id="consultationsTable">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>        <!-- Nom + avatar -->
+                            <th>Date & Heure</th>   <!-- Date planifiée -->
+                            <th>Motif</th>           <!-- Raison de la consultation -->
+                            <th>Type</th>            <!-- Présentiel / Téléconsultation -->
+                            <th>Statut</th>          <!-- Badge coloré -->
+                            <th>Actions</th>         <!-- Boutons action -->
+                        </tr>
+                    </thead>
+                    <tbody id="consultationsBody">
+                        <!-- Lignes générées dynamiquement par JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Message si aucun résultat -->
+            <div class="empty-state" id="emptyState" style="display:none">
+                <i class="fa-solid fa-calendar-xmark"></i>
+                <p>Aucune consultation trouvée</p>
+                <span>Essayez de modifier vos filtres</span>
+            </div>
+        </section>
+        <!-- FIN TABLEAU -->
+
+    </main>
+    <!-- FIN CONTENU PRINCIPAL -->
+</div>
+<!-- FIN APP-LAYOUT -->
+
+
+<!-- ============================================================
+     MODAL : DÉTAIL D'UNE CONSULTATION
+     ============================================================ -->
+<div class="modal-overlay" id="modalDetail" style="display:none">
+    <div class="modal-box">
+
+        <!-- En-tête modal -->
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-calendar-check"></i> Détail de la consultation</h3>
+            <button class="modal-close" id="closeModalDetail">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Corps modal -->
+        <div class="modal-body" id="modalDetailBody">
+            <!-- Contenu injecté dynamiquement par JS -->
+        </div>
+
+        <!-- Pied modal : actions -->
+        <div class="modal-footer" id="modalDetailFooter">
+            <!-- Boutons injectés selon le statut -->
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL : NOUVELLE CONSULTATION
+     ============================================================ -->
+<div class="modal-overlay" id="modalNouvelle" style="display:none">
+    <div class="modal-box">
+
+        <!-- En-tête -->
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-plus"></i> Nouvelle consultation</h3>
+            <button class="modal-close" id="closeModalNouvelle">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="modal-body">
+            <div class="form-grid">
+
+                <!-- Patient -->
+                <div class="form-group full">
+                    <label for="formPatient">Patient <span class="required">*</span></label>
+                    <select id="formPatient" class="form-control">
+                        <option value="">-- Sélectionner un patient --</option>
+                        <option value="1">Marie Dupont</option>
+                        <option value="2">Jean Bernard</option>
+                        <option value="3">Sophie Leclerc</option>
+                        <option value="4">Ahmed Karim</option>
+                        <option value="5">Claire Fontaine</option>
+                    </select>
+                </div>
+
+                <!-- Date -->
+                <div class="form-group">
+                    <label for="formDate">Date <span class="required">*</span></label>
+                    <input type="date" id="formDate" class="form-control">
+                </div>
+
+                <!-- Heure -->
+                <div class="form-group">
+                    <label for="formHeure">Heure <span class="required">*</span></label>
+                    <input type="time" id="formHeure" class="form-control">
+                </div>
+
+                <!-- Type -->
+                <div class="form-group">
+                    <label for="formType">Type</label>
+                    <select id="formType" class="form-control">
+                        <option value="presentiel">Présentiel</option>
+                        <option value="teleconsultation">Téléconsultation</option>
+                    </select>
+                </div>
+
+                <!-- Durée -->
+                <div class="form-group">
+                    <label for="formDuree">Durée (min)</label>
+                    <select id="formDuree" class="form-control">
+                        <option value="15">15 min</option>
+                        <option value="30" selected>30 min</option>
+                        <option value="45">45 min</option>
+                        <option value="60">1 heure</option>
+                    </select>
+                </div>
+
+                <!-- Motif -->
+                <div class="form-group full">
+                    <label for="formMotif">Motif de consultation <span class="required">*</span></label>
+                    <input type="text" id="formMotif" class="form-control" placeholder="Ex: Douleurs abdominales, suivi diabetes...">
+                </div>
+
+                <!-- Notes -->
+                <div class="form-group full">
+                    <label for="formNotes">Notes préliminaires</label>
+                    <textarea id="formNotes" class="form-control" rows="3" placeholder="Informations complémentaires..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pied modal -->
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelNouvelle">Annuler</button>
+            <button class="btn-primary" id="saveNouvelle">
+                <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL : NOTES / COMPTE RENDU
+     ============================================================ -->
+<div class="modal-overlay" id="modalNotes" style="display:none">
+    <div class="modal-box">
+
+        <!-- En-tête -->
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-notes-medical"></i> Compte rendu de consultation</h3>
+            <button class="modal-close" id="closeModalNotes">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Contenu -->
+        <div class="modal-body">
+            <p class="modal-patient-label" id="notesPatientLabel"></p>
+
+            <div class="form-group full">
+                <label for="notesSymptomes">Symptômes observés</label>
+                <textarea id="notesSymptomes" class="form-control" rows="3" placeholder="Décrire les symptômes..."></textarea>
+            </div>
+
+            <div class="form-group full">
+                <label for="notesDiagnostic">Diagnostic</label>
+                <textarea id="notesDiagnostic" class="form-control" rows="3" placeholder="Diagnostic établi..."></textarea>
+            </div>
+
+            <div class="form-group full">
+                <label for="notesTraitement">Traitement prescrit</label>
+                <textarea id="notesTraitement" class="form-control" rows="3" placeholder="Médicaments, posologie..."></textarea>
+            </div>
+
+            <div class="form-group full">
+                <label for="notesSuivi">Suivi recommandé</label>
+                <textarea id="notesSuivi" class="form-control" rows="2" placeholder="Prochain rendez-vous, examens..."></textarea>
+            </div>
+        </div>
+
+        <!-- Pied modal -->
+        <div class="modal-footer">
+            <button class="btn-secondary" id="cancelNotes">Annuler</button>
+            <button class="btn-primary" id="saveNotes">
+                <i class="fa-solid fa-floppy-disk"></i> Sauvegarder
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     TOAST NOTIFICATION
+     ============================================================ -->
+<div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check toast-icon"></i>
+    <span id="toastMessage">Action effectuée</span>
+</div>
+
+
+<!-- Lien vers le fichier JavaScript -->
+<script src="consultations.js"></script>
+
+</body>
+</html>

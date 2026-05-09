@@ -3,72 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedConnect – Vue d'ensemble</title>
+    <title>Vue d'ensemble</title>
+    <!-- Font Awesome 6 (version stable et disponible sur cdnjs) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- CSS dédié Admin et style de dashboard Patient -->
     <link rel="stylesheet" href="../css/admin_accueil.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <body>
+
 <div class="page" id="admin-dashboard">
   <div class="app-layout">
 
-    <!-- SIDEBAR -->
+    <!-- ══════════════════════════════════
+         SIDEBAR
+    ══════════════════════════════════ -->
     <div class="sidebar">
-      <div class="sidebar-logo">
-        <div class="logo">Health<span>Care</span></div>
-        <div class="sidebar-role">Administration</div>
+      <!-- Logo -->
+      <div class="sb-logo">
+        <div class="logo-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1de9b6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div class="logo-text">Health<span>Care</span></div>
       </div>
 
-      <nav class="sidebar-nav">
-        <div class="nav-section">
-          <div class="nav-section-title">Supervision</div>
-          <div class="nav-item active" onclick="window.location.href='accueil.php'">
-            <span class="nav-icon"><i class="fa-solid fa-chart-pie"></i></span> Vue d'ensemble
-          </div>
-          <div class="nav-item" onclick="window.location.href='utilisateur.php'">
-            <span class="nav-icon"><i class="fa-solid fa-users"></i></span> Utilisateurs
-          </div>
-          <div class="nav-item" onclick="window.location.href='medecin.php'">
-            <span class="nav-icon"><i class="fa-solid fa-user-doctor"></i></span> Médecins
-          </div>
-        </div>
+      <nav class="sb-nav">
+        <div class="section-label">Supervision</div>
 
-        <div class="nav-section">
-          <div class="nav-section-title">Système</div>
-          <div class="nav-item" onclick="window.location.href='consultation.php'">
-            <span class="nav-icon"><i class="fa-solid fa-video"></i></span> Consultations
+        <a href="accueil.php" class="nav-item active">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+              <polyline points="9 21 9 12 15 12 15 21"/>
+            </svg>
           </div>
-          <div class="nav-item" onclick="window.location.href='vaccin.php'">
-            <span class="nav-icon"><i class="fa-solid fa-syringe"></i></span> Suivi vaccinal
+<<<<<<< HEAD
+          <span class="ni-label">Tableau de bord</span>
+        </a>
+
+        <a href="utilisateur.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
           </div>
+          <span class="ni-label">Utilisateurs</span>
+        </a>
+
+        <a href="medecin.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/>
+              <path d="M6.8 20.34a6.97 6.97 0 0 1 10.4 0"/>
+              <path d="M16 11.5v4.5"/>
+              <path d="M8 11.5v4.5"/>
+            </svg>
+=======
+
           <div class="nav-item" onclick="window.location.href='rapport.php'">
             <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Rapports
+>>>>>>> 0039b5e5382c251a6c6406b0fcff242ecd726a0d
           </div>
-          <div class="nav-item" onclick="window.location.href='securite.php'">
-            <span class="nav-icon"><i class="fa-solid fa-shield-halved"></i></span> Sécurité &amp; Logs
+          <span class="ni-label">Médecins</span>
+        </a>
+
+        <div class="section-label">Système</div>
+
+        <a href="consultation.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="23 7 16 12 23 17 23 7"/>
+              <rect x="1" y="5" width="15" height="14" rx="2"/>
+            </svg>
           </div>
-        </div>
+          <span class="ni-label">Consultations</span>
+        </a>
+
+        <a href="vaccin.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 2l-7 7"/>
+              <path d="M16 2l7 7"/>
+              <path d="M18 12l-6 6"/>
+              <path d="M12 12l6 6"/>
+              <path d="M4 11v3"/>
+            </svg>
+          </div>
+          <span class="ni-label">Suivi vaccinal</span>
+        </a>
+
+        <a href="rapport.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 3h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/>
+              <path d="M9 7h6"/>
+              <path d="M9 11h6"/>
+              <path d="M9 15h4"/>
+            </svg>
+          </div>
+          <span class="ni-label">Rapports</span>
+        </a>
+
+        <a href="securite.php" class="nav-item">
+          <div class="ni-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l8 4v6c0 5.5-3.8 10.74-8 12-4.2-1.26-8-6.5-8-12V6l8-4z"/>
+              <path d="M8.5 12.5l3 3 4.5-4.5"/>
+            </svg>
+          </div>
+          <span class="ni-label">Sécurité &amp; Logs</span>
+        </a>
       </nav>
 
-      <div class="sidebar-footer">
-
-        <!-- ✅ DÉCONNEXION → redirige vers home.php -->
-        <div class="back-btn" onclick="window.location.href='../Accueil/home.php'">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i> Déconnexion
+      <div class="sb-footer">
+onclick="window.location.href='../Accueil/home.php'"
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span class="deconnect-label">Déconnexion</span>
         </div>
 
-        <div class="sidebar-user">
-          <div class="avatar avatar-purple">AD</div>
-          <div class="sidebar-user-info">
-            <div class="name">Admin Système</div>
-            <div class="role">Super Administrateur</div>
+        <div class="sb-user">
+          <div class="avatar">AD</div>
+          <div class="user-info">
+            <div class="user-name">Admin Système</div>
+            <div class="user-role">Super Administrateur</div>
           </div>
         </div>
-
       </div>
     </div>
     <!-- /sidebar -->
 
-    <!-- CONTENU PRINCIPAL -->
+    <!-- ══════════════════════════════════
+         CONTENU PRINCIPAL
+    ══════════════════════════════════ -->
     <div class="main-content">
       <div id="a-accueil" class="admin-section">
 
@@ -89,7 +164,7 @@
         <!-- Contenu -->
         <div class="content-area">
 
-          <!-- KPI Cards -->
+          <!-- ── KPI Cards ── -->
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-icon"><i class="fa-solid fa-hospital-user" style="color:#0ea5e9"></i></div>
@@ -117,7 +192,7 @@
             </div>
           </div>
 
-          <!-- Graphique + Statut système -->
+          <!-- ── Graphique + Statut système ── -->
           <div class="grid-2 mb-24">
 
             <!-- Consultations mensuelles -->
@@ -145,6 +220,7 @@
               </div>
               <div class="card-body">
                 <div style="display:flex;flex-direction:column;gap:0">
+
                   <div class="status-row">
                     <div>
                       <div class="status-name">API Auth</div>
@@ -152,6 +228,7 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
+
                   <div class="status-row">
                     <div>
                       <div class="status-name">API Consultation</div>
@@ -159,6 +236,7 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
+
                   <div class="status-row">
                     <div>
                       <div class="status-name">API Vaccination</div>
@@ -166,6 +244,7 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
+
                   <div class="status-row">
                     <div>
                       <div class="status-name">Base de données</div>
@@ -173,6 +252,7 @@
                     </div>
                     <span class="badge badge-green"><i class="fa-solid fa-circle" style="font-size:.55rem"></i> Opérationnel</span>
                   </div>
+
                   <div class="status-row">
                     <div>
                       <div class="status-name">Serveur backup</div>
@@ -180,13 +260,13 @@
                     </div>
                     <span class="badge badge-orange"><i class="fa-solid fa-triangle-exclamation" style="font-size:.7rem"></i> Latence +120 ms</span>
                   </div>
+
                 </div>
               </div>
             </div>
+          </div><!-- /grid-2 -->
 
-          </div>
-
-          <!-- Activité récente + Alertes -->
+          <!-- ── Activité récente + Alertes ── -->
           <div class="grid-2">
 
             <!-- Activité récente -->
@@ -241,6 +321,7 @@
                 <span class="card-title"><i class="fa-solid fa-bell"></i> Alertes système</span>
               </div>
               <div class="card-body">
+
                 <div class="appt-card" style="border-color:rgba(245,158,11,0.3);background:rgba(255,237,213,0.4)">
                   <i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;font-size:1.1rem"></i>
                   <div class="appt-info">
@@ -249,6 +330,7 @@
                   </div>
                   <span class="badge badge-orange">Mineur</span>
                 </div>
+
                 <div class="appt-card" style="background:rgba(219,234,254,0.4);border-color:rgba(59,130,246,0.25)">
                   <i class="fa-solid fa-circle-info" style="color:#3b82f6;font-size:1.1rem"></i>
                   <div class="appt-info">
@@ -259,29 +341,17 @@
                     Planifier
                   </button>
                 </div>
+
               </div>
             </div>
 
-          </div>
+          </div><!-- /grid-2 -->
+        </div><!-- /content-area -->
+      </div><!-- /a-accueil -->
+    </div><!-- /main-content -->
 
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- Date du jour -->
-<script>
-  // Affiche la date dans le top bar si l'élément existe
-  const topDate = document.getElementById('topDate');
-  if (topDate) {
-    const now = new Date();
-    topDate.textContent = now.toLocaleDateString('fr-FR', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    });
-  }
-</script>
+  </div><!-- /app-layout -->
+</div><!-- /page -->
 
 </body>
 </html>

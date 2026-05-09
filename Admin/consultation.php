@@ -15,7 +15,7 @@
         <!-- SIDEBAR -->
         <div class="sidebar">
             <div class="sidebar-logo">
-                <div class="logo">Med<span>Connect</span></div>
+                <div class="logo">Health<span>Care</span></div>
                 <div class="sidebar-role">Administration</div>
             </div>
 
@@ -38,9 +38,7 @@
                     <div class="nav-item active" onclick="window.location.href='consultation.php'">
                         <span class="nav-icon"><i class="fa-solid fa-video"></i></span> Consultations
                     </div>
-                    <div class="nav-item" onclick="window.location.href='vaccin.php'">
-                        <span class="nav-icon"><i class="fa-solid fa-syringe"></i></span> Suivi vaccinal
-                    </div>
+
                     <div class="nav-item" onclick="window.location.href='rapport.php'">
                         <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span> Rapports
                     </div>
@@ -51,7 +49,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <div class="back-btn" onclick="window.location.href='../Accueil/home.php'">
+onclick="window.location.href='../Accueil/home.php'"
                     <i class="fa-solid fa-arrow-left-from-bracket"></i> Déconnexion
                 </div>
                 <div class="sidebar-user">

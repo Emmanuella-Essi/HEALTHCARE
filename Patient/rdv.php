@@ -28,7 +28,7 @@
  
     <div class="section-label">Principal</div>
  
-    <a href="dashboard.php" class="nav-item">
+    <a href="accueil.php" class="nav-item">
       <div class="ni-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
@@ -112,15 +112,15 @@
  
   <!-- Footer -->
   <div class="sb-footer">
-  
-<div class="deconnect-btn" onclick="window.location.href='../Accueil/home.php'">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+onclick="window.location.href='../Accueil/home.php'"
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
         <polyline points="16 17 21 12 16 7"/>
         <line x1="21" y1="12" x2="9" y2="12"/>
-    </svg>
-    <span class="deconnect-label">Déconnexion</span>
-</div>
+      </svg>
+      <span class="deconnect-label">Déconnexion</span>
+    </div>
+ 
     <div class="sb-user">
       <div class="avatar">KD</div>
       <div class="user-info">
